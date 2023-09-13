@@ -1,5 +1,4 @@
 import Head from 'next/head';
-import Header from '../components/Layouts/Header';
 
 export default function Contact() {
   return (
