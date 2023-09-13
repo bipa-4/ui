@@ -1,3 +1,3 @@
 export default function Home() {
-  return <div className="pt-40">내용입니다.</div>;
+  return <div className="h-screen">내용입니다.</div>;
 }

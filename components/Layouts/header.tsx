@@ -5,9 +5,9 @@ import { FiMenu } from 'react-icons/fi';
 
 export default function Header() {
   return (
-    <>
-      <div className="navbar bg-base-100 justify-between shadow-sm">
-        <div className="justify-start w-1/5">
+    <div className="w-full">
+      <div className="navbar bg-base-100 justify-between shadow-sm px-40">
+        <div className="flex justify-start w-1/5">
           <div className="flex-none">
             <label htmlFor="my-drawer-3" className="btn btn-square btn-ghost">
               <FiMenu className="w-6 h-6 m-2" />
@@ -15,16 +15,16 @@ export default function Header() {
           </div>
           <a className="btn btn-ghost normal-case text-xl">StreamWave</a>
         </div>
-        <div className="grow">
+        <div className="grow w-3/5">
           <div className="form-control grow">
             <input
               type="text"
               placeholder="Search"
-              className="input input-bordered md:w-3/5 m-auto max-sm:hidden"
+              className="input input-bordered md:w-4/5 m-auto max-lg:hidden"
             />
           </div>
         </div>
-        <div className="justify-end w-1/5">
+        <div className="flex justify-end w-1/5">
           <div className="dropdown dropdown-end">
             <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
               <div className="w-10 rounded-full">
@@ -51,6 +51,6 @@ export default function Header() {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }
