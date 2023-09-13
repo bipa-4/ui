@@ -1,5 +1,5 @@
-import React, { ReactNode } from "react";
-import Header from "./header";
+import React, { ReactNode } from 'react';
+import DaisyHeader from './DaisyHeader';
 
 type LayoutProps = {
   children: ReactNode;
@@ -8,7 +8,10 @@ type LayoutProps = {
 export default function Layout({ children }: LayoutProps) {
   return (
     <>
-      <Header />
+      <DaisyHeader />
+      <button className="btn btn-primary">One</button>
+      <button className="btn btn-secondary">Two</button>
+      <button className="btn btn-accent btn-outline">Three</button>
       <div>{children}</div>
     </>
   );
