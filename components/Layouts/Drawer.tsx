@@ -78,13 +78,17 @@ export default function Drawer({ children }: LayoutProps) {
         <ul className="menu p-4 w-80 min-h-full bg-base-200 pt-28">
           {/* Sidebar content here */}
           <li>
-            <a>홈</a>
+            <a className="text-base">홈</a>
           </li>
           <li>
-            <a>채널</a>
+            <a className="text-base">채널</a>
           </li>
-          <li>
-            <a>카테고리</a>
+          <li className="collapse bg-base-200 ">
+            <input type="checkbox" />
+            <div className="collapse-title text-base font-normal">카테고리</div>
+            <div className="collapse-content">
+              <p className="pl-10">hello</p>
+            </div>
           </li>
         </ul>
       </div>
