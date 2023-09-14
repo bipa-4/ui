@@ -41,7 +41,8 @@
     "no-nested-ternary": "off",
     "react/jsx-props-no-spreading": "off",
     "jsx-a11y/label-has-associated-control": "off",
-    "import/no-extraneous-dependencies": "off"
+    "import/no-extraneous-dependencies": "off",
+    "global-require": "off"
   },
   "globals": {
     "React": "writable"
