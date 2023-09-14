@@ -3,5 +3,5 @@ type TitleProps = {
 };
 
 export default function Title({ text }: TitleProps) {
-  return <div className='my-6 text-lg font-bold w-full'>{text}</div>;
+  return <div className='my-6 text-xl font-bold w-full max-lg:text-lg'>{text}</div>;
 }

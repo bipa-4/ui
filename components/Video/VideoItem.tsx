@@ -8,7 +8,7 @@ type VideoItemProps = {
 
 export default function VideoItem({ videoItem }: VideoItemProps) {
   return (
-    <div className='card card-compact basis-60 bg-base-100 shadow-md overflow-hidden shrink-0'>
+    <div className='card card-compact basis-60 bg-base-100 shadow-md overflow-hidden shrink-0 max-sm:grow'>
       <Image className='w-full mx-auto' src={crying} alt='cat' width={200} height={200} />
       <div className='card-body'>
         <div className='avatar items-center'>

@@ -4,9 +4,9 @@ import VideoItem from './VideoItem';
 
 export default function VideoContainer({ title, videoList }: VideoListType) {
   return (
-    <div className='mx-full'>
+    <div className=''>
       {title && <Title text={`${title}`} />}
-      <div className='flex flex-wrap gap-2 '>
+      <div className='flex flex-wrap gap-3 max-lg:justify-around'>
         {videoList.map((item) => (
           <VideoItem key={item.id} videoItem={item} />
         ))}
