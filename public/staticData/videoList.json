@@ -1,0 +1,26 @@
+[
+  {
+    "thumbnailUrl": "string",
+    "title": "아 재밌다",
+    "channelImg": "public/images/crying.jpg",
+    "channelName": "피식대학",
+    "view_count": 246,
+    "upload_date": "2023.06.23"
+  },
+  {
+    "thumbnailUrl": "string",
+    "title": "뭐하나",
+    "channelImg": "public/images/crying.jpg",
+    "channelName": "피식대학",
+    "view_count": 23,
+    "upload_date": "2023.06.23"
+  },
+  {
+    "thumbnailUrl": "string",
+    "title": "라면월드컵",
+    "channelImg": "public/images/crying.jpg",
+    "channelName": "침착맨",
+    "view_count": 45345,
+    "upload_date": "2023.06.23"
+  }
+]
