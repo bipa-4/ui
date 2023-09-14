@@ -24,11 +24,23 @@
   },
   "plugins": ["@typescript-eslint"],
   "rules": {
+    "import/extensions": [
+      "error",
+      "ignorePackages",
+      {
+        "js": "never",
+        "jsx": "never",
+        "ts": "never",
+        "tsx": "never"
+      }
+    ],
     "react/react-in-jsx-scope": 0,
     "react/prefer-stateless-function": 0,
-    "react/jsx-filename-extension": 0,
+    "react/jsx-filename-extension": ["error", { "extensions": [".js", ".jsx", ".ts", ".tsx"] }],
     "react/jsx-one-expression-per-line": 0,
-    "no-nested-ternary": 0
+    "no-nested-ternary": 0,
+    "react/jsx-props-no-spreading": "off",
+    "jsx-a11y/label-has-associated-control": "off"
   },
   "globals": {
     "React": "writable"
