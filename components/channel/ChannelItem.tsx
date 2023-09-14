@@ -7,7 +7,7 @@ type props = {
 
 export default function ChannelItem({ channelItem }: props) {
   return (
-    <button className='w-full bg-base-100 hover:bg-gray-100 text-left h-24 rounded-3xl'>
+    <button type='button' className='w-full bg-base-100 hover:bg-gray-100 text-left h-24 rounded-3xl'>
       <div className='flex items-center px-2'>
         <div className='avatar p-2'>
           <div className='w-11 h-11 rounded-full'>

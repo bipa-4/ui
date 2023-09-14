@@ -1,6 +1,6 @@
 import { channelSummaryListType } from '@/types/channelType';
 
-export const channelData: channelSummaryListType = [
+const channelData: channelSummaryListType = [
   {
     id: 1,
     imgUrl: '/images/crying.jpg',
@@ -24,7 +24,7 @@ export const channelData: channelSummaryListType = [
     imgUrl: '/images/crying.jpg',
     title: 'EsLint',
     description:
-      'ㅋㅋ내가 만만해?ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ',
+      'ㅋㅋ내가 만만해?ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ',
   },
   {
     id: 5,
@@ -33,3 +33,5 @@ export const channelData: channelSummaryListType = [
     description: '갓파일럿이다',
   },
 ];
+
+export default channelData;

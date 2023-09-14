@@ -1,6 +1,6 @@
 import VideoContainer from '@/components/Video/VideoContainer';
 import ChannelContainer from '@/components/channel/ChannelContainer';
-import { channelData } from '@/public/staticData/channelList';
+import channelData from '@/public/staticData/channelList';
 import videolist from '@/public/staticData/videoList.json';
 
 // todo: 데이터 fetch
