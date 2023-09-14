@@ -2,7 +2,7 @@ import MainLayout from '../containers/main/MainLayout';
 
 export default function Home() {
   return (
-    <div className='h-screen mx-44'>
+    <div className='h-full mx-52 max-lg:mx-auto'>
       <MainLayout />
     </div>
   );
