@@ -6,7 +6,5 @@ type LayoutProps = {
 };
 
 export default function Layout({ children }: LayoutProps) {
-  return (
-    <Drawer>{children}</Drawer>
-  );
+  return <Drawer>{children}</Drawer>;
 }
