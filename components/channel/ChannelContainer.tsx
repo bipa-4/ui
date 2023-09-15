@@ -10,10 +10,14 @@ type props = {
 export default function ChannelContainer({ channelList }: props) {
   return (
     <div className='max-lg:hidden'>
-      <Title text='실시간 인기 채널' />
-      {channelList.map((item) => (
-        <ChannelItem key={item.id} channelItem={item} />
-      ))}
+      <div className=' px-2'>
+        <Title text='실시간 인기 채널' />
+      </div>
+      <div className='my-5'>
+        {channelList.map((item) => (
+          <ChannelItem key={item.id} channelItem={item} />
+        ))}
+      </div>
     </div>
   );
 }
