@@ -1,8 +1,8 @@
 import Image from 'next/image';
 import { VideoItemType } from '@/types/videoType';
-import crying from '../../public/images/crying.jpg';
 import Link from 'next/link';
 import { PiEyeLight } from 'react-icons/pi';
+import crying from '../../public/images/crying.jpg';
 
 type VideoItemProps = {
   videoItem: VideoItemType;
