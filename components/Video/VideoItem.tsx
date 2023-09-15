@@ -8,17 +8,21 @@ type VideoItemProps = {
 
 export default function VideoItem({ videoItem }: VideoItemProps) {
   return (
-    <div className='card card-compact basis-60 bg-base-100 shadow-md overflow-hidden shrink-0 max-sm:grow'>
+    <div className='card card-compact basis-56 bg-base-100 shadow-md overflow-hidden shrink-0 max-md:grow hover:'>
       <Image className='w-full mx-auto' src={crying} alt='cat' width={200} height={200} />
       <div className='card-body'>
-        <div className='avatar items-center'>
-          <div className='w-9 rounded-full'>
+        <p className='font-bold mx-1'>{videoItem.title}</p>
+
+        <div className='avatar items-center mx-1'>
+          <div className='w-6 rounded-full'>
             <Image src={crying} alt='cat' width={200} height={200} />
           </div>
-          <p className='font-bold mx-2'>{videoItem.title}</p>
+          <p className='px-2'>{videoItem.channelName}</p>
         </div>
-
-        <p>{videoItem.channelName}</p>
+        <div className='text-xs'>
+          <span className='px-2 border-r-2 border-solid'>{videoItem.view_count}</span>
+          <span className='px-2'>{videoItem.upload_date}</span>
+        </div>
       </div>
     </div>
   );

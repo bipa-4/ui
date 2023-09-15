@@ -9,7 +9,7 @@ type props = {
 
 export default function ChannelContainer({ channelList }: props) {
   return (
-    <div className='pl-5 max-lg:hidden'>
+    <div className='max-lg:hidden'>
       <Title text='실시간 인기 채널' />
       {channelList.map((item) => (
         <ChannelItem key={item.id} channelItem={item} />

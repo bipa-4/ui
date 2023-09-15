@@ -20,7 +20,11 @@ export default function Header() {
         </div>
         <div className='grow w-3/5'>
           <div className='form-control grow'>
-            <input type='text' placeholder='Search' className='input input-bordered md:w-4/5 m-auto max-lg:hidden' />
+            <input
+              type='text'
+              placeholder='Search'
+              className=' placeholder:italic input input-bordered md:w-4/5 m-auto max-lg:hidden'
+            />
           </div>
         </div>
         <div className='flex justify-end w-1/5'>

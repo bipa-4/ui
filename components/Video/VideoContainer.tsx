@@ -6,7 +6,7 @@ export default function VideoContainer({ title, videoList }: VideoListType) {
   return (
     <div className=''>
       {title && <Title text={`${title}`} />}
-      <div className='flex flex-wrap gap-3 max-lg:justify-around'>
+      <div className='flex flex-wrap gap-3 max-lg:justify-around mt-5'>
         {videoList.map((item) => (
           <VideoItem key={item.id} videoItem={item} />
         ))}
