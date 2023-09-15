@@ -2,8 +2,11 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { FiMenu } from 'react-icons/fi';
 import crying from '../../public/images/crying.jpg';
+import { useState } from 'react';
+import Login from '@/containers/main/Login';
 
 export default function Header() {
+  const [isLogin, setIsLogin] = useState(false);
   return (
     <div className='w-full'>
       <div className='navbar bg-base-100 justify-between shadow-sm px-52 max-lg:px-5'>
@@ -23,32 +26,49 @@ export default function Header() {
             <input
               type='text'
               placeholder='Search'
-              className=' placeholder:italic input input-bordered md:w-4/5 m-auto max-lg:hidden'
+              className=' placeholder:italic input input-bordered md:w-4/5 m-auto max-xl:hidden'
             />
           </div>
         </div>
         <div className='flex justify-end w-1/5'>
-          <div className='dropdown dropdown-end'>
-            <button type='button' tabIndex={0} className='btn btn-ghost btn-circle avatar'>
-              <div className='w-10 rounded-full'>
-                <Image src={crying} alt='profile' width={200} height={200} />
+          {isLogin ? (
+            <>
+              <div className='btn bg-base-100 px-5'>upload</div>
+              <div className='dropdown dropdown-end'>
+                <button type='button' tabIndex={0} className='btn btn-ghost btn-circle avatar'>
+                  <div className='w-10 rounded-full'>
+                    <Image src={crying} alt='profile' width={200} height={200} />
+                  </div>
+                </button>
+                <ul className='mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52'>
+                  <li>
+                    <Link href='/' className='justify-between'>
+                      프로필
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href='/'>내 채널</Link>
+                  </li>
+                  <li>
+                    <Link href='/'>로그아웃</Link>
+                  </li>
+                </ul>
               </div>
-            </button>
-            <ul className='mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52'>
-              <li>
-                <Link href='/' className='justify-between'>
-                  Profile
-                  <span className='badge'>New</span>
-                </Link>
-              </li>
-              <li>
-                <Link href='/'>Settings</Link>
-              </li>
-              <li>
-                <Link href='/'>Logout</Link>
-              </li>
-            </ul>
-          </div>
+            </>
+          ) : (
+            <>
+              <div>
+                {/* The button to open modal */}
+                <label htmlFor='my_modal_7' className='btn btn-outline btn-primary'>
+                  Login
+                </label>
+
+                {/* Put this part before </body> tag */}
+                <input type='checkbox' id='my_modal_7' className='modal-toggle' />
+                <Login />
+              </div>
+            </>
+          )}
         </div>
       </div>
     </div>
