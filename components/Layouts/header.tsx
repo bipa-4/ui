@@ -1,12 +1,12 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { FiMenu } from 'react-icons/fi';
-import crying from '../../public/images/crying.jpg';
-import { useState } from 'react';
 import Login from '@/containers/main/Login';
+import crying from '../../public/images/crying.jpg';
 
 export default function Header() {
-  const [isLogin, setIsLogin] = useState(false);
+  const isLogin = false;
+
   return (
     <div className='w-full'>
       <div className='navbar bg-base-100 justify-between shadow-sm px-52 max-lg:px-5'>
@@ -56,18 +56,16 @@ export default function Header() {
               </div>
             </>
           ) : (
-            <>
-              <div>
-                {/* The button to open modal */}
-                <label htmlFor='my_modal_7' className='btn btn-outline btn-primary'>
-                  Login
-                </label>
+            <div>
+              {/* The button to open modal */}
+              <label htmlFor='my_modal_7' className='btn btn-outline btn-primary'>
+                Login
+              </label>
 
-                {/* Put this part before </body> tag */}
-                <input type='checkbox' id='my_modal_7' className='modal-toggle' />
-                <Login />
-              </div>
-            </>
+              {/* Put this part before </body> tag */}
+              <input type='checkbox' id='my_modal_7' className='modal-toggle' />
+              <Login />
+            </div>
           )}
         </div>
       </div>
