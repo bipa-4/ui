@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useState } from 'react';
 import Link from 'next/link';
 import Footer from './Footer';
 import Header from './header';
@@ -8,40 +8,47 @@ type LayoutProps = {
 };
 
 export default function Drawer({ children }: LayoutProps) {
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+
+  const toggleDrawer = () => {
+    setIsDrawerOpen(!isDrawerOpen);
+  };
+
   return (
     <div className='drawer'>
-      <input id='my-drawer-3' type='checkbox' className='drawer-toggle' />
+      <input
+        id='my-drawer-3'
+        type='checkbox'
+        className='drawer-toggle'
+        checked={isDrawerOpen}
+        onChange={toggleDrawer}
+      />
       <div className='drawer-content flex flex-col'>
         <Header />
         {children}
         <Footer />
       </div>
-      <div className='drawer-side '>
-        <label htmlFor='my-drawer-3' className='drawer-overlay' />
+      <div className={`drawer-side ${isDrawerOpen ? 'drawer-open' : ''}`}>
+        <label htmlFor='my-drawer-3' className='drawer-overlay' onClick={toggleDrawer} />
         <ul className='menu p-4 w-80 min-h-full bg-base-200 pt-28'>
-          <li>
-            <Link href='/' className='text-base'>
-              홈
-            </Link>
-          </li>
-          <li>
-            <Link href='/' className='text-base'>
-              채널
-            </Link>
-          </li>
+          {menu.map((item) => (
+            <li>
+              <Link href={item.link} className='text-xl py-3' onClick={toggleDrawer}>
+                {item.name}
+              </Link>
+            </li>
+          ))}
           <li className='collapse bg-base-200 transition-none'>
             <input type='checkbox' />
-            <div className='collapse-title text-base font-bold w-56'>카테고리</div>
+            <div className='collapse-title text-xl py-3 w-56'>카테고리</div>
             <ul className='menu collapse-content bg-base-200 w-56 rounded-box '>
-              <li>
-                <Link href='/'>교육</Link>
-              </li>
-              <li>
-                <Link href='/'>시사/정치</Link>
-              </li>
-              <li>
-                <Link href='/'>라이프스타일</Link>
-              </li>
+              {category.map((item) => (
+                <li>
+                  <Link href={item.link} onClick={toggleDrawer}>
+                    {item.name}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </li>
         </ul>
@@ -49,3 +56,34 @@ export default function Drawer({ children }: LayoutProps) {
     </div>
   );
 }
+
+const menu = [
+  {
+    id: 1,
+    name: '홈',
+    link: '/',
+  },
+  {
+    id: 2,
+    name: '채널',
+    link: '/channel',
+  },
+];
+
+const category = [
+  {
+    id: 1,
+    name: '교육',
+    link: '/category/education',
+  },
+  {
+    id: 2,
+    name: '시사/정치',
+    link: '/category/politics',
+  },
+  {
+    id: 3,
+    name: '라이프스타일',
+    link: '/category/lifestyle',
+  },
+];
