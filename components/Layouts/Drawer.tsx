@@ -7,56 +7,6 @@ type LayoutProps = {
   children: ReactNode;
 };
 
-export default function Drawer({ children }: LayoutProps) {
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-
-  const toggleDrawer = () => {
-    setIsDrawerOpen(!isDrawerOpen);
-  };
-
-  return (
-    <div className='drawer'>
-      <input
-        id='my-drawer-3'
-        type='checkbox'
-        className='drawer-toggle'
-        checked={isDrawerOpen}
-        onChange={toggleDrawer}
-      />
-      <div className='drawer-content flex flex-col'>
-        <Header />
-        {children}
-        <Footer />
-      </div>
-      <div className='drawer-side'>
-        <label htmlFor='my-drawer-3' className='drawer-overlay' />
-        <ul className='menu p-4 w-80 min-h-full bg-base-200 pt-28'>
-          {menu.map((item) => (
-            <li>
-              <Link href={item.link} className='text-xl py-3' onClick={toggleDrawer}>
-                {item.name}
-              </Link>
-            </li>
-          ))}
-          <li className='collapse bg-base-200 transition-none'>
-            <input type='checkbox' />
-            <div className='collapse-title text-xl py-3 w-56'>카테고리</div>
-            <ul className='menu collapse-content bg-base-200 w-56 rounded-box '>
-              {category.map((item) => (
-                <li>
-                  <Link href={item.link} onClick={toggleDrawer}>
-                    {item.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </li>
-        </ul>
-      </div>
-    </div>
-  );
-}
-
 const menu = [
   {
     id: 1,
@@ -87,3 +37,53 @@ const category = [
     link: '/category/lifestyle',
   },
 ];
+
+export default function Drawer({ children }: LayoutProps) {
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+
+  const toggleDrawer = () => {
+    setIsDrawerOpen(!isDrawerOpen);
+  };
+
+  return (
+    <div className='drawer'>
+      <input
+        id='my-drawer-3'
+        type='checkbox'
+        className='drawer-toggle'
+        checked={isDrawerOpen}
+        onChange={toggleDrawer}
+      />
+      <div className='drawer-content flex flex-col'>
+        <Header />
+        {children}
+        <Footer />
+      </div>
+      <div className='drawer-side'>
+        <label htmlFor='my-drawer-3' className='drawer-overlay' />
+        <ul className='menu p-4 w-80 min-h-full bg-base-200 pt-28'>
+          {menu.map((item) => (
+            <li key={item.id}>
+              <Link href={item.link} className='text-xl py-3' onClick={toggleDrawer}>
+                {item.name}
+              </Link>
+            </li>
+          ))}
+          <li className='collapse bg-base-200 transition-none'>
+            <input type='checkbox' />
+            <div className='collapse-title text-xl py-3 w-56'>카테고리</div>
+            <ul className='menu collapse-content bg-base-200 w-56 rounded-box '>
+              {category.map((item) => (
+                <li key={item.id}>
+                  <Link href={item.link} onClick={toggleDrawer}>
+                    {item.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+  );
+}

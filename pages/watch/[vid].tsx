@@ -1,10 +1,7 @@
 import VideoDetailInfoSkeleton from '@/components/skeleton/VideoDetailInfoSkeleton';
 import VideoSkeleton from '@/components/skeleton/VideoSkeleton';
-import { useRouter } from 'next/router';
 
 export default function VideoDetail() {
-  const router = useRouter();
-
   return (
     <div className='h-screen mx-56 max-xl:mx-5'>
       <div className='w-full flex' style={{ height: '40rem' }}>
