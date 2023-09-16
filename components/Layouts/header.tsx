@@ -9,7 +9,7 @@ export default function Header() {
 
   return (
     <div className='w-full'>
-      <div className='navbar bg-base-100 justify-between shadow-sm px-52 max-lg:px-5'>
+      <div className='navbar bg-base-100 justify-between shadow-sm px-52 max-xl:px-5'>
         <div className='flex justify-start w-1/5'>
           <div className='flex-none'>
             <label htmlFor='my-drawer-3' className='btn btn-square btn-ghost'>

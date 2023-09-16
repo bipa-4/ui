@@ -28,8 +28,8 @@ export default function Drawer({ children }: LayoutProps) {
         {children}
         <Footer />
       </div>
-      <div className={`drawer-side ${isDrawerOpen ? 'drawer-open' : ''}`}>
-        <label htmlFor='my-drawer-3' className='drawer-overlay' onClick={toggleDrawer} />
+      <div className='drawer-side'>
+        <label htmlFor='my-drawer-3' className='drawer-overlay' />
         <ul className='menu p-4 w-80 min-h-full bg-base-200 pt-28'>
           {menu.map((item) => (
             <li>
