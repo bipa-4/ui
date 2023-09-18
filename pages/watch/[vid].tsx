@@ -3,6 +3,7 @@ import VideoDetailInfoSkeleton from '@/components/skeleton/VideoDetailInfoSkelet
 import VideoSkeleton from '@/components/skeleton/VideoSkeleton';
 import VideoDetailLayout from '@/containers/watch/VideoDetailLayout';
 import CommentInput from '@/components/comment/CommentInput';
+import CommentItem from './../../components/comment/CommentItem';
 
 export default function VideoDetail() {
   const isLoading = false;
@@ -28,7 +29,7 @@ export default function VideoDetail() {
       </VideoDetailLayout>
       <div className='w-3/4 mx-1 my-5 max-2xl:w-full'>
         <CommentInput />
-        <div className='w-full'></div>
+        <div className='w-full'>{Array(8).fill(<CommentItem />)}</div>
       </div>
     </div>
   );

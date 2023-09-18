@@ -22,7 +22,7 @@ const config: Config = {
 
   // daisyUI config
   daisyui: {
-    themes: ['pastel', 'darcula'],
+    themes: ['emerald', 'darcula'],
     darkTheme: 'dark',
     base: true,
     styled: true,

@@ -1,7 +1,10 @@
 import Title from '../text/Title';
-import Image from 'next/image';
 import { useRef } from 'react';
 import Avatar from '../profile/avatar';
+
+/**
+ * 댓글 입력 컴포넌트입니다.
+ */
 
 export default function CommentInput() {
   const textarea = useRef<HTMLTextAreaElement>(null);
