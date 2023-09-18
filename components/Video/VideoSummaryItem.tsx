@@ -17,7 +17,7 @@ export default function VideoItem({ videoItem }: VideoItemProps) {
 
   return (
     <div
-      className='card card-compact basis-56 bg-base-100 shadow-md overflow-hidden shrink-0 max-md:grow hover:bg-slate-100'
+      className='card card-compact cursor-pointer	 basis-56 bg-base-100 shadow-md overflow-hidden shrink-0 max-md:grow hover:bg-slate-100'
       onClick={handleItemClick}
     >
       <Image className='w-full mx-auto' src={crying} alt='cat' width={200} height={200} />

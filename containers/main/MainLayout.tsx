@@ -1,5 +1,5 @@
-import VideoContainer from '@/components/Video/VideoContainer';
-import ChannelContainer from '@/components/channel/ChannelContainer';
+import VideoContainer from '@/components/Video/VideoSummaryContainer';
+import ChannelContainer from '@/components/channel/ChannelListContainer';
 import channelData from '@/public/staticData/channelList';
 import videolist from '@/public/staticData/videoList.json';
 

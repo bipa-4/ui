@@ -1,7 +1,7 @@
 import { AppProps } from 'next/app';
 import '../styles/global.css';
 import { Noto_Sans_KR as notoSansKr } from 'next/font/google';
-import Layout from '@/components/Layouts/layout';
+import Layout from '@/components/layouts/layout';
 
 const inter = notoSansKr({
   subsets: ['latin'],

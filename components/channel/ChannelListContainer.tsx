@@ -1,7 +1,7 @@
 import React from 'react';
 import Title from '@/components/text/Title';
 import { channelSummaryListType } from '@/types/channelType';
-import ChannelItem from './ChannelItem';
+import ChannelItem from './ChanneSummarylItem';
 
 type props = {
   channelList: channelSummaryListType;
