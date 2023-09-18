@@ -3,9 +3,9 @@ import VideoDetailInfoSkeleton from '@/components/skeleton/VideoDetailInfoSkelet
 import VideoSkeleton from '@/components/skeleton/VideoSkeleton';
 import VideoDetailLayout from '@/containers/watch/VideoDetailLayout';
 import CommentInput from '@/components/comment/CommentInput';
-import CommentItem from './../../components/comment/CommentItem';
 import videolist from '@/public/staticData/videoList.json';
 import VideoSummaryItemRow from '@/components/video/VideoSummaryItemRow';
+import CommentItem from '../../components/comment/CommentItem';
 
 export default function VideoDetail() {
   const isLoading = false;

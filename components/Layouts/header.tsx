@@ -1,8 +1,8 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { FiMenu } from 'react-icons/fi';
-import crying from '../../public/images/crying.jpg';
 import LoginModal from '@/containers/main/LoginModal';
+import crying from '../../public/images/crying.jpg';
 
 export default function Header() {
   const isLogin = false;

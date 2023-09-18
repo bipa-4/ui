@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import Avatar from '../profile/avatar';
 import { IoMdArrowDropdown } from 'react-icons/io';
 import ReplyItem from './ReplyItem';
+import Avatar from '../profile/Avatar';
 
 /**
  * 댓글 컴포넌트입니다.

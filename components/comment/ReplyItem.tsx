@@ -1,5 +1,5 @@
 import React from 'react';
-import Avatar from '../profile/avatar';
+import Avatar from '../profile/Avatar';
 
 /**
  * 대댓글 컴포넌트입니다.

@@ -1,6 +1,5 @@
 import { channelSummaryType } from '@/types/channelType';
-import Image from 'next/image';
-import Avatar from '../profile/avatar';
+import Avatar from '../profile/Avatar';
 
 type props = {
   channelItem: channelSummaryType;
