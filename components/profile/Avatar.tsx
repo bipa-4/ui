@@ -15,7 +15,7 @@ type Props = {
  * @param {string} nickname 닉네임
  * @returns 아바타 컴포넌트
  */
-export default function Avatar({ width, marginX, nickname = '' }: Props) {
+export default function Avatar({ width, marginX, nickname }: Props) {
   return (
     <div className={`avatar items-center mx-${marginX} basis-10`}>
       <div className={`w-${width} h-${width} rounded-full`}>
