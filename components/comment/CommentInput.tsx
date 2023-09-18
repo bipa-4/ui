@@ -11,7 +11,7 @@ export default function CommentInput() {
   const handleResizeHeight = () => {
     if (textarea.current === null) return;
     textarea.current.style.height = 'auto';
-    textarea.current.style.height = `${textarea.current.scrollHeight  }px`;
+    textarea.current.style.height = `${textarea.current.scrollHeight}px`;
   };
 
   return (
