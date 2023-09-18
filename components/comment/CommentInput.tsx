@@ -1,24 +1,34 @@
 import Title from '../text/Title';
 import Image from 'next/image';
-import crying from '../../public/images/crying.jpg';
+import { useRef } from 'react';
+import Avatar from '../profile/avatar';
 
 export default function CommentInput() {
+  const textarea = useRef<HTMLTextAreaElement>(null);
+  const handleResizeHeight = () => {
+    if (textarea.current === null) return;
+    textarea.current.style.height = 'auto';
+    textarea.current.style.height = 10 + textarea.current.scrollHeight + 'px';
+  };
+
   return (
-    <div className='w-3/4 mx-1 my-5 max-2xl:w-full'>
-      <div className='mx-1 my-2'>
+    <>
+      <div className='mx-1 pb-3 border-b-2'>
         <Title text={'댓글'} />
       </div>
-      <div className='flex w-full'>
-        <div className='avatar items-center mx-2 basis-10'>
-          <div className='w-10 rounded-full'>
-            <Image src={crying} alt='cat' width={200} height={200} />
-          </div>
-        </div>
+      <div className='flex w-full py-3 items-center'>
+        <Avatar width={10} marginX={3} />
         <div className='grow'>
-          <input type='text' placeholder='댓글 입력' className='input input-bordered input-primary rounded-md w-full' />
+          <textarea
+            rows={1}
+            placeholder='댓글 입력'
+            ref={textarea}
+            onChange={handleResizeHeight}
+            className='input input-bordered input-primary rounded-md w-full resize-none h-12 p-2'
+          />
         </div>
         <button className='btn mx-3 btn-outline btn-primary'>등록</button>
       </div>
-    </div>
+    </>
   );
 }

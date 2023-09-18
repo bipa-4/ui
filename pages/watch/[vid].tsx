@@ -1,8 +1,6 @@
-import Image from 'next/image';
 import RowVideoInfoSkeleton from '@/components/skeleton/RowVideoInfoSkeleton';
 import VideoDetailInfoSkeleton from '@/components/skeleton/VideoDetailInfoSkeleton';
 import VideoSkeleton from '@/components/skeleton/VideoSkeleton';
-import Title from '@/components/text/Title';
 import VideoDetailLayout from '@/containers/watch/VideoDetailLayout';
 import CommentInput from '@/components/comment/CommentInput';
 
@@ -28,8 +26,10 @@ export default function VideoDetail() {
               recommendVideo: <div>추천 비디오</div>,
             }}
       </VideoDetailLayout>
-
-      <CommentInput />
+      <div className='w-3/4 mx-1 my-5 max-2xl:w-full'>
+        <CommentInput />
+        <div className='w-full'></div>
+      </div>
     </div>
   );
 }
