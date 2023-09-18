@@ -1,6 +1,6 @@
 import Title from '@/components/text/Title';
 import { VideoListType } from '@/types/videoType';
-import VideoItem from './VideoSummaryItem';
+import VideoItem from './VideoSummaryItemCol';
 
 export default function VideoContainer({ title, videoList }: VideoListType) {
   return (

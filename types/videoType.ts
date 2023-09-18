@@ -1,6 +1,6 @@
 export type VideoItemType = {
   id: number;
-  thumbnailUrl?: string;
+  thumbnailUrl: string;
   title?: string;
   channelImg?: string;
   channelName?: string;

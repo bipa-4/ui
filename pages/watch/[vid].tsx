@@ -1,15 +1,17 @@
-import RowVideoInfoSkeleton from '@/components/skeleton/RowVideoInfoSkeleton';
+import RowVideoInfoSkeleton from '@/components/skeleton/VideoInfoSkeletonRow';
 import VideoDetailInfoSkeleton from '@/components/skeleton/VideoDetailInfoSkeleton';
 import VideoSkeleton from '@/components/skeleton/VideoSkeleton';
 import VideoDetailLayout from '@/containers/watch/VideoDetailLayout';
 import CommentInput from '@/components/comment/CommentInput';
 import CommentItem from './../../components/comment/CommentItem';
+import videolist from '@/public/staticData/videoList.json';
+import VideoSummaryItemRow from '@/components/video/VideoSummaryItemRow';
 
 export default function VideoDetail() {
   const isLoading = false;
 
   return (
-    <div className='h-full mx-52 max-xl:mx-5'>
+    <div className='h-full mx-40 max-xl:mx-5'>
       <VideoDetailLayout>
         {isLoading
           ? {
@@ -23,14 +25,16 @@ export default function VideoDetail() {
                   비디오
                 </div>
               ),
+              comment: (
+                <div className='w-full mx-1 my-5 max-2xl:w-full'>
+                  <CommentInput />
+                  <div className='w-full'>{Array(8).fill(<CommentItem />)}</div>
+                </div>
+              ),
               videoInfo: <div className='rounded-md p-4 w-full mx-auto my-4 border'>비디오 정보</div>,
-              recommendVideo: <div>추천 비디오</div>,
+              recommendVideo: videolist.map((video) => <VideoSummaryItemRow key={video.id} videoItem={video} />),
             }}
       </VideoDetailLayout>
-      <div className='w-3/4 mx-1 my-5 max-2xl:w-full'>
-        <CommentInput />
-        <div className='w-full'>{Array(8).fill(<CommentItem />)}</div>
-      </div>
     </div>
   );
 }

@@ -1,15 +1,15 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { FiMenu } from 'react-icons/fi';
-import Login from '@/containers/main/Login';
 import crying from '../../public/images/crying.jpg';
+import LoginModal from '@/containers/main/LoginModal';
 
 export default function Header() {
   const isLogin = false;
 
   return (
     <div className='w-full'>
-      <div className='navbar bg-base-100 justify-between shadow-sm px-52 max-xl:px-5'>
+      <div className='navbar bg-base-100 justify-between shadow-sm px-40 max-xl:px-5'>
         <div className='flex justify-start w-1/5'>
           <div className='flex-none'>
             <label htmlFor='my-drawer-3' className='btn btn-square btn-ghost'>
@@ -57,14 +57,12 @@ export default function Header() {
             </>
           ) : (
             <div>
-              {/* The button to open modal */}
               <label htmlFor='my_modal_7' className='btn btn-outline btn-primary'>
                 Login
               </label>
 
-              {/* Put this part before </body> tag */}
               <input type='checkbox' id='my_modal_7' className='modal-toggle' />
-              <Login />
+              <LoginModal />
             </div>
           )}
         </div>
