@@ -1,7 +1,7 @@
 import React, { ReactNode, useState } from 'react';
 import Link from 'next/link';
 import Footer from './Footer';
-import Header from './header';
+import Header from './Header';
 
 type LayoutProps = {
   children: ReactNode;

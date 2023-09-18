@@ -1,9 +1,11 @@
-export default function VideoDetailInfoSkeleton() {
+import React from 'react';
+
+export default function RowInfoSkeleton() {
   return (
-    <div className='bg-slate-200 rounded-md p-4 w-full mx-auto my-4'>
+    <div className='bg-slate-200 rounded-md p-2 w-11/12 m-auto mb-2'>
       <div className='animate-pulse flex space-x-4'>
-        <div className='rounded-full bg-slate-300 h-10 w-10' />
-        <div className='basis-4/5 space-y-6 py-1'>
+        <div className='rounded-md bg-slate-300 h-30 w-20' />
+        <div className='basis-3/5 space-y-6 py-1'>
           <div className='h-2 bg-slate-300 rounded' />
           <div className='space-y-3'>
             <div className='grid grid-cols-3 gap-4'>
