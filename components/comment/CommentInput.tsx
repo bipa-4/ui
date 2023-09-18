@@ -27,7 +27,7 @@ export default function CommentInput() {
             placeholder='댓글 입력'
             ref={textarea}
             onChange={handleResizeHeight}
-            className='input input-bordered input-primary rounded-md w-full resize-none h-12 p-2'
+            className='input input-bordered input-primary rounded-md w-full resize-none h-12 p-2 '
           />
         </div>
         <button type='button' className='btn mx-3 btn-outline btn-primary'>
