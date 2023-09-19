@@ -16,7 +16,7 @@ const menu = [
   {
     id: 2,
     name: '채널',
-    link: '/channel',
+    link: '/channels',
   },
 ];
 
