@@ -18,11 +18,19 @@ export default function VideoItem({ videoItem }: VideoItemProps) {
 
   return (
     <div
-      className='card card-compact cursor-pointer	 basis-56 bg-base-100 shadow-md overflow-hidden shrink-0 max-md:grow hover:bg-slate-100'
+      className='card card-compact cursor-pointer bg-base-100 shadow-md overflow-hidden hover:bg-slate-100'
       onClick={handleItemClick}
     >
-      <Image className='w-full mx-auto' src={crying} alt='cat' width={200} height={200} />
-      <div className='card-body w-full gap-2'>
+      <div className='relative overflow-hidden' style={{ paddingBottom: '56.25%' }}>
+        <Image
+          className='absolute top-0 left-0 right-0 bottom-0 w-full h-full object-cover'
+          src={videoItem.thumbnailUrl}
+          alt='cat'
+          layout='fill'
+        />
+      </div>
+
+      <div className='card-body w-full gap-1'>
         <p className='font-bold mx-1'>{videoItem.title}</p>
         <Avatar width={6} marginX={1} nickname={videoItem.channelName} />
         <div className='mx-2 text-xs flex items-center'>

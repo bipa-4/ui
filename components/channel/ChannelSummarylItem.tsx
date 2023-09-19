@@ -30,7 +30,7 @@ export default function ChannelSummaryItem({ channelItem, rank, type }: props) {
         {type === 'small' && (
           <div className='grow'>
             <div className='font-bold text-sm'>{channelItem.title}</div>
-            <div className='flex-wrap max-xl:hidden h-7 text-xs overflow-hidden'>{channelItem.description}</div>
+            <div className='flex-wrap text-xs overflow-hidden'>{channelItem.description}</div>
           </div>
         )}
         {type === 'large' && (

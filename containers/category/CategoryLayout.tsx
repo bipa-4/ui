@@ -13,7 +13,7 @@ export default function CategoryLayout({ children, category }: CategoryLayoutPro
   };
 
   return (
-    <div className='mx-40 max-xl:mx-10'>
+    <div className='mx-52 max-xl:mx-10'>
       <div className='flex text-lg border-0 border-b border-slate-300'>
         {Object.keys(categories).map((item) => (
           <Link href={`/category/${categories[item]}`} key={categories[item]}>

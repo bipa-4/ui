@@ -1,5 +1,5 @@
 import channelData from '@/public/staticData/channelList';
-import AllChannelsContainer from "../components/channel/AllChannelsContainer";
+import AllChannelsContainer from '../components/channel/AllChannelsContainer';
 
 export default function channels() {
   return (

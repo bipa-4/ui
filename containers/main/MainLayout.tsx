@@ -12,7 +12,7 @@ export default function MainLayout() {
         <div className='basis-3/4 width-3/4 grow max-lg:m-5 max-lg:width-full'>
           <VideoContainer title='조회수 급상승' videoList={videolist} />
         </div>
-        <div className='basis-1/4 w=1/4 grow max-lg:hidden'>
+        <div className='basis-1/4 w=1/4 grow max-xl:hidden'>
           <ChannelContainer channelList={channelData} />
         </div>
       </div>

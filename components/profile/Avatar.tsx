@@ -19,7 +19,7 @@ export default function Avatar({ width, marginX, nickname }: Props) {
   return (
     <div className={`avatar items-center mx-${marginX} basis-10`}>
       <div className={`w-${width} h-${width} rounded-full`}>
-        <Image src={crying} alt='cat' width={200} height={200} />
+        <Image src={crying} alt='cat' width={500} height={500} />
       </div>
       {nickname && <p className='px-2'>{nickname}</p>}
     </div>
