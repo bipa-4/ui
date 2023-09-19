@@ -2,7 +2,6 @@ import Image from 'next/image';
 import { VideoItemType } from '@/types/videoType';
 import { useRouter } from 'next/router';
 import { PiEyeLight } from 'react-icons/pi';
-import crying from '../../public/images/crying.jpg';
 import Avatar from '../profile/avatar';
 
 type VideoItemProps = {
