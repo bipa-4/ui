@@ -3,7 +3,7 @@ import Avatar from '../profile/Avatar';
 
 type props = {
   channelItem: channelSummaryType;
-  rank: number;
+  rank?: number;
   type?: 'large' | 'small';
 };
 
