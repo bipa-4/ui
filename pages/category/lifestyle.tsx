@@ -1,3 +1,9 @@
+import CategoryLayout from '@/containers/category/CategoryLayout';
+
 export default function lifestyle() {
-  return <div className='h-screen'>lifestyle</div>;
+  return (
+    <CategoryLayout category='라이프스타일'>
+      <div>라이프스타일</div>
+    </CategoryLayout>
+  );
 }

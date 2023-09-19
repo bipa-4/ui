@@ -1,3 +1,9 @@
+import CategoryLayout from '@/containers/category/CategoryLayout';
+
 export default function education() {
-  return <div className='h-screen'>education</div>;
+  return (
+    <CategoryLayout category='교육'>
+      <div>교육</div>
+    </CategoryLayout>
+  );
 }

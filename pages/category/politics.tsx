@@ -1,3 +1,9 @@
+import CategoryLayout from '@/containers/category/CategoryLayout';
+
 export default function politics() {
-  return <div className='h-screen'>politics</div>;
+  return (
+    <CategoryLayout category='시사'>
+      <div>시사</div>
+    </CategoryLayout>
+  );
 }
