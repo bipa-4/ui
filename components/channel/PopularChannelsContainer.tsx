@@ -10,7 +10,7 @@ type props = {
 export default function ChannelContainer({ channelList }: props) {
   return (
     <div>
-      <div className=' px-2'>
+      <div className=' px-2 m-5'>
         <Title text='실시간 인기 채널' />
       </div>
       <div className='my-5'>

@@ -14,7 +14,7 @@ export default function AllChannelsContainer({ channelList }: props) {
       </div>
       <div className='flex flex-wrap w-full'>
         {channelList.map((item) => (
-          <ChannelSummaryItem key={item.id} channelItem={item} type='large' />
+          <ChannelSummaryItem key={item.id} channelItem={item} size='large' />
         ))}
       </div>
     </>

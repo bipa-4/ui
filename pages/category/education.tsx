@@ -8,7 +8,7 @@ import videolist from '@/public/staticData/videoList.json';
 export default function education() {
   return (
     <CategoryLayout category='교육'>
-      <VideoSummaryContainer videoList={videolist} />
+      <VideoSummaryContainer title='교육' videoList={videolist} />
     </CategoryLayout>
   );
 }
