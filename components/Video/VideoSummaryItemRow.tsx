@@ -7,8 +7,8 @@ export default function VideoSummaryItemRow({
   thumbnailUrl,
   title,
   channelName,
-  view_count,
-  upload_date,
+  viewCount,
+  uploadDate,
 }: VideoItemType) {
   const router = useRouter();
 
@@ -26,11 +26,11 @@ export default function VideoSummaryItemRow({
       <div className='flex-grow'>
         <div className='font-bold pb-1'>{title}</div>
         <div className='text-sm pb-1'>{channelName}</div>
-        {view_count && upload_date && (
+        {viewCount && uploadDate && (
           <div className='flex'>
             <div className='mr-2 font-light text-xs'>
-              <div>조회수 {view_count}회</div>
-              <div>{upload_date}</div>
+              <div>조회수 {viewCount}회</div>
+              <div>{uploadDate}</div>
             </div>
           </div>
         )}

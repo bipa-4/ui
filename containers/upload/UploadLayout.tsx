@@ -1,7 +1,6 @@
 import Title from '@/components/typo/Title';
 import React, { useState } from 'react';
 import VideoSummaryItemCol from '@/components/video/VideoSummaryItemCol';
-import upload from './../../pages/upload';
 import axios from 'axios';
 
 export default function UploadLayout() {
@@ -13,7 +12,7 @@ export default function UploadLayout() {
   const [videoDescription, setVideoDescription] = useState('');
   const [isVideoPublic, setIsVideoPublic] = useState(true);
 
-  const presignedUrl =
+  const url =
     'https://streamwaves3.s3.ap-northeast-2.amazonaws.com/example.mp4?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20230920T041505Z&X-Amz-SignedHeaders=host&X-Amz-Expires=3600&X-Amz-Credential=AKIA6ABZ54JVH27XFY4W%2F20230920%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Signature=e55e698854ee23ba0e941ca013510e26b935941045de7bcea02514d94803bca1';
 
   const handleVideoFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -51,7 +50,7 @@ export default function UploadLayout() {
 
   const handleUpload = async () => {
     if (videoFile && thumbnailFile) {
-      await s3Upload(presignedUrl, videoFile);
+      await s3Upload(url, videoFile);
     }
   };
 
@@ -75,7 +74,7 @@ export default function UploadLayout() {
         {videoPreviewUrl && (
           <div className='mb-8 w-3/5'>
             <label className='block font-medium mb-2'>영상 미리보기</label>
-            <video src={videoPreviewUrl} controls className='w-full'></video>
+            <video src={videoPreviewUrl} controls className='w-full' />
           </div>
         )}
         <label htmlFor='thumbnailFile' className='block font-medium mb-2'>

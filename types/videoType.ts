@@ -4,8 +4,8 @@ export type VideoItemType = {
   title: string;
   channelImg: string;
   channelName: string;
-  view_count?: number;
-  upload_date?: string;
+  viewCount?: number;
+  uploadDate?: string;
 };
 export type VideoListType = {
   title?: string;

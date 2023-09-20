@@ -1,6 +1,6 @@
 import { channelSummaryType } from '@/types/channelType';
-import Avatar from '../profile/Avatar';
 import { useRouter } from 'next/router';
+import Avatar from '../profile/Avatar';
 
 type props = {
   channelItem: channelSummaryType;

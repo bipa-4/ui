@@ -2,17 +2,16 @@ import Image from 'next/image';
 import { VideoItemType } from '@/types/videoType';
 import { useRouter } from 'next/router';
 import { PiEyeLight } from 'react-icons/pi';
-import Avatar from '../profile/avatar';
 import defaultImg from '@/public/images/defaultThumbnailImage.png';
-import { useEffect } from 'react';
+import Avatar from '../profile/avatar';
 
 export default function VideoSummaryItemCol({
   id,
   thumbnailUrl,
   title,
   channelName,
-  view_count,
-  upload_date,
+  viewCount,
+  uploadDate,
 }: VideoItemType) {
   const router = useRouter();
 
@@ -53,8 +52,8 @@ export default function VideoSummaryItemCol({
         <Avatar width={6} marginX={1} nickname={channelName} />
         <div className='mx-2 text-xs flex items-center'>
           <PiEyeLight className='w-4 h-4' />
-          <span className='px-2 border-r-2 border-solid'>{view_count ? view_count : 0}</span>
-          <span className='px-2'>{upload_date ? upload_date : '2023 - 0 - 0'}</span>
+          <span className='px-2 border-r-2 border-solid'>{viewCount || 0}</span>
+          <span className='px-2'>{uploadDate || '2023 - 0 - 0'}</span>
         </div>
       </div>
     </div>

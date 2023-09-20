@@ -2,21 +2,22 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { FiMenu } from 'react-icons/fi';
 import LoginModal from '@/containers/main/LoginModal';
-import crying from '../../public/images/crying.jpg';
 import { useState } from 'react';
+import crying from '../../public/images/crying.jpg';
 
 export default function Header() {
   const [isLogin, setIsLogin] = useState(true);
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
+  const toggleMenu = () => {
+    setIsMenuOpen((prev) => !prev);
+  };
+
   const handleLogin = () => {
     console.log(isLogin);
     setIsLogin((prev) => !prev);
     toggleMenu();
-  };
-  const toggleMenu = () => {
-    setIsMenuOpen((prev) => !prev);
   };
 
   return (
@@ -76,8 +77,8 @@ export default function Header() {
               </div>
             </>
           ) : (
-            <div>
-              <label htmlFor='my_modal_7' className='btn btn-outline btn-primary' onClick={handleLogin}>
+            <div onClick={handleLogin}>
+              <label htmlFor='my_modal_7' className='btn btn-outline btn-primary'>
                 Login
               </label>
               <input type='checkbox' id='my_modal_7' className='modal-toggle' />
