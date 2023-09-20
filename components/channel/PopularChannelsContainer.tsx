@@ -1,5 +1,5 @@
 import React from 'react';
-import Title from '@/components/text/Title';
+import Title from '@/components/typo/Title';
 import { channelSummaryListType } from '@/types/channelType';
 import ChannelItem from './ChannelSummarylItem';
 

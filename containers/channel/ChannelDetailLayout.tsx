@@ -1,5 +1,5 @@
 import Avatar from '@/components/profile/Avatar';
-import Title from '@/components/text/Title';
+import Title from '@/components/typo/Title';
 import VideoContainer from '@/components/video/VideoSummaryContainer';
 import videoList from '@/public/staticData/videoList.json';
 import { BiSearch } from 'react-icons/bi';

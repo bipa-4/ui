@@ -5,7 +5,7 @@ import LoginModal from '@/containers/main/LoginModal';
 import crying from '../../public/images/crying.jpg';
 
 export default function Header() {
-  const isLogin = false;
+  const isLogin = true;
 
   return (
     <div className='w-full'>
@@ -33,7 +33,9 @@ export default function Header() {
         <div className='flex justify-end w-1/5'>
           {isLogin ? (
             <>
-              <div className='btn bg-base-100 px-5'>upload</div>
+              <Link href='/upload'>
+                <div className='btn bg-base-100 px-5'>upload</div>
+              </Link>
               <div className='dropdown dropdown-end'>
                 <button type='button' tabIndex={0} className='btn btn-ghost btn-circle avatar'>
                   <div className='w-10 rounded-full'>

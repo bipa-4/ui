@@ -32,7 +32,16 @@ export default function VideoDetail() {
                 </div>
               ),
               videoInfo: <div className='rounded-md p-4 w-full mx-auto my-4 border'>비디오 정보</div>,
-              recommendVideo: videolist.map((video) => <VideoSummaryItemRow key={video.id} videoItem={video} />),
+              recommendVideo: videolist.map((video) => (
+                <VideoSummaryItemRow
+                  key={video.id}
+                  id={video.id}
+                  thumbnailUrl={video.thumbnailUrl}
+                  title={video.title}
+                  channelName={video.channelName}
+                  channelImg={video.channelImg}
+                />
+              )),
             }}
       </VideoDetailLayout>
     </div>

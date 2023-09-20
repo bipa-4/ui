@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import Title from '../text/Title';
+import Title from '../typo/Title';
 import Avatar from '../profile/Avatar';
 
 /**
