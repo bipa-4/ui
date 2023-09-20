@@ -3,9 +3,21 @@ import Link from 'next/link';
 import { FiMenu } from 'react-icons/fi';
 import LoginModal from '@/containers/main/LoginModal';
 import crying from '../../public/images/crying.jpg';
+import { useState } from 'react';
 
 export default function Header() {
-  const isLogin = true;
+  const [isLogin, setIsLogin] = useState(true);
+
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const handleLogin = () => {
+    console.log(isLogin);
+    setIsLogin((prev) => !prev);
+    toggleMenu();
+  };
+  const toggleMenu = () => {
+    setIsMenuOpen((prev) => !prev);
+  };
 
   return (
     <div className='w-full'>
@@ -34,35 +46,40 @@ export default function Header() {
           {isLogin ? (
             <>
               <Link href='/upload'>
-                <div className='btn bg-base-100 px-5'>upload</div>
+                <div className='btn bg-base-100 px-5 mx-5'>upload</div>
               </Link>
               <div className='dropdown dropdown-end'>
                 <button type='button' tabIndex={0} className='btn btn-ghost btn-circle avatar'>
                   <div className='w-10 rounded-full'>
-                    <Image src={crying} alt='profile' width={200} height={200} />
+                    <Image src={crying} alt='profile' width={200} height={200} onClick={toggleMenu} />
                   </div>
                 </button>
-                <ul className='mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52'>
-                  <li>
-                    <Link href='/' className='justify-between'>
-                      프로필
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href='/'>내 채널</Link>
-                  </li>
-                  <li>
-                    <Link href='/'>로그아웃</Link>
-                  </li>
-                </ul>
+                {isMenuOpen && (
+                  <ul className='mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52'>
+                    <li>
+                      <Link href='/' className='justify-between' onClick={toggleMenu}>
+                        프로필
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href='/channel/1' onClick={toggleMenu}>
+                        내 채널
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href='/' onClick={handleLogin}>
+                        로그아웃
+                      </Link>
+                    </li>
+                  </ul>
+                )}
               </div>
             </>
           ) : (
             <div>
-              <label htmlFor='my_modal_7' className='btn btn-outline btn-primary'>
+              <label htmlFor='my_modal_7' className='btn btn-outline btn-primary' onClick={handleLogin}>
                 Login
               </label>
-
               <input type='checkbox' id='my_modal_7' className='modal-toggle' />
               <LoginModal />
             </div>
