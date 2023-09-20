@@ -5,7 +5,7 @@ import VideoDetailLayout from '@/containers/watch/VideoDetailLayout';
 import CommentInput from '@/components/comment/CommentInput';
 import videolist from '@/public/staticData/videoList.json';
 import VideoSummaryItemRow from '@/components/video/VideoSummaryItemRow';
-import CommentItem from '../../components/comment/CommentItem';
+import CommentItem from '@/components/comment/CommentItem';
 
 export default function VideoDetail() {
   const isLoading = false;
