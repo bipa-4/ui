@@ -2,18 +2,22 @@
 
 ## 기술스택
 
-- Next.js
-- Video.js
-- yarn
-- tailwind css
 - node.js 18.17.1 (LTS)
+- yarn
+- Next.js
+- vercel
+- video.js
+- tailwind css
+- daisy UI
 - axios
 
 <br />
 
 ## 주요 기능
 
-- 동영상 스트리밍
+- 영상 스트리밍
+- 영상 업로드
 - 커서 기반 페이지네이션
 - 소셜로그인
 - 검색
+- 소셜 공유
