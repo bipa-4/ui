@@ -1,6 +1,6 @@
 import ChannelDetailLayout from '@/containers/channel/ChannelDetailLayout';
 import Head from 'next/head';
-import { channelData } from '@/public/staticData/channelList';
+import { channelData } from '@/public/staticData/channelData';
 
 export default function Channel() {
   return (

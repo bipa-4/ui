@@ -1,4 +1,4 @@
-import channelDataList from '@/public/staticData/channelList';
+import channelDataList from '@/public/staticData/channelData';
 import Head from 'next/head';
 import AllChannelsContainer from '../components/channel/AllChannelsContainer';
 

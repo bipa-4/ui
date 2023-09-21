@@ -1,4 +1,4 @@
-import { VideoSummaryType } from './videoType';
+import { VideoCardType } from './videoType';
 
 export interface channelSummaryType {
   id: number;
@@ -8,7 +8,7 @@ export interface channelSummaryType {
 }
 
 export interface channelType extends channelSummaryType {
-  orderedVideoList: Array<VideoSummaryType>;
+  orderedVideoList: Array<VideoCardType>;
 }
 
 export interface channelSummaryListType extends Array<channelSummaryType> {}

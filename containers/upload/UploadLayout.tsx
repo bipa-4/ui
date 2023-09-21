@@ -2,18 +2,27 @@ import Title from '@/components/typo/Title';
 import React, { useState } from 'react';
 import VideoSummaryItemCol from '@/components/video/VideoSummaryItemCol';
 import axios from 'axios';
+import VideoType from '@/types/videoType';
 
 export default function UploadLayout() {
+  // s3에 업로드할 파일
   const [videoFile, setVideoFile] = useState<File | null>(null);
   const [thumbnailFile, setThumbnailFile] = useState<File | null>(null);
-  const [videoPreviewUrl, setVideoPreviewUrl] = useState<string | null>(null);
-  const [thumbnailPreviewUrl, setThumbnailPreviewUrl] = useState<string | null>(null);
-  const [videoTitle, setVideoTitle] = useState('');
-  const [videoDescription, setVideoDescription] = useState('');
-  const [isVideoPublic, setIsVideoPublic] = useState(true);
 
-  const url =
-    'https://streamwaves3.s3.ap-northeast-2.amazonaws.com/example.mp4?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Date=20230920T041505Z&X-Amz-SignedHeaders=host&X-Amz-Expires=3600&X-Amz-Credential=AKIA6ABZ54JVH27XFY4W%2F20230920%2Fap-northeast-2%2Fs3%2Faws4_request&X-Amz-Signature=e55e698854ee23ba0e941ca013510e26b935941045de7bcea02514d94803bca1';
+  // 미리보기 url
+  const [videoPreviewUrl, setVideoPreviewUrl] = useState<string>();
+  const [thumbnailPreviewUrl, setThumbnailPreviewUrl] = useState<string>();
+
+  // 백엔드에 전송할 비디오 객체
+  const [video, setVideo] = useState<VideoType>({
+    title: '',
+    description: '',
+    videoUrl: '',
+    thumbnailUrl: '',
+    isPublic: true,
+  });
+
+  const url = '';
 
   const handleVideoFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -33,29 +42,37 @@ export default function UploadLayout() {
     }
   };
 
-  const s3Upload = async (presignedUrl: string, video: File) => {
-    const res = await axios({
-      method: 'put',
-      data: video,
-      url: presignedUrl,
-      headers: {
-        'Content-Type': 'video/mp4',
-      },
-    });
-
-    if (res.status === 200) {
-      console.log('success');
-    }
-  };
-
   const handleUpload = async () => {
+    const s3Upload = async (presignedUrl: string, uploadFile: File) => {
+      const res = await axios({
+        method: 'put',
+        data: uploadFile,
+        url: presignedUrl,
+        headers: {
+          'Content-Type': 'video/mp4',
+        },
+      });
+
+      if (res.status === 200) {
+        console.log('success');
+      }
+    };
+
     if (videoFile && thumbnailFile) {
       await s3Upload(url, videoFile);
     }
   };
 
   const handleVideoPrivacyChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setIsVideoPublic(e.target.value === 'public');
+    setVideo((prev) => ({ ...prev, isPublic: e.target.value === 'public' }));
+  };
+
+  const handleTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setVideo((prev) => ({ ...prev, title: e.target.value }));
+  };
+
+  const handleDescription = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setVideo((prev) => ({ ...prev, description: e.target.value }));
   };
 
   return (
@@ -95,8 +112,8 @@ export default function UploadLayout() {
             type='text'
             id='videoTitle'
             placeholder='영상 제목을 입력하세요.'
-            value={videoTitle}
-            onChange={(e) => setVideoTitle(e.target.value)}
+            value={video.title}
+            onChange={handleTitle}
             className='border rounded-lg px-3 py-2 w-full focus:outline-none focus:ring focus:border-blue-300'
           />
         </div>
@@ -107,8 +124,8 @@ export default function UploadLayout() {
           <textarea
             id='videoDescription'
             placeholder='영상 설명을 입력하세요.'
-            value={videoDescription}
-            onChange={(e) => setVideoDescription(e.target.value)}
+            value={video.description}
+            onChange={handleDescription}
             className='border rounded-lg px-3 py-2 w-full h-32 resize-none focus:outline-none focus:ring focus:border-blue-300'
           />
         </div>
@@ -116,11 +133,11 @@ export default function UploadLayout() {
           <label className='block font-medium mb-2'>공개 여부</label>
           <div>
             <label className='mr-4'>
-              <input type='radio' value='public' checked={isVideoPublic} onChange={handleVideoPrivacyChange} />
+              <input type='radio' value='public' checked={video.isPublic} onChange={handleVideoPrivacyChange} />
               공개
             </label>
             <label>
-              <input type='radio' value='private' checked={!isVideoPublic} onChange={handleVideoPrivacyChange} />
+              <input type='radio' value='private' checked={!video.isPublic} onChange={handleVideoPrivacyChange} />
               비공개
             </label>
           </div>
@@ -131,11 +148,10 @@ export default function UploadLayout() {
         <Title text='미리보기' />
         <div className='mt-5'>
           <VideoSummaryItemCol
-            id={1}
-            thumbnailUrl={thumbnailPreviewUrl !== null ? thumbnailPreviewUrl : ''}
-            channelName='떼껄룩'
-            title={videoTitle}
-            channelImg='img'
+            thumbnailUrl={thumbnailPreviewUrl || '/images/defaultThumbnailImage.png'}
+            title={video.title}
+            channelImgUrl=''
+            channelName=''
           />
         </div>
 

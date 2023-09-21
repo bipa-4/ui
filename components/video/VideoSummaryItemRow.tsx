@@ -1,9 +1,9 @@
 import Image from 'next/image';
-import { VideoSummaryType } from '@/types/videoType';
+import { VideoCardType } from '@/types/videoType';
 import { useRouter } from 'next/router';
 
 interface VideoSummaryItemRowProps {
-  videoSummaryItem: VideoSummaryType;
+  videoSummaryItem: VideoCardType;
 }
 
 export default function VideoSummaryItemRow({ videoSummaryItem }: VideoSummaryItemRowProps) {

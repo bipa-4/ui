@@ -1,10 +1,10 @@
 import CommentInput from '@/components/comment/CommentInput';
 import CommentItem from '@/components/comment/CommentItem';
 import VideoSummaryItemRow from '@/components/video/VideoSummaryItemRow';
-import { VideoItemType } from '@/types/videoType';
+import { VideoDetailType } from '@/types/videoType';
 
 interface VideoDetailLayoutProps {
-  video: VideoItemType;
+  video: VideoDetailType;
 }
 
 export default function VideoDetailLayout({ video }: VideoDetailLayoutProps) {

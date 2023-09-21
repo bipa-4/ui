@@ -1,6 +1,6 @@
 import VideoDetailLayout from '@/containers/watch/VideoDetailLayout';
 import Head from 'next/head';
-import videoItem from '@/public/staticData/videoDetail';
+import videoItem from '@/public/staticData/videoData';
 
 // todo: data fetch - 개별 영상 조회 ISR
 // todo: data fetch - 댓글 조회 SSR

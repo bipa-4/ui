@@ -1,8 +1,8 @@
 import Avatar from '@/components/profile/Avatar';
 import Title from '@/components/typo/Title';
 import VideoContainer from '@/components/video/VideoSummaryContainer';
-import videoList from '@/public/staticData/videoList.json';
 import { BiSearch } from 'react-icons/bi';
+import { channelData } from '@/public/staticData/channelData';
 
 export default function ChannelDetailLayout() {
   return (
@@ -12,8 +12,8 @@ export default function ChannelDetailLayout() {
           <Avatar width='full' marginX={5} />
         </div>
         <div className='grow pl-4'>
-          <Title text='채널이름' />
-          <div>채널 설명</div>
+          <Title text={channelData.title} />
+          <div>{channelData.description}</div>
         </div>
       </div>
       <div className='mt-7'>
@@ -33,7 +33,7 @@ export default function ChannelDetailLayout() {
             </label>
           </div>
         </div>
-        <VideoContainer videoList={videoList} />
+        <VideoContainer videoList={channelData.orderedVideoList} />
       </div>
     </>
   );
