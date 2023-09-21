@@ -23,8 +23,7 @@ const channelData: channelSummaryListType = [
     id: 4,
     imgUrl: '/images/crying.jpg',
     title: 'EsLint',
-    description:
-      'ㅋㅋ내가 만만해?ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ',
+    description: '린트가 최고다',
   },
   {
     id: 5,

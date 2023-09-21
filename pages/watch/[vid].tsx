@@ -1,49 +1,26 @@
-import RowVideoInfoSkeleton from '@/components/skeleton/VideoInfoSkeletonRow';
-import VideoDetailInfoSkeleton from '@/components/skeleton/VideoDetailInfoSkeleton';
-import VideoSkeleton from '@/components/skeleton/VideoSkeleton';
 import VideoDetailLayout from '@/containers/watch/VideoDetailLayout';
-import CommentInput from '@/components/comment/CommentInput';
-import videolist from '@/public/staticData/videoList.json';
-import VideoSummaryItemRow from '@/components/video/VideoSummaryItemRow';
-import CommentItem from '@/components/comment/CommentItem';
+import Head from 'next/head';
+import videoItem from '@/public/staticData/videoDetail';
+
+// todo: data fetch - 개별 영상 조회 ISR
+// todo: data fetch - 댓글 조회 SSR
+// todo: data fetch - 추천 영상 조회 ISR
 
 export default function VideoDetail() {
   const isLoading = false;
 
   return (
-    <div className='h-full mx-40 max-xl:mx-5'>
-      <VideoDetailLayout>
-        {isLoading
-          ? {
-              video: <VideoSkeleton />,
-              videoInfo: <VideoDetailInfoSkeleton />,
-              recommendVideo: Array(8).fill(<RowVideoInfoSkeleton />),
-            }
-          : {
-              video: (
-                <div className='absolute top-0 left-0 right-0 bottom-0 max-w-full border rounded-md h-auto w-full text-center'>
-                  비디오
-                </div>
-              ),
-              comment: (
-                <div className='w-full mx-1 my-5 max-2xl:w-full'>
-                  <CommentInput />
-                  <div className='w-full'>{Array(8).fill(<CommentItem />)}</div>
-                </div>
-              ),
-              videoInfo: <div className='rounded-md p-4 w-full mx-auto my-4 border'>비디오 정보</div>,
-              recommendVideo: videolist.map((video) => (
-                <VideoSummaryItemRow
-                  key={video.id}
-                  id={video.id}
-                  thumbnailUrl={video.thumbnailUrl}
-                  title={video.title}
-                  channelName={video.channelName}
-                  channelImg={video.channelImg}
-                />
-              )),
-            }}
-      </VideoDetailLayout>
-    </div>
+    <>
+      <Head>
+        <title>StreamWave</title>
+        <meta name='description' content='동영상 공유 플랫폼 StreamWave입니다.' />
+        <meta property='og:title' content='간편한 영상 공유 플랫폼 - StreamWave' />
+        <meta property='og:description' content='동영상 공유 플랫폼 StreamWave입니다.' />
+        <meta property='og:image' content='/images/streamWave.png' />
+      </Head>
+      <div className='h-full mx-40 max-xl:mx-5'>
+        <VideoDetailLayout video={videoItem} />
+      </div>
+    </>
   );
 }

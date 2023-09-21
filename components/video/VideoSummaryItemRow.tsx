@@ -1,16 +1,14 @@
 import Image from 'next/image';
-import { VideoItemType } from '@/types/videoType';
+import { VideoSummaryType } from '@/types/videoType';
 import { useRouter } from 'next/router';
 
-export default function VideoSummaryItemRow({
-  id,
-  thumbnailUrl,
-  title,
-  channelName,
-  viewCount,
-  uploadDate,
-}: VideoItemType) {
+interface VideoSummaryItemRowProps {
+  videoSummaryItem: VideoSummaryType;
+}
+
+export default function VideoSummaryItemRow({ videoSummaryItem }: VideoSummaryItemRowProps) {
   const router = useRouter();
+  const { id, title, channelName, thumbnailUrl, viewCount, createDate } = videoSummaryItem;
 
   const handleItemClick = () => {
     router.push(`/watch/${id}`);
@@ -26,11 +24,11 @@ export default function VideoSummaryItemRow({
       <div className='flex-grow'>
         <div className='font-bold pb-1'>{title}</div>
         <div className='text-sm pb-1'>{channelName}</div>
-        {viewCount && uploadDate && (
+        {viewCount && createDate && (
           <div className='flex'>
             <div className='mr-2 font-light text-xs'>
               <div>조회수 {viewCount}회</div>
-              <div>{uploadDate}</div>
+              <div>{createDate}</div>
             </div>
           </div>
         )}

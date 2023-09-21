@@ -1,13 +1,20 @@
-export type VideoItemType = {
+export interface VideoSummaryType {
   id: number;
   thumbnailUrl: string;
   title: string;
-  channelImg: string;
+  channelImgUrl: string;
   channelName: string;
-  viewCount?: number;
-  uploadDate?: string;
-};
-export type VideoListType = {
+  viewCount: number;
+  createDate: string;
+}
+
+export interface VideoItemType extends VideoSummaryType {
+  description: string;
+  videoUrl: string;
+  recommendedVideoList: Array<VideoSummaryType>;
+}
+
+export type VideoSummaryListType = {
   title?: string;
-  videoList: Array<VideoItemType>;
+  videoList: Array<VideoSummaryType>;
 };
