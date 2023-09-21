@@ -14,7 +14,7 @@ export interface VideoItemType extends VideoSummaryType {
   recommendedVideoList: Array<VideoSummaryType>;
 }
 
-export type VideoSummaryListType = {
-  title?: string;
-  videoList: Array<VideoSummaryType>;
-};
+// export type VideoSummaryListType = {
+//  title?: string;
+//  videoList: Array<VideoSummaryType>;
+// };

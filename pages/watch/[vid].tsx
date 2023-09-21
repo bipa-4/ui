@@ -7,16 +7,14 @@ import videoItem from '@/public/staticData/videoDetail';
 // todo: data fetch - 추천 영상 조회 ISR
 
 export default function VideoDetail() {
-  const isLoading = false;
-
   return (
     <>
       <Head>
-        <title>StreamWave</title>
-        <meta name='description' content='동영상 공유 플랫폼 StreamWave입니다.' />
-        <meta property='og:title' content='간편한 영상 공유 플랫폼 - StreamWave' />
-        <meta property='og:description' content='동영상 공유 플랫폼 StreamWave입니다.' />
-        <meta property='og:image' content='/images/streamWave.png' />
+        <title>{videoItem.title} | StreamWave</title>
+        <meta name='description' content={videoItem.description} />
+        <meta property='og:title' content={`${videoItem.title} - StreamWave`} />
+        <meta property='og:description' content={videoItem.description} />
+        <meta property='og:image' content={videoItem.thumbnailUrl} />
       </Head>
       <div className='h-full mx-40 max-xl:mx-5'>
         <VideoDetailLayout video={videoItem} />

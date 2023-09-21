@@ -10,12 +10,10 @@ const inter = notoSansKr({
 
 export default function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <>
-      <main className={inter.className}>
+    <main className={inter.className}>
         <Layout>
           <Component {...pageProps} />
         </Layout>
       </main>
-    </>
   );
 }

@@ -1,18 +1,16 @@
 import Image from 'next/image';
-import { VideoItemType } from '@/types/videoType';
+import { VideoSummaryType } from '@/types/videoType';
 import { useRouter } from 'next/router';
 import { PiEyeLight } from 'react-icons/pi';
 import defaultImg from '@/public/images/defaultThumbnailImage.png';
 import Avatar from '../profile/Avatar';
 
-export default function VideoSummaryItemCol({
-  id,
-  thumbnailUrl,
-  title,
-  channelName,
-  viewCount,
-  uploadDate,
-}: VideoItemType) {
+interface VideoSummaryItemColProps {
+  videoSummaryItem: VideoSummaryType;
+}
+
+export default function VideoSummaryItemCol({ videoSummaryItem }: VideoSummaryItemColProps) {
+  const { id, thumbnailUrl, channelName, viewCount, createDate, title } = videoSummaryItem;
   const router = useRouter();
 
   const handleItemClick = () => {
@@ -53,7 +51,7 @@ export default function VideoSummaryItemCol({
         <div className='mx-2 text-xs flex items-center'>
           <PiEyeLight className='w-4 h-4' />
           <span className='px-2 border-r-2 border-solid'>{viewCount || 0}</span>
-          <span className='px-2'>{uploadDate || '2023 - 0 - 0'}</span>
+          <span className='px-2'>{createDate || '2023 - 0 - 0'}</span>
         </div>
       </div>
     </div>
