@@ -1,4 +1,4 @@
-import Title from '@/components/typo/Title';
+import Title from '@/components/ui/Title';
 import React, { useState } from 'react';
 import VideoSummaryItemCol from '@/components/video/VideoSummaryItemCol';
 import axios from 'axios';

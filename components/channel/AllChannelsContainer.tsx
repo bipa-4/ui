@@ -1,6 +1,6 @@
 import { channelSummaryListType } from '@/types/channelType';
 import ChannelSummaryItem from './ChannelSummarylItem';
-import Title from '../typo/Title';
+import Title from '../ui/Title';
 
 type props = {
   channelList: channelSummaryListType;

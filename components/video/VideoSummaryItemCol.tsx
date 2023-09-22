@@ -3,7 +3,7 @@ import { VideoCardType } from '@/types/videoType';
 import { useRouter } from 'next/router';
 import { PiEyeLight } from 'react-icons/pi';
 import defaultImg from '@/public/images/defaultThumbnailImage.png';
-import Avatar from '../profile/Avatar';
+import Avatar from '../ui/Avatar';
 
 export default function VideoSummaryItemCol({
   id,

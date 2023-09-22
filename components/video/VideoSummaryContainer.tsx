@@ -1,4 +1,4 @@
-import Title from '@/components/typo/Title';
+import Title from '@/components/ui/Title';
 import { VideoCardType } from '@/types/videoType';
 import VideoSummaryItemCol from './VideoSummaryItemCol';
 

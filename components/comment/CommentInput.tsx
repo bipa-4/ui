@@ -1,6 +1,6 @@
 import { useRef } from 'react';
-import Title from '../typo/Title';
-import Avatar from '../profile/Avatar';
+import Title from '../ui/Title';
+import Avatar from '../ui/Avatar';
 
 /**
  * 댓글 입력 컴포넌트입니다.

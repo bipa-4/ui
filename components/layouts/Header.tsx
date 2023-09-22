@@ -77,7 +77,7 @@ export default function Header() {
               </div>
             </>
           ) : (
-            <div onClick={handleLogin}>
+            <div>
               <label htmlFor='my_modal_7' className='btn btn-outline btn-primary'>
                 Login
               </label>
