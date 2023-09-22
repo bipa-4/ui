@@ -11,7 +11,7 @@ type props = {
 /**
  * 채널 요약 정보를 보여주는 컴포넌트
  * @param {channelSummaryType} channelItem 채널 정보(단건)
- * @param {number} rank 채널 순위(0이면 순위 표시 안함)
+ * @param {number} rank 채널 순위
  * @param {'large' | 'small'} size 크기(large: 큰 크기, small: 작은 크기)
  * @returns {JSX.Element} 채널 요약 정보 컴포넌트
  */
@@ -29,22 +29,26 @@ export default function ChannelSummaryItem({ channelItem, rank, size }: props) {
   return (
     <div className={buttonSize} onClick={handleItemClick}>
       <div className={`flex items-center px-2 justify-center ${size === 'large' ? 'h-40' : 'h-20'}`}>
-        {rank !== 0 && <div className='px-1'>{rank}</div>}
-
-        {size === 'small' && <Avatar width={11} marginX={2} />}
-        {size === 'large' && <Avatar width={20} marginX={5} />}
+        {rank && <div className='px-1'>{rank}</div>}
 
         {size === 'small' && (
-          <div className='grow'>
-            <div className='font-bold text-sm'>{channelItem.title}</div>
-            <div className='flex-wrap text-xs overflow-hidden'>{channelItem.description}</div>
-          </div>
+          <>
+            <Avatar width={11} marginX={2} />
+            <div className='grow'>
+              <div className='font-bold text-sm'>{channelItem.title}</div>
+              <div className='flex-wrap text-xs overflow-hidden'>{channelItem.description}</div>
+            </div>
+          </>
         )}
+
         {size === 'large' && (
-          <div className='grow'>
-            <div className='font-bold text-base'>{channelItem.title}</div>
-            <div className='flex-wrap text-sm overflow-hidden'>{channelItem.description}</div>
-          </div>
+          <>
+            <Avatar width={20} marginX={5} />
+            <div className='grow'>
+              <div className='font-bold text-base'>{channelItem.title}</div>
+              <div className='flex-wrap text-sm overflow-hidden'>{channelItem.description}</div>
+            </div>
+          </>
         )}
       </div>
     </div>
@@ -52,6 +56,6 @@ export default function ChannelSummaryItem({ channelItem, rank, size }: props) {
 }
 
 ChannelSummaryItem.defaultProps = {
-  rank: 0,
+  rank: undefined,
   size: 'small',
 };
