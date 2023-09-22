@@ -29,4 +29,5 @@ export default function Avatar({ width, marginX, nickname, imgUrl }: Props) {
 
 Avatar.defaultProps = {
   nickname: '',
+  imgUrl: crying,
 };

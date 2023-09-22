@@ -1,8 +1,7 @@
 import Head from 'next/head';
-import MainLayout from '../containers/main/MainLayout';
 import { VideoCardType } from '@/types/videoType';
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import MainLayout from '../containers/main/MainLayout';
 
 type Props = {
   topVideoList: VideoCardType[];
