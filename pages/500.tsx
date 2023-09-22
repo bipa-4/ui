@@ -1,7 +1,8 @@
 import Head from 'next/head';
 import Link from 'next/link';
+import React from 'react';
 
-export default function Custom400() {
+export default function Custom500() {
   return (
     <div className='h-screen'>
       <Head>

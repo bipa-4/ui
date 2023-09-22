@@ -10,13 +10,13 @@ export default interface VideoType {
 }
 
 export interface VideoCardType {
-  id?: number;
-  thumbnailUrl: string;
-  title: string;
-  channelImgUrl: string;
+  videoId?: number;
+  thumbnail: string;
+  videoTitle: string;
+  channelProfileUrl: string;
   channelName: string;
-  viewCount?: number;
-  createDate?: string;
+  readCnt?: number;
+  createAt?: string;
 }
 
 export interface VideoDetailType extends VideoCardType {

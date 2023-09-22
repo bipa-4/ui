@@ -10,11 +10,11 @@ export default function VideoDetail() {
   return (
     <>
       <Head>
-        <title>{videoItem.title} | StreamWave</title>
+        <title>{videoItem.videoTitle} | StreamWave</title>
         <meta name='description' content={videoItem.description} />
-        <meta property='og:title' content={`${videoItem.title} - StreamWave`} />
+        <meta property='og:title' content={`${videoItem.videoTitle} - StreamWave`} />
         <meta property='og:description' content={videoItem.description} />
-        <meta property='og:image' content={videoItem.thumbnailUrl} />
+        <meta property='og:image' content={videoItem.thumbnail} />
       </Head>
       <div className='h-full mx-40 max-xl:mx-5'>
         <VideoDetailLayout video={videoItem} />

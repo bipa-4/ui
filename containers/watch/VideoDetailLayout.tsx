@@ -23,7 +23,7 @@ export default function VideoDetailLayout({ video }: VideoDetailLayoutProps) {
         </div>
       </div>
       <div className='basis-1/4 max-2xl:hidden my-4 shrink-0'>
-        {video.recommendedVideoList?.map((v) => <VideoSummaryItemRow key={v.id} videoSummaryItem={v} />)}
+        {video.recommendedVideoList?.map((v) => <VideoSummaryItemRow key={v.videoId} videoSummaryItem={v} />)}
       </div>
     </div>
   );
