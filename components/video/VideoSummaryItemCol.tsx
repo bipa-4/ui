@@ -35,6 +35,7 @@ function VideoSummaryItemCol({
           src={thumbnail || defaultImg}
           alt='cat'
           layout='fill'
+          priority={true}
         />
       </div>
 

@@ -4,20 +4,22 @@ import { FiMenu } from 'react-icons/fi';
 import LoginModal from '@/containers/main/LoginModal';
 import { useState } from 'react';
 import crying from '../../public/images/crying.jpg';
+import { useRouter } from 'next/router';
 
 export default function Header() {
-  const [isLogin, setIsLogin] = useState(true);
-
+  const router = useRouter();
+  const [isLogin, setIsLogin] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const toggleMenu = () => {
     setIsMenuOpen((prev) => !prev);
   };
 
-  const handleLogin = () => {
-    console.log(isLogin);
-    setIsLogin((prev) => !prev);
-    toggleMenu();
+  const handleKakaoLogin = () => {
+    const CLIENT_ID = process.env.NEXT_PUBLIC_KAKAO_LOGIN_CLIENT_ID;
+    const REDIRECT_URI = process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI;
+    const authUrl = ` https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}`;
+    router.push(authUrl);
   };
 
   return (
@@ -68,7 +70,7 @@ export default function Header() {
                       </Link>
                     </li>
                     <li>
-                      <Link href='/' onClick={handleLogin}>
+                      <Link href='/' onClick={() => alert('로그아웃')}>
                         로그아웃
                       </Link>
                     </li>
@@ -82,7 +84,7 @@ export default function Header() {
                 Login
               </label>
               <input type='checkbox' id='my_modal_7' className='modal-toggle' />
-              <LoginModal />
+              <LoginModal kakaoLogin={handleKakaoLogin} />
             </div>
           )}
         </div>

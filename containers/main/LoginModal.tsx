@@ -1,6 +1,10 @@
 import Image from 'next/image';
 
-export default function Login() {
+type Props = {
+  kakaoLogin: () => void;
+};
+
+export default function Login({ kakaoLogin }: Props) {
   return (
     <div className='modal'>
       <div className='modal-box'>
@@ -9,7 +13,7 @@ export default function Login() {
           <div className='py-3'>소셜 계정으로 간편 로그인</div>
           <div className='flex mx-5 my-auto justify-center'>
             <div className='w-2/5'>
-              <div className='h-11 w-full p-1 overflow-hidden cursor-pointer'>
+              <div className='h-11 w-full p-1 overflow-hidden cursor-pointer' onClick={kakaoLogin}>
                 <Image
                   src='/images/kakao_login_large_narrow.png'
                   alt='kakao'

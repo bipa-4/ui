@@ -7,11 +7,10 @@ type Props = {
   topVideoList: VideoCardType[];
 };
 
-const BASE_URL = process.env.JSON_SERVER_URL;
-
 // getServerSidePorps를 호출하면 이 페이지는 요청대마다 다시 렌더링 된다.
 export async function getServerSideProps() {
-  const res = await axios.get(`${BASE_URL}/top10`);
+  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+  const res = await axios.get(`${BASE_URL}/video/top10`);
   const topVideoList = res.data;
   return {
     props: {
@@ -21,6 +20,7 @@ export async function getServerSideProps() {
 }
 
 export default function Home({ topVideoList }: Props) {
+  console.log(`Server started on POST ${process.env.PORT}....`);
   console.log('받아온 데이터: ', topVideoList);
   return (
     <>
