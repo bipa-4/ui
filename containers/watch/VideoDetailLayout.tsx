@@ -1,14 +1,25 @@
 import CommentInput from '@/components/comment/CommentInput';
 import CommentItem from '@/components/comment/CommentItem';
 import Avatar from '@/components/ui/Avatar';
+import VideoDetailInfo from '@/components/video/VideoDetailInfo';
 import VideoSummaryItemRow from '@/components/video/VideoSummaryItemRow';
 import { VideoDetailType } from '@/types/videoType';
+import Image from 'next/image';
+import { useState } from 'react';
 
 interface VideoDetailLayoutProps {
   video: VideoDetailType;
 }
 
 export default function VideoDetailLayout({ video }: VideoDetailLayoutProps) {
+  const [like, setLike] = useState(false);
+
+  const handleLike = () => {
+    setLike(!like);
+  };
+
+  console.log(like);
+
   return (
     <div className='w-full flex'>
       <div className='grow my-4'>
@@ -17,16 +28,14 @@ export default function VideoDetailLayout({ video }: VideoDetailLayoutProps) {
             비디오
           </div>
         </div>
-        <div className='rounded-md p-4 w-full mx-auto my-4 border'>
-          <div className='py-5'>좋아요버튼이 들어갈곳.. </div>
-          <div className='flex items-center'>
-            <div>
-              <Avatar width={12} imgUrl={video.channelProfileUrl} marginX={3} />
-            </div>
-            <div>{video.channelName || '채널명'}</div>
-          </div>
-          <div className='mx-3 py-5'>{video.content}</div>
-        </div>
+
+        <VideoDetailInfo
+          channelProfileUrl={video.channelProfileUrl}
+          channelName={video.channelName}
+          content={video.content}
+          handleLike={handleLike}
+        />
+
         <div className='w-full mx-1 my-5 max-2xl:w-full'>
           <CommentInput />
           <div className='w-full'>
