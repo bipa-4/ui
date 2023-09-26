@@ -2,9 +2,10 @@ import Image from 'next/image';
 
 type Props = {
   kakaoLogin: () => void;
+  googleLogin: () => void;
 };
 
-export default function Login({ kakaoLogin }: Props) {
+export default function Login({ kakaoLogin, googleLogin }: Props) {
   return (
     <div className='modal'>
       <div className='modal-box'>
@@ -22,7 +23,7 @@ export default function Login({ kakaoLogin }: Props) {
                   className='w-full h-full object-cover'
                 />
               </div>
-              <div className='h-11 w-full p-1 cursor-pointer'>
+              <div className='h-11 w-full p-1 cursor-pointer' onClick={googleLogin}>
                 <Image
                   src='/images/google_login.png'
                   alt='google'

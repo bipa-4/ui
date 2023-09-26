@@ -3,12 +3,12 @@ import Link from 'next/link';
 import { FiMenu } from 'react-icons/fi';
 import LoginModal from '@/containers/main/LoginModal';
 import { useState } from 'react';
-import crying from '../../public/images/crying.jpg';
 import { useRouter } from 'next/router';
+import crying from '../../public/images/crying.jpg';
 
 export default function Header() {
   const router = useRouter();
-  const [isLogin, setIsLogin] = useState(false);
+  const isLogin = false;
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const toggleMenu = () => {
@@ -19,6 +19,13 @@ export default function Header() {
     const CLIENT_ID = process.env.NEXT_PUBLIC_KAKAO_LOGIN_CLIENT_ID;
     const REDIRECT_URI = process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI;
     const authUrl = ` https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}`;
+    router.push(authUrl);
+  };
+
+  const handleGoogleLogin = () => {
+    const CLIENT_ID = process.env.NEXT_PUBLIC_GOOGLE_LOGIN_CLIENT_ID;
+    const REDIRECT_URI = process.env.NEXT_PUBLIC_GOOGLE_LOGIN_REDIRECT_URI;
+    const authUrl = `https://accounts.google.com/o/oauth2/auth?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code&scope=https://www.googleapis.com/auth/userinfo.email`;
     router.push(authUrl);
   };
 
@@ -84,7 +91,7 @@ export default function Header() {
                 Login
               </label>
               <input type='checkbox' id='my_modal_7' className='modal-toggle' />
-              <LoginModal kakaoLogin={handleKakaoLogin} />
+              <LoginModal kakaoLogin={handleKakaoLogin} googleLogin={handleGoogleLogin} />
             </div>
           )}
         </div>

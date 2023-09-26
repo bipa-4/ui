@@ -13,6 +13,7 @@ export default function Callback() {
       .get(BASE_URL + authCode)
       .then((res) => {
         console.log('응답 !', res);
+        router.push('/');
       })
       .catch((err) => {
         console.log('에러 발생 ! ! !', err);
