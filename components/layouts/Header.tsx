@@ -6,11 +6,33 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import axios from 'axios';
 import crying from '@/public/images/crying.jpg';
+import { atom, useAtom } from 'jotai';
+
+type userHeader = {
+  accountId: number;
+  email: string;
+  joinDate: number;
+  loginId: string;
+  loginType: string;
+  name: string;
+  profileUrl: string;
+};
+
+export const userAtom = atom(false);
 
 export default function Header() {
   const router = useRouter();
-  const isLogin = false;
+  const [isLogin, setIsLogin] = useAtom(userAtom);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [user, setUser] = useState<userHeader>({
+    accountId: 0,
+    email: '',
+    joinDate: 0,
+    loginId: '',
+    loginType: '',
+    name: '',
+    profileUrl: '',
+  });
 
   const toggleMenu = () => {
     setIsMenuOpen((prev) => !prev);
@@ -30,15 +52,27 @@ export default function Header() {
     router.push(authUrl);
   };
 
+  const handleLogout = () => {
+    setIsLogin(false);
+    alert('로그아웃되었습니다.');
+  };
+
+  console.log('헤더에서 조회 - 로그인여부', isLogin);
+
   useEffect(() => {
-    const checkLogin = async () => {
-      const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
-      const res = await axios.get(`${BASE_URL}/account/check`, {
-        withCredentials: true,
-      });
-      console.log(res);
-    };
-    checkLogin();
+    if (isLogin) {
+      const checkLogin = async () => {
+        const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+        const res = await axios
+          .get(`${BASE_URL}/account/check`, {
+            withCredentials: true,
+          })
+          .catch((err) => console.log(err));
+        console.log('유저정보: ', res);
+        setUser(res?.data);
+      };
+      checkLogin();
+    }
   }, []);
 
   return (
@@ -89,7 +123,7 @@ export default function Header() {
                       </Link>
                     </li>
                     <li>
-                      <Link href='/' onClick={() => alert('로그아웃')}>
+                      <Link href='/' onClick={handleLogout}>
                         로그아웃
                       </Link>
                     </li>

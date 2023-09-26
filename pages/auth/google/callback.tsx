@@ -1,23 +1,24 @@
+import { userAtom } from '@/components/layouts/Header';
 import axios from 'axios';
+import { useSetAtom } from 'jotai';
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
 
 axios.defaults.withCredentials = true;
 export default function Callback() {
   const router = useRouter();
+  const setLogin = useSetAtom(userAtom);
   const authCode = router.asPath; // auth/kakao/callback?code=xxxxx
   const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
   useEffect(() => {
-    axios
-      .get(BASE_URL + authCode)
-      .then((res) => {
-        console.log('응답 !', res);
-        router.push('/');
-      })
-      .catch((err) => {
-        console.log('에러 발생 ! ! !', err);
-      });
+    const auth = async () => {
+      const res = await axios.get(BASE_URL + authCode);
+      console.log('콜백 페이지 응답 !', res);
+      setLogin(true);
+    };
+    auth();
+    router.push('/');
   }, []);
 
   return (
