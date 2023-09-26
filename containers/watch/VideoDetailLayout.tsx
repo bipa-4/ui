@@ -25,7 +25,9 @@ export default function VideoDetailLayout({ video }: VideoDetailLayoutProps) {
     <div className='w-full flex'>
       <div className='grow my-4'>
         <div className='m-3/5 relative overflow-hidden' style={{ paddingTop: '56.25%' }}>
-          <div className='absolute top-0 left-0 right-0 bottom-0 max-w-full border rounded-md h-auto w-full text-center'></div>
+          <div className='absolute top-0 left-0 right-0 bottom-0 max-w-full border rounded-md h-auto w-full text-center'>
+            비디오
+          </div>
         </div>
 
         <VideoDetailInfo
