@@ -1,16 +1,16 @@
-//import { useRef, useEffect } from 'react';
-//import videojs, { VideoJsPlayer, VideoJsPlayerOptions } from 'video.js';
-//import 'video.js/dist/video-js.css';
+// import { useRef, useEffect } from 'react';
+// import videojs, { VideoJsPlayer, VideoJsPlayerOptions } from 'video.js';
+// import 'video.js/dist/video-js.css';
 
-//interface VideoProps {
+// interface VideoProps {
 //  videoTarget: HTMLElement | null;
 //  options?: VideoJsPlayerOptions;
 //  plugins?: string[];
-//}
+// }
 
-//const DEFAULT_OPTIONS: VideoJsPlayerOptions = {};
+// const DEFAULT_OPTIONS: VideoJsPlayerOptions = {};
 
-///**
+/// **
 // * video js 사용을 위한 커스텀 훅
 // * @param  [options]
 // *         video js options
@@ -20,7 +20,7 @@
 // *                video js DOM Element
 // * @returns {Object} { player: videojs player }
 // */
-//const useVideo = ({ options, videoTarget, plugins = [] }: VideoProps) => {
+// const useVideo = ({ options, videoTarget, plugins = [] }: VideoProps) => {
 //  const playerRef = useRef<VideoJsPlayer | null>(null);
 
 //  const initializeVideo = () => {
@@ -75,6 +75,6 @@
 //    player: playerRef.current,
 //    playerReset,
 //  };
-//};
+// };
 
-//export default useVideo;
+// export default useVideo;

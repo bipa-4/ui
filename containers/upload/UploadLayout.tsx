@@ -16,7 +16,7 @@ export default function UploadLayout() {
   // 백엔드에 전송할 비디오 객체
   const [video, setVideo] = useState<VideoType>({
     title: '',
-    description: '',
+    content: '',
     videoUrl: '',
     thumbnailUrl: '',
     isPublic: true,
@@ -124,7 +124,7 @@ export default function UploadLayout() {
           <textarea
             id='videoDescription'
             placeholder='영상 설명을 입력하세요.'
-            value={video.description}
+            value={video.content}
             onChange={handleDescription}
             className='border rounded-lg px-3 py-2 w-full h-32 resize-none focus:outline-none focus:ring focus:border-blue-300'
           />

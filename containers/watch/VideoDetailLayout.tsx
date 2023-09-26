@@ -3,7 +3,7 @@ import CommentItem from '@/components/comment/CommentItem';
 import VideoDetailInfo from '@/components/video/VideoDetailInfo';
 import VideoSummaryItemRow from '@/components/video/VideoSummaryItemRow';
 import { VideoDetailType } from '@/types/videoType';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 interface VideoDetailLayoutProps {
   video: VideoDetailType;
@@ -40,11 +40,7 @@ export default function VideoDetailLayout({ video }: VideoDetailLayoutProps) {
         <div className='w-full mx-1 my-5 max-2xl:w-full'>
           <CommentInput />
           <div className='w-full'>
-            {Array(8)
-              .fill(null)
-              .map((_, index) => (
-                <CommentItem key={index} />
-              ))}
+            <CommentItem />
           </div>
         </div>
       </div>

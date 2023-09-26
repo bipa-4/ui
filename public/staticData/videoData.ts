@@ -8,10 +8,10 @@ const videoItem: VideoDetailType = {
   channelName: '채널이름뭐로하지',
   readCnt: 100,
   createAt: '2021-08-24',
-  description:
+  content:
     '추석을 현명하게 보내는 방법을 알려드립니다. 여러가지 방법이 있을겁니다. 아무래도 최고는 집밖에 안나가는거겠죠? 그럼 이만~',
   videoUrl: 'https://www.youtube.com/embed/7C2z4GqqS5E',
-  recommendedVideoList: [
+  recommendedList: [
     {
       videoId: 1,
       thumbnail: '/images/crying.jpg',

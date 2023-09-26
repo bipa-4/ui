@@ -1,15 +1,15 @@
-///* eslint-disable react/display-name */
-//import React, { CSSProperties, useRef, useEffect, useState } from 'react';
-//import VideoJsPlayerOptions from 'video.js';
-//import useVideo from '@/hooks/useVideo';
+/// * eslint-disable react/display-name */
+// import React, { CSSProperties, useRef, useEffect, useState } from 'react';
+// import VideoJsPlayerOptions from 'video.js';
+// import useVideo from '@/hooks/useVideo';
 
-//interface VideoProps {
+// interface VideoProps {
 //  sources: VideoJsPlayerOptions['sources'];
 //  styles?: CSSProperties;
 //  videoOptions?: Omit<VideoJsPlayerOptions, 'sources'>;
-//}
+// }
 
-//const Video = React.forwardRef<HTMLDivElement | null, VideoProps>(({ sources, styles, videoOptions }, refs) => {
+// const Video = React.forwardRef<HTMLDivElement | null, VideoProps>(({ sources, styles, videoOptions }, refs) => {
 //  const videoRef = useRef<HTMLDivElement | null>(null);
 //  const [target, setTarget] = useState<HTMLDivElement | null>(videoRef.current);
 //  const { player, playerReset } = useVideo({
@@ -33,6 +33,6 @@
 //      <div ref={videoRef} style={styles} />
 //    </div>
 //  );
-//});
+// });
 
-//export default Video;
+// export default Video;
