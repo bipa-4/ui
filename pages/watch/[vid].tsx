@@ -15,7 +15,7 @@ type Props = {
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
   const { vid } = context.query;
-  const res = await axios.get(`${BASE_URL}/video/detail/${vid}`);
+  const res = await axios.get(`${BASE_URL}/read/video/detail/${vid}`);
   const video = res.data;
   return {
     props: {

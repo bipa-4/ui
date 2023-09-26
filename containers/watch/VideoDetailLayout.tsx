@@ -1,11 +1,9 @@
 import CommentInput from '@/components/comment/CommentInput';
 import CommentItem from '@/components/comment/CommentItem';
-import Avatar from '@/components/ui/Avatar';
 import VideoDetailInfo from '@/components/video/VideoDetailInfo';
 import VideoSummaryItemRow from '@/components/video/VideoSummaryItemRow';
 import { VideoDetailType } from '@/types/videoType';
-import Image from 'next/image';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 interface VideoDetailLayoutProps {
   video: VideoDetailType;
@@ -13,6 +11,9 @@ interface VideoDetailLayoutProps {
 
 export default function VideoDetailLayout({ video }: VideoDetailLayoutProps) {
   const [like, setLike] = useState(false);
+  console.log(video.thumbnail);
+
+  // 서버사이드렌더링 이후 ReactPlayer의 하이드레이션 에러 방지를 위함
 
   const handleLike = () => {
     setLike(!like);
@@ -24,9 +25,7 @@ export default function VideoDetailLayout({ video }: VideoDetailLayoutProps) {
     <div className='w-full flex'>
       <div className='grow my-4'>
         <div className='m-3/5 relative overflow-hidden' style={{ paddingTop: '56.25%' }}>
-          <div className='absolute top-0 left-0 right-0 bottom-0 max-w-full border rounded-md h-auto w-full text-center'>
-            비디오
-          </div>
+          <div className='absolute top-0 left-0 right-0 bottom-0 max-w-full border rounded-md h-auto w-full text-center'></div>
         </div>
 
         <VideoDetailInfo
