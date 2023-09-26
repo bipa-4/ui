@@ -2,9 +2,10 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { FiMenu } from 'react-icons/fi';
 import LoginModal from '@/containers/main/LoginModal';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import crying from '../../public/images/crying.jpg';
+import axios from 'axios';
+import crying from '@/public/images/crying.jpg';
 
 export default function Header() {
   const router = useRouter();
@@ -28,6 +29,17 @@ export default function Header() {
     const authUrl = `https://accounts.google.com/o/oauth2/auth?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=code&scope=https://www.googleapis.com/auth/userinfo.email`;
     router.push(authUrl);
   };
+
+  useEffect(() => {
+    const checkLogin = async () => {
+      const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+      const res = await axios.get(`${BASE_URL}/account/check`, {
+        withCredentials: true,
+      });
+      console.log(res);
+    };
+    checkLogin();
+  }, []);
 
   return (
     <div className='w-full'>

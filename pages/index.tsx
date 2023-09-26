@@ -10,7 +10,7 @@ type Props = {
 // getServerSidePorps를 호출하면 이 페이지는 요청대마다 다시 렌더링 된다.
 export async function getServerSideProps() {
   const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
-  const res = await axios.get(`${BASE_URL}/video/top10`);
+  const res = await axios.get(`${BASE_URL}/read/video/top10`);
   const topVideoList = res.data;
   return {
     props: {
