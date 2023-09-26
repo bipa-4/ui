@@ -58,6 +58,7 @@ export default function Header() {
   };
 
   console.log('헤더에서 조회 - 로그인여부', isLogin);
+  console.log(user);
 
   useEffect(() => {
     if (isLogin) {
