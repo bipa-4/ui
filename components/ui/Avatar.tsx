@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import crying from '../../public/images/crying.jpg';
+import defaultUserImage from '@/public/images/user.png';
 
 type Props = {
   width: number | 'full';
@@ -20,7 +20,7 @@ export default function Avatar({ width, marginX, nickname, imgUrl }: Props) {
   return (
     <div className={`avatar items-center mx-${marginX}`}>
       <div className={`w-${width} h-${width} rounded-full`}>
-        <Image src={imgUrl || crying} alt='cat' width={500} height={500} />
+        <Image src={imgUrl || defaultUserImage} alt='cat' width={500} height={500} />
       </div>
       {nickname && <p className='px-2'>{nickname}</p>}
     </div>
@@ -29,5 +29,5 @@ export default function Avatar({ width, marginX, nickname, imgUrl }: Props) {
 
 Avatar.defaultProps = {
   nickname: '',
-  imgUrl: crying,
+  imgUrl: defaultUserImage,
 };

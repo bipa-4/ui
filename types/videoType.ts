@@ -1,7 +1,7 @@
 export default interface VideoType {
   id?: number;
   title: string;
-  description: string;
+  content: string;
   videoUrl: string;
   thumbnailUrl: string;
   viewCount?: number;
@@ -20,7 +20,7 @@ export interface VideoCardType {
 }
 
 export interface VideoDetailType extends VideoCardType {
-  description: string;
+  content: string;
   videoUrl: string;
-  recommendedVideoList: Array<VideoCardType>;
+  recommendedList: Array<VideoCardType>;
 }
