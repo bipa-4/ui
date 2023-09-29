@@ -1,5 +1,5 @@
 import React, { CSSProperties, useRef, useEffect, useState } from 'react';
-import useVideo from '@/hooks/useVideo';
+import useVideo from '@/hooks/useVideoJs';
 
 interface VideoProps {
   sources: any['sources'];
