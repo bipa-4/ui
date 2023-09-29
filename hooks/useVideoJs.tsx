@@ -54,12 +54,14 @@ const useVideo = ({ options, videoTarget, plugins = [] }: VideoProps) => {
     }
   }, [options, videoTarget]);
 
-  useEffect(() => 
-    // player clean up
-     () => {
-      playerCleanUp();
-    }
-  , [playerRef]);
+  useEffect(
+    () =>
+      // player clean up
+      () => {
+        playerCleanUp();
+      },
+    [playerRef],
+  );
 
   return {
     player: playerRef.current,
