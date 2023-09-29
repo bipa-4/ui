@@ -1,4 +1,4 @@
-import React, { CSSProperties, useRef, useEffect, useState } from 'react';
+import { CSSProperties, useRef, useEffect, useState, forwardRef } from 'react';
 import useVideo from '@/hooks/useVideoJs';
 
 interface VideoProps {
@@ -7,7 +7,7 @@ interface VideoProps {
   videoOptions?: Omit<any, 'sources'>;
 }
 
-const Video = React.forwardRef<HTMLDivElement | null, VideoProps>(({ sources, styles, videoOptions }, refs) => {
+const Video = forwardRef<HTMLDivElement | null, VideoProps>(({ sources, styles, videoOptions }, refs) => {
   const videoRef = useRef<HTMLDivElement | null>(null);
   const [target, setTarget] = useState<HTMLDivElement | null>(videoRef.current);
   const { player, playerReset } = useVideo({
@@ -33,4 +33,11 @@ const Video = React.forwardRef<HTMLDivElement | null, VideoProps>(({ sources, st
   );
 });
 
+Video.displayName = 'Video';
+
 export default Video;
+
+Video.defaultProps = {
+  styles: undefined,
+  videoOptions: undefined,
+};

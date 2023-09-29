@@ -1,8 +1,8 @@
 import React from 'react';
 import Image from 'next/image';
-import Avatar from '../ui/Avatar';
 import { useRouter } from 'next/router';
 import useVideoData from '@/hooks/useVideoData';
+import Avatar from '../ui/Avatar';
 
 type Props = {
   handleLike: () => void;

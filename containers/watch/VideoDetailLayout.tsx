@@ -2,15 +2,15 @@ import CommentInput from '@/components/comment/CommentInput';
 import CommentItem from '@/components/comment/CommentItem';
 import VideoDetailInfo from '@/components/video/VideoDetailInfo';
 import VideoSummaryItemRow from '@/components/video/VideoSummaryItemRow';
-import { VideoCardType, VideoDetailType } from '@/types/videoType';
+import { VideoCardType } from '@/types/videoType';
 import { useState } from 'react';
 import VideoPlayer from '@/components/video/VideoPlayer';
 import useVideoData from '@/hooks/useVideoData';
 import { useRouter } from 'next/router';
 
-interface VideoDetailLayoutProps {
-  video: VideoDetailType;
-}
+// interface VideoDetailLayoutProps {
+//  video: VideoDetailType;
+// }
 
 export default function VideoDetailLayout() {
   const router = useRouter();
@@ -39,11 +39,7 @@ export default function VideoDetailLayout() {
       <div className='grow my-4'>
         <div className='m-3/5 relative overflow-hidden' style={{ paddingTop: '56.25%' }}>
           <div className='absolute top-0 left-0 right-0 bottom-0 max-w-full border rounded-md h-auto w-full text-center'>
-            <VideoPlayer
-              sources={data.videoUrl}
-              styles={videoArgs.styles}
-              videoOptions={videoArgs.videoOptions}
-            ></VideoPlayer>
+            <VideoPlayer sources={data.videoUrl} styles={videoArgs.styles} videoOptions={videoArgs.videoOptions} />
           </div>
         </div>
 
