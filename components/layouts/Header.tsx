@@ -74,7 +74,7 @@ export default function Header() {
       };
       checkLogin();
     }
-  }, []);
+  }, [isLogin]);
 
   return (
     <div className='w-full'>

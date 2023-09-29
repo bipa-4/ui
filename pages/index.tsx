@@ -1,26 +1,37 @@
 import Head from 'next/head';
 import { VideoCardType } from '@/types/videoType';
 import axios from 'axios';
+import { useEffect, useState } from 'react';
 import MainLayout from '../containers/main/MainLayout';
 
-type Props = {
-  topVideoList: VideoCardType[];
-};
+// type Props = {
+//  topVideoList: VideoCardType[];
+// };
 
 // getServerSidePorps를 호출하면 이 페이지는 요청대마다 다시 렌더링 된다.
-export async function getServerSideProps() {
-  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
-  const res = await axios.get(`${BASE_URL}/read/video/top10`);
-  const topVideoList = res.data;
-  return {
-    props: {
-      topVideoList,
-    },
-  };
-}
+// export async function getServerSideProps() {
+//  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+//  const res = await axios.get(`${BASE_URL}/read/video/top10`);
+//  const topVideoList = res.data;
+//  return {
+//    props: {
+//      topVideoList,
+//    },
+//  };
+// }
+// { topVideoList }: Props
 
-export default function Home({ topVideoList }: Props) {
-  console.log(`Server started on POST ${process.env.PORT}....`);
+export default function Home() {
+  const [topVideoList, setTopVideoList] = useState<VideoCardType[]>([]);
+  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+  useEffect(() => {
+    const fetchData = async () => {
+      const res = await axios.get(`${BASE_URL}/read/video/top10`);
+      setTopVideoList(res.data);
+    };
+    fetchData();
+  }, []);
+
   console.log('받아온 데이터: ', topVideoList);
   return (
     <>

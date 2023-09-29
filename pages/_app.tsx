@@ -2,6 +2,7 @@ import { AppProps } from 'next/app';
 import '../styles/global.css';
 import { Noto_Sans_KR as notoSansKr } from 'next/font/google';
 import Layout from '@/components/layouts/Layout';
+import { Provider } from 'jotai';
 
 const inter = notoSansKr({
   subsets: ['latin'],
@@ -10,10 +11,12 @@ const inter = notoSansKr({
 
 export default function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <main className={inter.className}>
-      <Layout>
-        <Component {...pageProps} />
-      </Layout>
-    </main>
+    <Provider>
+      <main className={inter.className}>
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
+      </main>
+    </Provider>
   );
 }
