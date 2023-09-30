@@ -7,7 +7,7 @@ interface VideoListType {
   videoList: Array<VideoCardType>;
 }
 
-export default function VideoContainer({ title, videoList }: VideoListType) {
+export default function VideoSummaryContainer({ title, videoList }: VideoListType) {
   return (
     <div>
       <div className='m-5'>{title && <Title text={`${title}`} />}</div>
@@ -30,6 +30,6 @@ export default function VideoContainer({ title, videoList }: VideoListType) {
   );
 }
 
-VideoContainer.defaultProps = {
+VideoSummaryContainer.defaultProps = {
   title: '',
 };

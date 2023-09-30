@@ -1,12 +1,13 @@
 import Image from 'next/image';
 import { VideoCardType } from '@/types/videoType';
 import { useRouter } from 'next/router';
+import React from 'react';
 
 interface VideoSummaryItemRowProps {
   videoSummaryItem: VideoCardType;
 }
 
-export default function VideoSummaryItemRow({ videoSummaryItem }: VideoSummaryItemRowProps) {
+function VideoSummaryItemRow({ videoSummaryItem }: VideoSummaryItemRowProps) {
   const router = useRouter();
   const { videoId, videoTitle, channelName, thumbnail, readCnt, createAt } = videoSummaryItem;
 
@@ -36,3 +37,5 @@ export default function VideoSummaryItemRow({ videoSummaryItem }: VideoSummaryIt
     </div>
   );
 }
+
+export default React.memo(VideoSummaryItemRow);
