@@ -1,6 +1,6 @@
 import Avatar from '@/components/ui/Avatar';
 import Title from '@/components/ui/Title';
-import VideoContainer from '@/components/video/VideoSummaryContainer';
+import VideoContainer from '@/components/video/VideoTop10Container';
 import { BiSearch } from 'react-icons/bi';
 import { channelData } from '@/public/staticData/channelData';
 

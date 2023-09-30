@@ -48,7 +48,8 @@
     "jsx-a11y/no-static-element-interactions": "off",
     "jsx-a11y/label-has-associated-control": "off",
     "jsx-a11y/media-has-caption": "off",
-    "no-multi-assign": "off"
+    "no-multi-assign": "off",
+    "no-plusplus": "off"
   },
   "globals": {
     "React": "writable"
