@@ -24,9 +24,9 @@ export default function InfiniteVideoContainer({ title, videoList, dataFetcher, 
           className='m-3 py-5 grid grid-cols-5 gap-3 max-xl:grid-cols-3 max-md:grid-cols-2 max-sm:grid-cols-1'
         >
           {videoList &&
-            videoList.map((item) => (
+            videoList.map((item, index) => (
               <VideoSummaryItemCol
-                key={item.videoId}
+                key={index}
                 videoId={item.videoId}
                 thumbnail={item.thumbnail}
                 videoTitle={item.videoTitle}

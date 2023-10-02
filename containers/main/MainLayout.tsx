@@ -24,7 +24,6 @@ export default function MainLayout() {
   }
 
   const fetchMoreData = () => {
-    console.log(page);
     // todo : api호출
     setPage((prev) => prev + 1);
     // const { data } = useSWR(`${BASE_URL}/read/video/latest?page=${page}&pageSize=${PAGE_SIZE}`, fetcher);
@@ -40,7 +39,7 @@ export default function MainLayout() {
         createAt: '2021-08-01',
       });
     }
-    setVideoList([...videoList, ...data]);
+    setVideoList([...videoList, ...moreData]);
 
     if (videoList.length + data.length >= 100) {
       setHasMore(false);
