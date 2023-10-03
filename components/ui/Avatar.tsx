@@ -18,11 +18,13 @@ type Props = {
  */
 export default function Avatar({ width, marginX, nickname, imgUrl }: Props) {
   return (
-    <div className={`avatar items-center mx-${marginX}`}>
-      <div className={`w-${width} h-${width} rounded-full`}>
-        <Image src={imgUrl || defaultUserImage} alt='cat' width={500} height={500} />
+    <div className='flex'>
+      <div className={`avatar items-center mx-${marginX}`}>
+        <div className={`w-${width} h-${width} rounded-full basis-${width}`}>
+          <Image src={imgUrl || defaultUserImage} alt='cat' width={500} height={500} />
+        </div>
       </div>
-      {nickname && <p className='px-2'>{nickname}</p>}
+      <p className='w-4/5 px-1 line-clamp-1'>{nickname && nickname}</p>
     </div>
   );
 }
