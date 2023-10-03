@@ -26,7 +26,7 @@ export default function MainLayout() {
   const fetchMoreData = () => {
     // todo : api호출
     setPage((prev) => prev + 1);
-    console.log(page)
+    console.log(page);
     // const { data } = useSWR(`${BASE_URL}/read/video/latest?page=${page}&pageSize=${PAGE_SIZE}`, fetcher);
     const moreData: VideoCardType[] = [];
     for (let i = 1; i <= 20; i++) {
