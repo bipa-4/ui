@@ -1,6 +1,6 @@
 import useSWR from 'swr';
 import fetcher from '../utils/axiosFetcher';
-import { VideoDetailType } from "../types/videoType";
+import { VideoDetailType } from '../types/videoType';
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
