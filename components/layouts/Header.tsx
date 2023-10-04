@@ -25,7 +25,7 @@ export default function Header() {
   const router = useRouter();
   const [isLogin, setIsLogin] = useAtom(userAtom);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [user, setUser] = useState<userHeader>({
+  const [user, setUser] = useState<userHeader | null>({
     accountId: 0,
     email: '',
     joinDate: 0,
@@ -62,20 +62,24 @@ export default function Header() {
   console.log(user);
 
   useEffect(() => {
-    if (isLogin) {
-      const checkLogin = async () => {
-        const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
-        const res = await axios
-          .get(`${BASE_URL}/account/check`, {
-            withCredentials: true,
-          })
-          .catch((err) => console.log(err));
-        console.log('유저정보: ', res);
-        setUser(res?.data);
-      };
-      checkLogin();
-    }
-  }, [isLogin]);
+    const checkLogin = () => {
+      const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+      axios
+        .get(`${BASE_URL}/account/check`, {
+          withCredentials: true,
+        })
+        .then((res) => {
+          console.log(res);
+          setIsLogin(true);
+          setUser(res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+          setUser(null);
+        });
+    };
+    checkLogin();
+  }, []);
 
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault(); // 폼 제출 기본 동작 방지
