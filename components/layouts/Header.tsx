@@ -53,9 +53,12 @@ export default function Header() {
     router.push(authUrl);
   };
 
-  const handleLogout = () => {
-    setIsLogin(false);
-    alert('로그아웃되었습니다.');
+  const handleLogout = async () => {
+    const res = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/account/logout`, {}, { withCredentials: true });
+    if (res.data) {
+      setIsLogin(false);
+      alert('로그아웃되었습니다.');
+    }
   };
 
   console.log('헤더에서 조회 - 로그인여부', isLogin);
