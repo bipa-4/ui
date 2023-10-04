@@ -7,6 +7,7 @@ import { useRouter } from 'next/router';
 import axios from 'axios';
 import crying from '@/public/images/crying.jpg';
 import { atom, useAtom } from 'jotai';
+import { BiSearch } from 'react-icons/bi';
 
 type userHeader = {
   accountId: number;
@@ -76,6 +77,12 @@ export default function Header() {
     }
   }, [isLogin]);
 
+  const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault(); // 폼 제출 기본 동작 방지
+    const searchTerm = (e.target as HTMLFormElement).search.value;
+    router.push(`/search?keyword=${searchTerm}`);
+  };
+
   return (
     <div className='w-full'>
       <div className='navbar bg-base-100 justify-between shadow-md px-40 max-xl:px-5'>
@@ -90,15 +97,22 @@ export default function Header() {
             StreamWave
           </Link>
         </div>
-        <div className='grow w-3/5'>
-          <div className='form-control grow'>
-            <input
-              type='text'
-              placeholder='Search'
-              className=' placeholder:italic input input-bordered md:w-4/5 m-auto max-xl:hidden'
-            />
-          </div>
+        <div className='grow w-3/5 justify-center m-auto'>
+          <form className='w-4/5 flex' onSubmit={handleSearch}>
+            <div className='grow relative flex items-center justify-center'>
+              <input
+                type='text'
+                name='search'
+                placeholder='영상 검색'
+                className='input input-bordered md:w-4/5 max-xl:hidden pr-10 rounded-r-none' // 오른쪽 패딩 추가
+              />
+              <button type='submit' className='btn btn-secondary rounded-l-none'>
+                <BiSearch className='w-6 h-6 m-2' />
+              </button>
+            </div>
+          </form>
         </div>
+
         <div className='flex justify-end w-1/5'>
           {isLogin ? (
             <>

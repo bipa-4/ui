@@ -24,7 +24,7 @@ export default function UploadLayout() {
     videoUrl: '',
     thumbnailUrl: '',
     isPublic: true,
-    category: [],
+    category: 0,
   });
   console.log(video);
 
@@ -87,11 +87,13 @@ export default function UploadLayout() {
 
   const handleCategoryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const category = e.target.value;
-    if (e.target.checked) {
-      setVideo((prev) => ({ ...prev, category: [...prev.category, category] }));
-    } else {
-      setVideo((prev) => ({ ...prev, category: prev.category.filter((c) => c !== category) }));
-    }
+    setVideo((prev) => ({ ...prev, category: 1 }));
+    //if (e.target.checked) {
+    //  setVideo((prev) => ({ ...prev, category: category}));
+    //}
+    //else {
+    //  setVideo((prev) => ({ ...prev, category: prev.category.filter((c) => c !== category) }));
+    //}
   };
 
   const getToday = () => {
@@ -113,6 +115,13 @@ export default function UploadLayout() {
     setThumbnailUploadUrl(res.data.imageUrl);
   };
 
+  const postVideoData = async () => {
+    axios
+      .post(`${process.env.NEXT_PUBLIC_BASE_URL}/video/upload`, video)
+      .then((res) => console.log(res.data))
+      .catch((err) => console.log(err));
+  };
+
   const upload = async () => {
     if (!video.title) {
       alert('제목을 입력해주세요.');
@@ -124,10 +133,11 @@ export default function UploadLayout() {
     }
 
     if (videoFile && thumbnailFile) {
-      getPresignedUrl().then(() => s3Upload(videoUploadUrl, videoFile, thumbnailUploadUrl, thumbnailFile));
+      getPresignedUrl()
+        .then(() => s3Upload(videoUploadUrl, videoFile, thumbnailUploadUrl, thumbnailFile))
+        .then(() => postVideoData());
     } else {
       alert('파일을 선택해주세요.');
-      return null;
     }
   };
 
@@ -199,7 +209,7 @@ export default function UploadLayout() {
             <label className='mr-4 label cursor-pointer inline-flex justify-start'>
               <input
                 type='checkbox'
-                value={category.name}
+                value={category.id}
                 onChange={handleCategoryChange}
                 className='checkbox checkbox-secondary checkbox-sm mx-2'
               />

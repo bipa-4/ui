@@ -7,7 +7,7 @@ export default interface VideoType {
   viewCount?: number;
   createDate?: string;
   isPublic: boolean;
-  category: string[];
+  category: number;
 }
 
 export interface VideoCardType {
