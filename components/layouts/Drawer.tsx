@@ -2,6 +2,7 @@ import React, { ReactNode, useState } from 'react';
 import Link from 'next/link';
 import Footer from './Footer';
 import Header from './Header';
+import useCategoryList from '@/hooks/useCategoryList';
 
 type LayoutProps = {
   children: ReactNode;
@@ -40,6 +41,7 @@ const category = [
 
 export default function Drawer({ children }: LayoutProps) {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const { categoryList } = useCategoryList();
 
   const toggleDrawer = () => {
     setIsDrawerOpen(!isDrawerOpen);
@@ -73,9 +75,9 @@ export default function Drawer({ children }: LayoutProps) {
             <input type='checkbox' />
             <div className='collapse-title text-xl py-3 w-56'>카테고리</div>
             <ul className='menu collapse-content bg-base-200 w-56 rounded-box '>
-              {category.map((item) => (
-                <li key={item.id}>
-                  <Link href={item.link} onClick={toggleDrawer}>
+              {categoryList?.map((item, idx) => (
+                <li key={item.id || idx}>
+                  <Link href={`/category/${item.path}`} onClick={toggleDrawer}>
                     {item.name}
                   </Link>
                 </li>

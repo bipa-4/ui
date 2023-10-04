@@ -3,11 +3,15 @@ import React, { useState } from 'react';
 import VideoSummaryItemCol from '@/components/video/VideoSummaryItemCol';
 import axios from 'axios';
 import VideoType from '@/types/videoType';
+import useCategoryList from '@/hooks/useCategoryList';
 
 export default function UploadLayout() {
+  // 카테고리 목록
+  const { categoryList } = useCategoryList();
+
   // s3에 업로드할 파일
-  const [videoFile, setVideoFile] = useState<File | null>(null);
-  const [thumbnailFile, setThumbnailFile] = useState<File | null>(null);
+  const [videoFile, setVideoFile] = useState<File>();
+  const [thumbnailFile, setThumbnailFile] = useState<File>();
 
   // 미리보기 url
   const [videoPreviewUrl, setVideoPreviewUrl] = useState<string>();
@@ -20,9 +24,12 @@ export default function UploadLayout() {
     videoUrl: '',
     thumbnailUrl: '',
     isPublic: true,
+    category: [],
   });
+  console.log(video);
 
-  const url = '';
+  const [videoUploadUrl, setVideoUploadUrl] = useState('');
+  const [thumbnailUploadUrl, setThumbnailUploadUrl] = useState('');
 
   const handleVideoFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -42,24 +49,27 @@ export default function UploadLayout() {
     }
   };
 
-  const handleUpload = async () => {
-    const s3Upload = async (presignedUrl: string, uploadFile: File) => {
-      const res = await axios({
-        method: 'put',
-        data: uploadFile,
-        url: presignedUrl,
-        headers: {
-          'Content-Type': 'video/mp4',
-        },
-      });
+  const s3Upload = async (videoUrl: string, uploadVideoFile: File, imageUrl: string, uploadImageFile: File) => {
+    const videoRes = await axios({
+      method: 'put',
+      data: uploadVideoFile,
+      url: videoUrl,
+      headers: {
+        'Content-Type': 'video/mp4',
+      },
+    });
 
-      if (res.status === 200) {
-        console.log('success');
-      }
-    };
+    const thumbnailRes = await axios({
+      method: 'put',
+      data: uploadImageFile,
+      url: imageUrl,
+      headers: {
+        'Content-Type': 'image/png',
+      },
+    });
 
-    if (videoFile && thumbnailFile) {
-      await s3Upload(url, videoFile);
+    if (videoRes.status === 200 && thumbnailRes.status === 200) {
+      console.log('success');
     }
   };
 
@@ -72,39 +82,91 @@ export default function UploadLayout() {
   };
 
   const handleDescription = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setVideo((prev) => ({ ...prev, description: e.target.value }));
+    setVideo((prev) => ({ ...prev, content: e.target.value }));
+  };
+
+  const handleCategoryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const category = e.target.value;
+    if (e.target.checked) {
+      setVideo((prev) => ({ ...prev, category: [...prev.category, category] }));
+    } else {
+      setVideo((prev) => ({ ...prev, category: prev.category.filter((c) => c !== category) }));
+    }
+  };
+
+  const getToday = () => {
+    const date = new Date();
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+
+    return `${year}-${month}-${day}`;
+  };
+
+  // presigned url 받아오기
+  const getPresignedUrl = async () => {
+    const res = await axios.post(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/video/presigned?videoName=${videoFile?.name}&imageName=${thumbnailFile?.name}`,
+    );
+    console.log(res.data);
+    setVideoUploadUrl(res.data.videoUrl);
+    setThumbnailUploadUrl(res.data.imageUrl);
+  };
+
+  const upload = async () => {
+    if (!video.title) {
+      alert('제목을 입력해주세요.');
+      return null;
+    }
+    if (!video.content) {
+      alert('설명을 입력해주세요.');
+      return null;
+    }
+
+    if (videoFile && thumbnailFile) {
+      getPresignedUrl().then(() => s3Upload(videoUploadUrl, videoFile, thumbnailUploadUrl, thumbnailFile));
+    } else {
+      alert('파일을 선택해주세요.');
+      return null;
+    }
   };
 
   return (
-    <div className='my-14 px-5 flex'>
-      <div className='w-3/4 px-5'>
+    <div className='my-14 px-5 flex max-lg:flex-col min-h-screen'>
+      <div className='w-3/4 px-5 max-lg:w-full'>
         <Title text='영상 업로드' />
-        <div className='my-4'>
+        <div className='py-5'>
+          <label htmlFor='videoFile' className='block font-medium mb-2'>
+            동영상 파일
+          </label>
           <input
             type='file'
             id='videoFile'
             accept='video/*'
             onChange={handleVideoFileChange}
-            className='border rounded-lg px-3 py-2 w-full focus:outline-none focus:ring focus:border-blue-300'
+            className='file-input file-input-bordered w-full max-w-lg'
           />
         </div>
         {videoPreviewUrl && (
-          <div className='mb-8 w-3/5'>
+          <div className='mb-8 w-3/5 '>
             <label className='block font-medium mb-2'>영상 미리보기</label>
             <video src={videoPreviewUrl} controls className='w-full' />
           </div>
         )}
-        <label htmlFor='thumbnailFile' className='block font-medium mb-2'>
-          썸네일 이미지
-        </label>
-        <input
-          type='file'
-          id='thumbnailFile'
-          accept='image/*'
-          onChange={handleThumbnailFileChange}
-          className='border rounded-lg px-3 py-2 w-full focus:outline-none focus:ring focus:border-blue-300 mb-8'
-        />
-        <div className='mb-4'>
+        <div className='pb-8'>
+          <label htmlFor='thumbnailFile' className='block font-medium mb-2'>
+            썸네일 이미지
+          </label>
+          <input
+            type='file'
+            id='thumbnailFile'
+            accept='image/*'
+            onChange={handleThumbnailFileChange}
+            className='file-input file-input-bordered w-full max-w-lg'
+          />
+        </div>
+
+        <div className='pb-8'>
           <label htmlFor='videoTitle' className='block font-medium mb-2'>
             영상 제목(50자)
           </label>
@@ -114,10 +176,10 @@ export default function UploadLayout() {
             placeholder='영상 제목을 입력하세요.'
             value={video.title}
             onChange={handleTitle}
-            className='border rounded-lg px-3 py-2 w-full focus:outline-none focus:ring focus:border-blue-300'
+            className='input input-bordered w-full'
           />
         </div>
-        <div className='mb-4'>
+        <div className='pb-8'>
           <label htmlFor='videoDescription' className='block font-medium mb-2'>
             영상 설명
           </label>
@@ -126,25 +188,53 @@ export default function UploadLayout() {
             placeholder='영상 설명을 입력하세요.'
             value={video.content}
             onChange={handleDescription}
-            className='border rounded-lg px-3 py-2 w-full h-32 resize-none focus:outline-none focus:ring focus:border-blue-300'
+            className='textarea textarea-bordered w-full h-32 resize-none '
           />
+        </div>
+        <div className='mb-4'>
+          <label htmlFor='videoDescription' className='block font-medium mb-2'>
+            카테고리
+          </label>
+          {categoryList?.map((category) => (
+            <label className='mr-4 label cursor-pointer inline-flex justify-start'>
+              <input
+                type='checkbox'
+                value={category.name}
+                onChange={handleCategoryChange}
+                className='checkbox checkbox-secondary checkbox-sm mx-2'
+              />
+              <span className='label-text'>{category.name}</span>
+            </label>
+          ))}
         </div>
         <div className='mb-4'>
           <label className='block font-medium mb-2'>공개 여부</label>
           <div>
-            <label className='mr-4'>
-              <input type='radio' value='public' checked={video.isPublic} onChange={handleVideoPrivacyChange} />
+            <label className='mr-4 label cursor-pointer inline-flex justify-start'>
+              <input
+                type='radio'
+                value='public'
+                checked={video.isPublic}
+                onChange={handleVideoPrivacyChange}
+                className='radio radio-secondary radio-sm mx-2'
+              />
               공개
             </label>
-            <label>
-              <input type='radio' value='private' checked={!video.isPublic} onChange={handleVideoPrivacyChange} />
+            <label className='mr-4 label cursor-pointer inline-flex justify-start'>
+              <input
+                type='radio'
+                value='private'
+                checked={!video.isPublic}
+                onChange={handleVideoPrivacyChange}
+                className='radio radio-secondary radio-sm mx-2'
+              />
               비공개
             </label>
           </div>
         </div>
       </div>
 
-      <div className='mb-4 grow px-5 w-1/4'>
+      <div className='mb-4 grow px-5 w-1/4 max-lg:w-full'>
         <Title text='미리보기' />
         <div className='mt-5'>
           <VideoSummaryItemCol
@@ -153,13 +243,13 @@ export default function UploadLayout() {
             channelProfileUrl=''
             channelName=''
             readCnt={0}
-            createAt='9999-99-99'
+            createAt={getToday()}
           />
         </div>
 
         <div className='mt-5 text-center flex gap-2 justify-center'>
           <div className='btn flex-1 h-14'>취소</div>
-          <div onClick={handleUpload} className='btn btn-primary flex-1 h-14'>
+          <div onClick={upload} className='btn btn-primary flex-1 h-14'>
             업로드
           </div>
         </div>
