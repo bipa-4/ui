@@ -86,14 +86,14 @@ export default function UploadLayout() {
   };
 
   const handleCategoryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const category = e.target.value;
+    // const category = e.target.value;
     setVideo((prev) => ({ ...prev, category: 1 }));
-    //if (e.target.checked) {
+    // if (e.target.checked) {
     //  setVideo((prev) => ({ ...prev, category: category}));
-    //}
-    //else {
+    // }
+    // else {
     //  setVideo((prev) => ({ ...prev, category: prev.category.filter((c) => c !== category) }));
-    //}
+    // }
   };
 
   const getToday = () => {
@@ -122,14 +122,14 @@ export default function UploadLayout() {
       .catch((err) => console.log(err));
   };
 
-  const upload = async () => {
+  const upload = () => {
     if (!video.title) {
       alert('제목을 입력해주세요.');
-      return null;
+      return;
     }
     if (!video.content) {
       alert('설명을 입력해주세요.');
-      return null;
+      return;
     }
 
     if (videoFile && thumbnailFile) {
@@ -206,7 +206,7 @@ export default function UploadLayout() {
             카테고리
           </label>
           {categoryList?.map((category) => (
-            <label className='mr-4 label cursor-pointer inline-flex justify-start'>
+            <label className='mr-4 label cursor-pointer inline-flex justify-start' key={category.id}>
               <input
                 type='checkbox'
                 value={category.id}

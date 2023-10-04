@@ -1,8 +1,8 @@
 import React, { ReactNode, useState } from 'react';
 import Link from 'next/link';
+import useCategoryList from '@/hooks/useCategoryList';
 import Footer from './Footer';
 import Header from './Header';
-import useCategoryList from '@/hooks/useCategoryList';
 
 type LayoutProps = {
   children: ReactNode;
