@@ -1,14 +1,12 @@
 import { VideoCardType } from './videoType';
 
-export interface channelSummaryType {
-  id: number;
-  title: string;
-  channelImgUrl: string;
-  description: string;
+export interface ChannelSummaryType {
+  channelId: number;
+  name: string;
+  content: string;
+  profileUrl: string;
 }
 
-export interface channelType extends channelSummaryType {
+export interface ChannelType extends ChannelSummaryType {
   orderedVideoList: Array<VideoCardType>;
 }
-
-export interface channelSummaryListType extends Array<channelSummaryType> {}

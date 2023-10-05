@@ -1,16 +1,16 @@
-import { channelSummaryType } from '@/types/channelType';
+import { ChannelSummaryType } from '@/types/channelType';
 import { useRouter } from 'next/router';
 import Avatar from '../ui/Avatar';
 
 type props = {
-  channelItem: channelSummaryType;
+  channelItem: ChannelSummaryType;
   rank?: number;
   size?: 'large' | 'small';
 };
 
 /**
  * 채널 요약 정보를 보여주는 컴포넌트
- * @param {channelSummaryType} channelItem 채널 정보(단건)
+ * @param {ChannelSummaryType} channelItem 채널 정보(단건)
  * @param {number} rank 채널 순위
  * @param {'large' | 'small'} size 크기(large: 큰 크기, small: 작은 크기)
  * @returns {JSX.Element} 채널 요약 정보 컴포넌트
@@ -23,7 +23,7 @@ export default function ChannelSummaryItem({ channelItem, rank, size }: props) {
   const router = useRouter();
 
   const handleItemClick = () => {
-    router.push(`/channel/${channelItem.id}`);
+    router.push(`/channel/${channelItem.channelId}`);
   };
 
   return (
@@ -33,20 +33,20 @@ export default function ChannelSummaryItem({ channelItem, rank, size }: props) {
 
         {size === 'small' && (
           <>
-            <Avatar width={11} marginX={2} />
+            <Avatar width={11} marginX={2} imgUrl={channelItem.profileUrl} />
             <div className='grow'>
-              <div className='font-bold text-sm'>{channelItem.title}</div>
-              <p className='flex-wrap text-xs overflow-hidden line-clamp-2'>{channelItem.description}</p>
+              <div className='font-bold text-sm'>{channelItem.name}</div>
+              <p className='flex-wrap text-xs overflow-hidden line-clamp-2'>{channelItem.content}</p>
             </div>
           </>
         )}
 
         {size === 'large' && (
           <>
-            <Avatar width={20} marginX={5} />
+            <Avatar width={20} marginX={5} imgUrl={channelItem.profileUrl} />
             <div className='grow'>
-              <div className='font-bold text-base'>{channelItem.title}</div>
-              <div className='flex-wrap text-sm overflow-hidden'>{channelItem.description}</div>
+              <div className='font-bold text-base'>{channelItem.name}</div>
+              <div className='flex-wrap text-sm overflow-hidden'>{channelItem.content}</div>
             </div>
           </>
         )}

@@ -1,4 +1,3 @@
-import channelDataList from '@/public/staticData/channelData';
 import Head from 'next/head';
 import AllChannelsContainer from '../components/channel/AllChannelsContainer';
 
@@ -13,7 +12,7 @@ export default function channels() {
         <meta property='og:image' content='/images/streamWave.png' />
       </Head>
       <div className='h-screen mx-48 max-lg:mx-auto'>
-        <AllChannelsContainer channelList={channelDataList} />
+        <AllChannelsContainer />
       </div>
     </>
   );
