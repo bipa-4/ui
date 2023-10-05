@@ -3,16 +3,10 @@ import Title from '@/components/ui/Title';
 import VideoContainer from '@/components/video/VideoTop10Container';
 import { BiSearch } from 'react-icons/bi';
 import { channelData } from '@/public/staticData/channelData';
-import useSWR from 'swr';
-import fetcher from '@/utils/axiosFetcher';
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 export default function ChannelDetailLayout() {
-  const { data } = useSWR(`${BASE_URL}/read/channel`, fetcher);
-
-  console.log('채널:', data);
-
   return (
     <>
       <div className='flex w-full h-60 items-center border-0 border-b-2 border-slate-300'>
