@@ -6,7 +6,7 @@ import React, { useEffect } from 'react';
 
 export default function Callback() {
   const router = useRouter();
-  const setLogin = useSetAtom(userAtom);
+  const setUser = useSetAtom(userAtom);
   const authCode = router.asPath;
   const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
@@ -14,7 +14,7 @@ export default function Callback() {
     const auth = async () => {
       const res = await axios.get(BASE_URL + authCode, { withCredentials: true });
       console.log('콜백 페이지 응답 !', res);
-      setLogin(true);
+      setUser(res.data);
     };
     auth();
     router.push('/');

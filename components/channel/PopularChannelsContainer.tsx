@@ -1,10 +1,10 @@
 import React from 'react';
 import Title from '@/components/ui/Title';
-import { channelSummaryListType } from '@/types/channelType';
+import { ChannelSummaryType } from '@/types/channelType';
 import ChannelItem from './ChannelSummarylItem';
 
 type props = {
-  channelList: channelSummaryListType;
+  channelList: ChannelSummaryType[];
 };
 
 export default function ChannelContainer({ channelList }: props) {
@@ -15,7 +15,7 @@ export default function ChannelContainer({ channelList }: props) {
       </div>
       <div>
         {channelList.map((item) => (
-          <ChannelItem key={item.id} channelItem={item} rank={item.id} />
+          <ChannelItem key={item.channelId} channelItem={item} rank={item.channelId} />
         ))}
       </div>
     </div>

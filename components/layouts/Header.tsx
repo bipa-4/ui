@@ -5,11 +5,10 @@ import LoginModal from '@/containers/main/LoginModal';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import axios from 'axios';
-import crying from '@/public/images/crying.jpg';
 import { atom, useAtom } from 'jotai';
 import { BiSearch } from 'react-icons/bi';
 
-type userHeader = {
+type userInfo = {
   accountId: number;
   email: string;
   joinDate: number;
@@ -19,21 +18,12 @@ type userHeader = {
   profileUrl: string;
 };
 
-export const userAtom = atom(false);
+export const userAtom = atom<userInfo | null>(null);
 
 export default function Header() {
   const router = useRouter();
-  const [isLogin, setIsLogin] = useAtom(userAtom);
+  const [user, setUser] = useAtom(userAtom);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [user, setUser] = useState<userHeader | null>({
-    accountId: 0,
-    email: '',
-    joinDate: 0,
-    loginId: '',
-    loginType: '',
-    name: '',
-    profileUrl: '',
-  });
 
   const toggleMenu = () => {
     setIsMenuOpen((prev) => !prev);
@@ -56,30 +46,24 @@ export default function Header() {
   const handleLogout = async () => {
     const res = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/account/logout`, {}, { withCredentials: true });
     if (res.data) {
-      setIsLogin(false);
+      setUser(null);
       alert('로그아웃되었습니다.');
     }
   };
 
-  console.log('헤더에서 조회 - 로그인여부', isLogin);
+  console.log('헤더에서 조회 - 유저정보', user);
   console.log(user);
 
   useEffect(() => {
-    const checkLogin = () => {
+    const checkLogin = async () => {
       const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
-      axios
-        .get(`${BASE_URL}/account/check`, {
-          withCredentials: true,
-        })
-        .then((res) => {
-          console.log(res);
-          setIsLogin(true);
-          setUser(res.data);
-        })
-        .catch((err) => {
-          console.log(err);
-          setUser(null);
-        });
+      try {
+        const res = await axios.get(`${BASE_URL}/account/check`, { withCredentials: true });
+        setUser(res.data);
+      } catch (err) {
+        console.log(err);
+        setUser(null);
+      }
     };
     checkLogin();
   }, []);
@@ -121,7 +105,7 @@ export default function Header() {
         </div>
 
         <div className='flex justify-end w-1/5'>
-          {isLogin ? (
+          {user ? (
             <>
               <Link href='/upload'>
                 <div className='btn bg-base-100 px-5 mx-5'>upload</div>
@@ -129,7 +113,7 @@ export default function Header() {
               <div className='dropdown dropdown-end'>
                 <button type='button' tabIndex={0} className='btn btn-ghost btn-circle avatar'>
                   <div className='w-10 rounded-full'>
-                    <Image src={crying} alt='profile' width={200} height={200} onClick={toggleMenu} />
+                    <Image src={user.profileUrl} alt='profile' width={200} height={200} onClick={toggleMenu} />
                   </div>
                 </button>
                 {isMenuOpen && (

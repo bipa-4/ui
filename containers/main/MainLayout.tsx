@@ -4,8 +4,8 @@ import channelDataList from '@/public/staticData/channelData';
 import InfiniteVideoContainer from '@/components/video/InfiniteVideoContainer';
 import { VideoCardType } from '@/types/videoType';
 import { useState, useEffect } from 'react';
-import useTop10Data from './../../hooks/useTop10Data';
 import useMainData from '@/hooks/useMainData';
+import useTop10Data from "../../hooks/useTop10Data";
 
 const PAGE_SIZE = 10;
 

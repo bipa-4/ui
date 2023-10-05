@@ -14,8 +14,8 @@ export default function ChannelDetailLayout() {
           <Avatar width='full' marginX={5} />
         </div>
         <div className='grow pl-4'>
-          <Title text={channelData.title} />
-          <div>{channelData.description}</div>
+          <Title text={channelData.channelName} />
+          <div>{channelData.content}</div>
         </div>
       </div>
       <div className='mt-7'>

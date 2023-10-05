@@ -1,8 +1,8 @@
-import ChannelSummaryItem from './ChannelSummarylItem';
-import Title from '../ui/Title';
 import useSWR from 'swr';
 import fetcher from '@/utils/axiosFetcher';
 import { ChannelSummaryType } from '@/types/channelType';
+import Title from '../ui/Title';
+import ChannelSummaryItem from './ChannelSummarylItem';
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 

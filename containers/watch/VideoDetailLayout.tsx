@@ -5,6 +5,7 @@ import VideoSummaryItemRow from '@/components/video/VideoSummaryItemRow';
 import { VideoCardType, VideoDetailType } from '@/types/videoType';
 import { useState } from 'react';
 import VideoPlayer from '@/components/video/VideoPlayer';
+
 interface VideoDetailLayoutProps {
   video: VideoDetailType;
 }

@@ -2,7 +2,7 @@ import { VideoCardType } from './videoType';
 
 export interface ChannelSummaryType {
   channelId: number;
-  name: string;
+  channelName: string;
   content: string;
   profileUrl: string;
 }

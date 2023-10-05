@@ -3,12 +3,11 @@ import ChannelContainer from '@/components/channel/PopularChannelsContainer';
 import channelDataList from '@/public/staticData/channelData';
 import { VideoCardType } from '@/types/videoType';
 import { useState, useEffect } from 'react';
-import useTop10Data from './../../hooks/useTop10Data';
 import axios from 'axios';
-import fetcher from '@/utils/axiosFetcher';
 import Title from '@/components/ui/Title';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import VideoSummaryItemCol from '@/components/video/VideoSummaryItemCol';
+import useTop10Data from '../../hooks/useTop10Data';
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 const PAGE_SIZE = 10;
@@ -19,8 +18,8 @@ export default function MainLayout() {
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
 
-  const fetchVideo = async (page: number) => {
-    const res = await axios.get(`${BASE_URL}/read/video/latest?page=${page}&pageSize=${PAGE_SIZE}`, {
+  const fetchVideo = async (currentPage: number) => {
+    const res = await axios.get(`${BASE_URL}/read/video/latest?page=${currentPage}&pageSize=${PAGE_SIZE}`, {
       withCredentials: true,
     });
     return res.data;
