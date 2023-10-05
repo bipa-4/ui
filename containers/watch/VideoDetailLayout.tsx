@@ -35,6 +35,10 @@ export default function VideoDetailLayout() {
   };
   console.log(like);
 
+  if (!video) {
+    return <div className='h-screen flex items-center m-auto'>loading...</div>;
+  }
+
   if (video) {
     return (
       <div className='w-full flex'>

@@ -1,22 +1,34 @@
 import VideoDetailLayout from '@/containers/watch/VideoDetailLayout';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
+import axios from 'axios';
+import { GetServerSidePropsContext } from 'next/types';
+import fetcher from '@/utils/axiosFetcher';
+import { VideoDetailType } from '@/types/videoType';
+import { SWRConfig } from 'swr';
 import useVideoData from '@/hooks/useVideoData';
 
-export default function VideoDetail() {
-  const router = useRouter();
-  const { vid } = router.query;
+interface VideoDetailProps {
+  video: VideoDetailType;
+}
 
-  // swr은 useEffect안에 넣지 않아도 됨
-  const { video, error } = useVideoData(vid?.toString());
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+  const { params } = context;
+  const vid = params?.vid;
+  const API = `${process.env.NEXT_PUBLIC_BASE_URL}/read/video/detail/${vid}`;
 
-  console.log('Data', video);
+  const video: VideoDetailType = await fetcher(API);
 
-  if (error) return <div>error</div>;
-  if (!video) return <div className='h-screen flex items-center m-auto'>loading...</div>;
+  return {
+    props: {
+      video,
+    },
+  };
+}
 
+export default function VideoDetail({ video }: VideoDetailProps) {
   return (
-    <>
+    <SWRConfig>
       <Head>
         <title>{video.videoTitle} | StreamWave</title>
         <meta name='description' content={video.content} />
@@ -27,6 +39,6 @@ export default function VideoDetail() {
       <div className='h-full mx-40 max-xl:mx-5'>
         <VideoDetailLayout />
       </div>
-    </>
+    </SWRConfig>
   );
 }

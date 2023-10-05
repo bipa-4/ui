@@ -75,7 +75,7 @@ export default function UploadLayout() {
         console.log('Thumbnail upload success');
       }
     } catch (error) {
-      alert;
+      alert(error);
     }
   };
 
@@ -114,8 +114,8 @@ export default function UploadLayout() {
       imageUrl: res.data.imageUrl,
     };
   };
-  //setVideoUploadUrl(res.data.videoUrl);
-  //setThumbnailUploadUrl(res.data.imageUrl);
+  // setVideoUploadUrl(res.data.videoUrl);
+  // setThumbnailUploadUrl(res.data.imageUrl);
 
   const postVideoData = async () => {
     try {
