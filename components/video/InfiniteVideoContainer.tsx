@@ -20,7 +20,7 @@ export default function InfiniteVideoContainer({ title, videoList, dataFetcher, 
           next={dataFetcher}
           hasMore={hasMore}
           loader={<h4>Loading...</h4>}
-          endMessage=''
+          endMessage='데이터가 없습니다'
           className='m-3 py-5 px-2 grid grid-cols-5 gap-3 max-xl:grid-cols-3 max-md:grid-cols-2 max-sm:grid-cols-1'
         >
           {videoList &&

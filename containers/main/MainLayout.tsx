@@ -1,55 +1,41 @@
 import VideoSummaryContainer from '@/components/video/VideoTop10Container';
 import ChannelContainer from '@/components/channel/PopularChannelsContainer';
 import channelDataList from '@/public/staticData/channelData';
-import useMainData from '@/hooks/useMainData';
 import InfiniteVideoContainer from '@/components/video/InfiniteVideoContainer';
 import { VideoCardType } from '@/types/videoType';
-import { useState } from 'react';
-import useSWR from 'swr';
-import fetcher from '@/utils/axiosFetcher';
+import { useState, useEffect } from 'react';
+import useTop10Data from './../../hooks/useTop10Data';
+import useMainData from '@/hooks/useMainData';
 
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 const PAGE_SIZE = 10;
 
 export default function MainLayout() {
-  const { top10Data } = useMainData();
+  const { top10Data } = useTop10Data();
 
   const [videoList, setVideoList] = useState<VideoCardType[]>([]);
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
 
-  const { data } = useSWR(`${BASE_URL}/read/video/latest?page=1&pageSize=${PAGE_SIZE}`, fetcher);
-  if (data && videoList.length === 0) {
-    setVideoList(data);
+  const { currentVideos } = useMainData(page, PAGE_SIZE);
+
+  if (currentVideos && videoList.length === 0) {
+    setVideoList(currentVideos);
   }
 
+  useEffect(() => {
+    if (!currentVideos) {
+      return;
+    }
+    setVideoList([...videoList, ...currentVideos]);
+  }, [currentVideos]);
+
   const fetchMoreData = () => {
-    // todo : api호출
     setPage((prev) => prev + 1);
     console.log(page);
-    // const { data } = useSWR(`${BASE_URL}/read/video/latest?page=${page}&pageSize=${PAGE_SIZE}`, fetcher);
-    const moreData: VideoCardType[] = [];
-    for (let i = 1; i <= 20; i++) {
-      moreData.push({
-        videoId: videoList.length + i,
-        thumbnail: '/images/streamWave.png',
-        videoTitle: `test${videoList.length + i}`,
-        channelProfileUrl: '/images/streamWave.png',
-        channelName: 'test',
-        readCnt: 100,
-        createAt: '2021-08-01',
-      });
-    }
-    setVideoList([...videoList, ...moreData]);
-
-    if (videoList.length + data?.length >= 100) {
+    if (currentVideos?.length < PAGE_SIZE) {
       setHasMore(false);
     }
   };
-
-  if (!data) {
-    return <div className='h-screen flex items-center m-auto'>loading...</div>;
-  }
 
   return (
     <>
