@@ -4,6 +4,7 @@ import VideoSummaryItemCol from '@/components/video/VideoSummaryItemCol';
 import axios from 'axios';
 import VideoType from '@/types/videoType';
 import useCategoryList from '@/hooks/useCategoryList';
+import dayjs from 'dayjs';
 
 export default function UploadLayout() {
   // 카테고리 목록
@@ -28,9 +29,6 @@ export default function UploadLayout() {
   });
   console.log(video);
 
-  const [videoUploadUrl, setVideoUploadUrl] = useState('');
-  const [thumbnailUploadUrl, setThumbnailUploadUrl] = useState('');
-
   const handleVideoFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
@@ -50,26 +48,34 @@ export default function UploadLayout() {
   };
 
   const s3Upload = async (videoUrl: string, uploadVideoFile: File, imageUrl: string, uploadImageFile: File) => {
-    const videoRes = await axios({
-      method: 'put',
-      data: uploadVideoFile,
-      url: videoUrl,
-      headers: {
-        'Content-Type': 'video/mp4',
-      },
-    });
+    try {
+      const videoRes = await axios({
+        method: 'put',
+        data: uploadVideoFile,
+        url: videoUrl,
+        headers: {
+          'Content-Type': 'video/mp4',
+        },
+      });
 
-    const thumbnailRes = await axios({
-      method: 'put',
-      data: uploadImageFile,
-      url: imageUrl,
-      headers: {
-        'Content-Type': 'image/png',
-      },
-    });
+      if (videoRes.status === 200) {
+        console.log('Video upload success');
+      }
 
-    if (videoRes.status === 200 && thumbnailRes.status === 200) {
-      console.log('success');
+      const thumbnailRes = await axios({
+        method: 'put',
+        data: uploadImageFile,
+        url: imageUrl,
+        headers: {
+          'Content-Type': 'image/png',
+        },
+      });
+
+      if (thumbnailRes.status === 200) {
+        console.log('Thumbnail upload success');
+      }
+    } catch (error) {
+      alert;
     }
   };
 
@@ -96,33 +102,31 @@ export default function UploadLayout() {
     // }
   };
 
-  const getToday = () => {
-    const date = new Date();
-    const year = date.getFullYear();
-    const month = date.getMonth() + 1;
-    const day = date.getDate();
-
-    return `${year}-${month}-${day}`;
-  };
+  const getToday = () => dayjs().format('YYYY-MM-DD');
 
   // presigned url 받아오기
   const getPresignedUrl = async () => {
     const res = await axios.post(
       `${process.env.NEXT_PUBLIC_BASE_URL}/video/presigned?videoName=${videoFile?.name}&imageName=${thumbnailFile?.name}`,
     );
-    console.log(res.data);
-    setVideoUploadUrl(res.data.videoUrl);
-    setThumbnailUploadUrl(res.data.imageUrl);
+    return {
+      videoUrl: res.data.videoUrl,
+      imageUrl: res.data.imageUrl,
+    };
   };
+  //setVideoUploadUrl(res.data.videoUrl);
+  //setThumbnailUploadUrl(res.data.imageUrl);
 
   const postVideoData = async () => {
-    axios
-      .post(`${process.env.NEXT_PUBLIC_BASE_URL}/video/upload`, video)
-      .then((res) => console.log(res.data))
-      .catch((err) => console.log(err));
+    try {
+      const res = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/video/upload`, video);
+      console.log('백엔드에 업로드 : ', res);
+    } catch (err) {
+      console.log('백엔드 업로드 에러 : ', err);
+    }
   };
 
-  const upload = () => {
+  const upload = async () => {
     if (!video.title) {
       alert('제목을 입력해주세요.');
       return;
@@ -133,9 +137,13 @@ export default function UploadLayout() {
     }
 
     if (videoFile && thumbnailFile) {
-      getPresignedUrl()
-        .then(() => s3Upload(videoUploadUrl, videoFile, thumbnailUploadUrl, thumbnailFile))
-        .then(() => postVideoData());
+      try {
+        const { videoUrl, imageUrl } = await getPresignedUrl();
+        await s3Upload(videoUrl, videoFile, imageUrl, thumbnailFile);
+        await postVideoData();
+      } catch (error) {
+        console.log(error);
+      }
     } else {
       alert('파일을 선택해주세요.');
     }
@@ -244,7 +252,7 @@ export default function UploadLayout() {
         </div>
       </div>
 
-      <div className='mb-4 grow px-5 w-1/4 max-lg:w-full'>
+      <div className='mb-4 grow px-5 w-1/4 max-lg:w-3/5'>
         <Title text='미리보기' />
         <div className='mt-5'>
           <VideoSummaryItemCol
