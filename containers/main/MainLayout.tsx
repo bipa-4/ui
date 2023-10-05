@@ -42,10 +42,14 @@ export default function MainLayout() {
     }
     setVideoList([...videoList, ...moreData]);
 
-    if (videoList.length + data.length >= 100) {
+    if (videoList.length + data?.length >= 100) {
       setHasMore(false);
     }
   };
+
+  if (!data) {
+    return <div className='h-screen flex items-center m-auto'>loading...</div>;
+  }
 
   return (
     <>

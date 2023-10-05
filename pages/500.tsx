@@ -9,7 +9,7 @@ export default function Custom500() {
         <title>nine4</title>
       </Head>
       <div className=' flex flex-col justify-center mx-auto mt-52 text-center max-w-2x1'>
-        <h1 className='text-3xl font-bold tracking-tight text-black md:text-5xl'>404 – Page not found</h1>
+        <h1 className='text-3xl font-bold tracking-tight text-black md:text-5xl'>500 Error</h1>
         <br />
         <Link
           className='w-64 p-1 mx-auto font-bold text-center text-black border border-gray-500 rounded-lg sm:p-4'

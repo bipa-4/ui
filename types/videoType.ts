@@ -16,8 +16,8 @@ export interface VideoCardType {
   videoTitle: string;
   channelProfileUrl: string;
   channelName: string;
-  readCnt?: number;
-  createAt?: string;
+  readCnt: number;
+  createAt: string;
 }
 
 export interface VideoDetailType extends VideoCardType {

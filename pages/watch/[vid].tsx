@@ -37,7 +37,7 @@ export default function VideoDetail({ video }: VideoDetailProps) {
         <meta property='og:image' content={video.thumbnail} />
       </Head>
       <div className='h-full mx-40 max-xl:mx-5'>
-        <VideoDetailLayout />
+        <VideoDetailLayout video={video} />
       </div>
     </SWRConfig>
   );

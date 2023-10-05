@@ -36,7 +36,7 @@ export default function ChannelSummaryItem({ channelItem, rank, size }: props) {
             <Avatar width={11} marginX={2} />
             <div className='grow'>
               <div className='font-bold text-sm'>{channelItem.title}</div>
-              <div className='flex-wrap text-xs overflow-hidden'>{channelItem.description}</div>
+              <p className='flex-wrap text-xs overflow-hidden line-clamp-2'>{channelItem.description}</p>
             </div>
           </>
         )}

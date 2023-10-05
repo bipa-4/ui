@@ -10,10 +10,10 @@ type props = {
 export default function ChannelContainer({ channelList }: props) {
   return (
     <div>
-      <div className=' px-2 m-5'>
+      <div className=' px-2 py-4'>
         <Title text='실시간 인기 채널' />
       </div>
-      <div className='my-5'>
+      <div>
         {channelList.map((item) => (
           <ChannelItem key={item.id} channelItem={item} rank={item.id} />
         ))}
