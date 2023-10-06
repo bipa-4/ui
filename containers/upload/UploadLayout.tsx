@@ -217,14 +217,14 @@ export default function UploadLayout() {
             카테고리
           </label>
           {categoryList?.map((category) => (
-            <label className='mr-4 label cursor-pointer inline-flex justify-start' key={category.id}>
+            <label className='mr-4 label cursor-pointer inline-flex justify-start' key={category.categoryNameId}>
               <input
                 type='checkbox'
-                value={category.id}
+                value={category.categoryNameId}
                 onChange={handleCategoryChange}
                 className='checkbox checkbox-secondary checkbox-sm mx-2'
               />
-              <span className='label-text'>{category.name}</span>
+              <span className='label-text'>{category.categoryName}</span>
             </label>
           ))}
         </div>

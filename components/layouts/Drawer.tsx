@@ -21,24 +21,6 @@ const menu = [
   },
 ];
 
-const category = [
-  {
-    id: 1,
-    name: '교육',
-    link: '/category/education',
-  },
-  {
-    id: 2,
-    name: '시사/정치',
-    link: '/category/politics',
-  },
-  {
-    id: 3,
-    name: '라이프스타일',
-    link: '/category/lifestyle',
-  },
-];
-
 export default function Drawer({ children }: LayoutProps) {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const { categoryList } = useCategoryList();
@@ -76,9 +58,9 @@ export default function Drawer({ children }: LayoutProps) {
             <div className='collapse-title text-xl py-3 w-56'>카테고리</div>
             <ul className='menu collapse-content bg-base-200 w-56 rounded-box '>
               {categoryList?.map((item, idx) => (
-                <li key={item.id || idx}>
-                  <Link href={`/category/${item.path}`} onClick={toggleDrawer}>
-                    {item.name}
+                <li key={item.categoryNameId || idx}>
+                  <Link href={`/category/${item.categoryPath}`} onClick={toggleDrawer}>
+                    {item.categoryName}
                   </Link>
                 </li>
               ))}
