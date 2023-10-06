@@ -39,11 +39,11 @@ export default function Category({ catId, categoryVideos }: CategoryProps) {
 
   return (
     <InfiniteVideoContainer
-        title={categoryVideos.categoryName}
-        videoList={categoryVideos.categoryVideos}
-        dataFetcher={fetchMoreData}
-        hasMore={hasMore}
-      />
+      title={categoryVideos.categoryName}
+      videoList={categoryVideos.categoryVideos}
+      dataFetcher={fetchMoreData}
+      hasMore={hasMore}
+    />
   );
 }
 
