@@ -9,7 +9,7 @@ import { BiSearch } from 'react-icons/bi';
 import { atom, useAtom } from 'jotai';
 import useMemberData from '@/hooks/useMemberData';
 
-type userInfo = {
+type userInfoType = {
   accountId: number;
   email: string;
   joinDate: number;
@@ -19,7 +19,7 @@ type userInfo = {
   profileUrl: string;
 };
 
-export const userAtom = atom<userInfo | null>(null);
+export const userAtom = atom<userInfoType | null>(null);
 
 export default function Header() {
   const router = useRouter();
@@ -53,6 +53,7 @@ export default function Header() {
   };
 
   const { userInfo, error } = useMemberData();
+
   console.log('헤더에서 조회 - 유저정보', userInfo);
 
   useEffect(() => {
