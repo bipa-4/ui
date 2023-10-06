@@ -14,7 +14,6 @@ export default function Callback() {
     const auth = async () => {
       const res = await axios.get(BASE_URL + authCode, { withCredentials: true });
       console.log('콜백 페이지 응답 !', res);
-      setUser(res.data);
     };
     auth();
     router.push('/');

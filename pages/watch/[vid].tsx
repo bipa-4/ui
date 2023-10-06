@@ -1,12 +1,9 @@
 import VideoDetailLayout from '@/containers/watch/VideoDetailLayout';
 import Head from 'next/head';
-import { useRouter } from 'next/router';
-import axios from 'axios';
 import { GetServerSidePropsContext } from 'next/types';
 import fetcher from '@/utils/axiosFetcher';
 import { VideoDetailType } from '@/types/videoType';
 import { SWRConfig } from 'swr';
-import useVideoData from '@/hooks/useVideoData';
 
 interface VideoDetailProps {
   video: VideoDetailType;

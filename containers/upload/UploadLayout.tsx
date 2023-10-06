@@ -139,9 +139,9 @@ export default function UploadLayout() {
     if (videoFile && thumbnailFile) {
       try {
         const { videoUrl, imageUrl } = await getPresignedUrl();
-        // const videoUrl =
+        //const videoUrl =
         //  'https://du30t7lolw1uk.cloudfront.net/example.mp4?Expires=1696494220&Signature=QYkwmNlA66QqfWN6SnZ2K0Mw4utqMINPGG~nMDdMPSndIAQQ2pe9rvjb8VxR5OwvWDfPoTYoPT68czgdYB9KQ3JOpEbgkTZ39l4s-BEb9V9x17jRmmFyVAVBBI4ZAQsgOdK4WAfhSMR3QJ2jbxTgRhqoaI3zcG0b9WTYlmc3G8KuPi57DzWQHnuUcRUBb-69-Vsi3JiO-gvI9ZLtVDYDUChvFR2wTH2dUNrkXMNKocG0ZZaHhUonS9tHY1jb0CyhLzGWKeAl95oCaR0GnrrlR5djvQanE8xMYoPi8D-59sVaZWINulgwTiJ~uGsP1euWMMHW5xWBMl6tCV5rUqhWOA__&Key-Pair-Id=629daae5-dd22-4b80-8c98-500e4d99372e';
-        // const imageUrl = '';
+        //const imageUrl = '';
         await s3Upload(videoUrl, videoFile, imageUrl, thumbnailFile);
         await postVideoData();
       } catch (error) {
