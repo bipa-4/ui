@@ -34,9 +34,7 @@ export default function MainLayout() {
   }, []);
 
   const fetchMoreData = async () => {
-    const { data } = await axios.get(`${BASE_URL}/read/video/latest?page=${page}&pageSize=${PAGE_SIZE}`, {
-      withCredentials: true,
-    });
+    const { data } = await fetchVideo(page);
 
     console.log(data);
     if (data.length === 0) {

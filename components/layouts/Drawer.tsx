@@ -59,7 +59,7 @@ export default function Drawer({ children }: LayoutProps) {
             <ul className='menu collapse-content bg-base-200 w-56 rounded-box '>
               {categoryList?.map((item, idx) => (
                 <li key={item.categoryNameId || idx}>
-                  <Link href={`/category/${item.categoryPath}`} onClick={toggleDrawer}>
+                  <Link href={`/category/${item.categoryNameId}`} onClick={toggleDrawer}>
                     {item.categoryName}
                   </Link>
                 </li>

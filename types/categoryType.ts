@@ -1,5 +1,10 @@
-export interface CategoryType {
+import { VideoCardType } from './videoType';
+
+export interface CategoryNameType {
   categoryNameId: number;
   categoryName: string;
-  categoryPath: string;
+}
+
+export interface CategoryType extends CategoryNameType {
+  categoryVideos: VideoCardType[];
 }
