@@ -30,7 +30,7 @@ export default function InfiniteVideoContainer({ title, videoList, dataFetcher, 
             videoTitle={item.videoTitle}
             channelProfileUrl={item.channelProfileUrl}
             channelName={item.channelName}
-            readCnt={item.readCnt}
+            readCount={item.readCount}
             createAt={item.createAt}
           />
         ))}

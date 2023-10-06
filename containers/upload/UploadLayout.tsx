@@ -259,11 +259,12 @@ export default function UploadLayout() {
         <Title text='미리보기' />
         <div className='mt-5'>
           <VideoSummaryItemCol
+            videoId={0}
             thumbnail={thumbnailPreviewUrl || '/images/defaultThumbnailImage.png'}
             videoTitle={video.title}
             channelProfileUrl=''
             channelName=''
-            readCnt={0}
+            readCount={0}
             createAt={getToday()}
           />
         </div>

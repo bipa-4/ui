@@ -47,7 +47,7 @@ export default function VideoDetailLayout({ video }: VideoDetailLayoutProps) {
           videoTitle={video.videoTitle}
           channelProfileUrl={video.channelProfileUrl}
           channelName={video.channelName}
-          readCnt={video.readCnt}
+          readCnt={video.readCount}
           createAt={video.createAt}
           content={video.content}
         />

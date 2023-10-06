@@ -21,7 +21,7 @@ export default function VideoSummaryContainer({ title, videoList }: VideoListTyp
               videoTitle={item.videoTitle}
               channelProfileUrl={item.channelProfileUrl}
               channelName={item.channelName}
-              readCnt={item.readCnt}
+              readCount={item.readCount}
               createAt={item.createAt}
             />
           ))}

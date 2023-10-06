@@ -9,7 +9,7 @@ interface VideoSummaryItemRowProps {
 
 function VideoSummaryItemRow({ videoSummaryItem }: VideoSummaryItemRowProps) {
   const router = useRouter();
-  const { videoId, videoTitle, channelName, thumbnail, readCnt, createAt } = videoSummaryItem;
+  const { videoId, videoTitle, channelName, thumbnail, readCount, createAt } = videoSummaryItem;
 
   const handleItemClick = () => {
     router.push(`/watch/${videoId}`);
@@ -25,10 +25,10 @@ function VideoSummaryItemRow({ videoSummaryItem }: VideoSummaryItemRowProps) {
       <div className='flex-grow'>
         <div className='font-bold pb-1'>{videoTitle}</div>
         <div className='text-sm pb-1'>{channelName}</div>
-        {readCnt && createAt && (
+        {readCount && createAt && (
           <div className='flex'>
             <div className='mr-2 font-light text-xs'>
-              <div>조회수 {readCnt}회</div>
+              <div>조회수 {readCount}회</div>
               <div>{createAt}</div>
             </div>
           </div>

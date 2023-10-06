@@ -12,7 +12,7 @@ interface VideoDetailProps {
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const { params } = context;
   const vid = params?.vid;
-  const API = `${process.env.NEXT_PUBLIC_BASE_URL}/read/video/detail/${vid}`;
+  const API = `${process.env.NEXT_PUBLIC_BASE_URL}/video/detail/${vid}`;
 
   const video: VideoDetailType = await fetcher(API);
 

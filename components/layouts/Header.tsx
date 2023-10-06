@@ -54,8 +54,6 @@ export default function Header() {
 
   const { userInfo, error } = useMemberData();
 
-  console.log('헤더에서 조회 - 유저정보', userInfo);
-
   useEffect(() => {
     if (error) {
       console.log('유저 정보 불러오기 실패', error);
@@ -64,6 +62,7 @@ export default function Header() {
       setUser(null);
     }
     setUser(userInfo);
+    console.log('헤더에서 조회 - 유저정보', userInfo);
   }, []);
 
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {

@@ -18,24 +18,30 @@ export default function MainLayout() {
 
   const { currentVideos } = useMainData(page, PAGE_SIZE);
 
+  console.log('currentVideos', currentVideos);
+  console.log('videoList', videoList);
+
   if (currentVideos && videoList.length === 0) {
     setVideoList(currentVideos);
   }
 
   useEffect(() => {
+    console.log('useEffect 호출');
     if (!currentVideos) {
       return;
     }
     setVideoList([...videoList, ...currentVideos]);
-  }, [currentVideos]);
+  }, [page]);
 
   const fetchMoreData = () => {
     setPage((prev) => prev + 1);
-    console.log(page);
+    // console.log(page);
     if (currentVideos?.length < PAGE_SIZE) {
       setHasMore(false);
     }
   };
+
+  // console.log('videoList', videoList);
 
   return (
     <>

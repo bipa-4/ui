@@ -45,7 +45,7 @@ export default function ShareModal() {
           CONTENT: video.content,
           LIKE: 3,
           VID: vid,
-          VIEW: video.readCnt,
+          VIEW: video.readCount,
         },
       });
     }

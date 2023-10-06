@@ -5,7 +5,7 @@ import useSWR from 'swr';
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 export default function useCategoryList() {
-  const { data, error, isLoading } = useSWR<CategoryType[]>(`${BASE_URL}/read/video/category`, fetcher);
+  const { data, error, isLoading } = useSWR<CategoryType[]>(`${BASE_URL}/video/category`, fetcher);
 
   return {
     categoryList: data,

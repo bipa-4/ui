@@ -18,14 +18,18 @@ export default function MainLayout() {
   const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
 
+  console.log(page);
+
   const fetchVideo = async (currentPage: number) => {
-    const res = await axios.get(`${BASE_URL}/read/video/latest?page=${currentPage}&pageSize=${PAGE_SIZE}`, {
+    const res = await axios.get(`${BASE_URL}/video/latest?page=${currentPage}&pageSize=${PAGE_SIZE}`, {
       withCredentials: true,
     });
+    console.log('res.data', res.data);
     return res.data;
   };
 
   useEffect(() => {
+    console.log('초기렌더링');
     const fetchInitData = async () => {
       const initData = await fetchVideo(1);
       setVideoList(initData as VideoCardType[]);
@@ -34,16 +38,27 @@ export default function MainLayout() {
   }, []);
 
   const fetchMoreData = async () => {
-    const { data } = await fetchVideo(page);
+    console.log('fetchMoreData 호출');
 
-    console.log(data);
+    // console.log('page', page);
+
+    const data = await fetchVideo(page + 1);
+    console.log('data', data);
+
+    if (!data) {
+      return;
+    }
+
     if (data.length === 0) {
       setHasMore(false);
-    } else {
-      setVideoList([...videoList, ...data]);
-      setPage(page + 1);
+      return;
     }
+
+    setPage((prev) => prev + 1);
+    setVideoList([...videoList, ...data]);
   };
+
+  console.log('videoList', videoList);
 
   return (
     <>
@@ -76,7 +91,7 @@ export default function MainLayout() {
                 videoTitle={item.videoTitle}
                 channelProfileUrl={item.channelProfileUrl}
                 channelName={item.channelName}
-                readCnt={item.readCnt}
+                readCount={item.readCount}
                 createAt={item.createAt}
               />
             ))}

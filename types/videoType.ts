@@ -11,17 +11,19 @@ export default interface VideoType {
 }
 
 export interface VideoCardType {
-  videoId?: number;
+  channelName: string;
+  channelProfileUrl: string;
   thumbnail: string;
   videoTitle: string;
-  channelProfileUrl: string;
-  channelName: string;
-  readCnt: number;
   createAt: string;
+  readCount: number;
+  videoId: number;
 }
 
 export interface VideoDetailType extends VideoCardType {
-  content: string;
+  channelId: number;
   videoUrl: string;
-  recommendedList: Array<VideoCardType>;
+  content: string;
+  likeCount: number;
+  recommendedList: VideoCardType[];
 }

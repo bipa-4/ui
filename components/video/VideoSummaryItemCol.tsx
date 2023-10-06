@@ -12,7 +12,7 @@ function VideoSummaryItemCol({
   videoTitle,
   channelProfileUrl,
   channelName,
-  readCnt,
+  readCount,
   createAt,
 }: VideoCardType) {
   const router = useRouter();
@@ -50,7 +50,7 @@ function VideoSummaryItemCol({
         <Avatar width={6} marginX={1} nickname={channelName} imgUrl={channelProfileUrl} />
         <div className='mx-2 text-xs flex items-center justify-start'>
           <PiEyeLight className='w-4 h-4' />
-          <span className='px-2 border-r-2 border-solid'>{readCnt}</span>
+          <span className='px-2 border-r-2 border-solid'>{readCount}</span>
           <span className='px-2'>{createAt}</span>
           <span className='font-extrabold'>videoId : {videoId}</span>
         </div>
