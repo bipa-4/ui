@@ -1,6 +1,6 @@
-//import { VideoCardType, VideoDetailType } from '@/types/videoType';
+// import { VideoCardType, VideoDetailType } from '@/types/videoType';
 
-//const videoItem: VideoDetailType = {
+// const videoItem: VideoDetailType = {
 //  videoId: 1,
 //  thumbnail: '/images/crying.jpg',
 //  videoTitle: '현명하게 추석을 보내는 방법',
@@ -31,9 +31,9 @@
 //      createAt: '2021-08-24',
 //    },
 //  ],
-//};
+// };
 
-//export const videoList: VideoCardType[] = [
+// export const videoList: VideoCardType[] = [
 //  {
 //    videoId: 1,
 //    thumbnail: '/images/crying_cat.jpg',
@@ -106,6 +106,6 @@
 //    readCount: 45345,
 //    createAt: '2023.06.23',
 //  },
-//];
+// ];
 
-//export default videoItem;
+// export default videoItem;
