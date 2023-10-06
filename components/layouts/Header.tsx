@@ -5,8 +5,9 @@ import LoginModal from '@/containers/main/LoginModal';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import axios from 'axios';
-import { atom, useAtom } from 'jotai';
 import { BiSearch } from 'react-icons/bi';
+import { atom, useAtom } from 'jotai';
+import useMemberData from '@/hooks/useMemberData';
 
 type userInfo = {
   accountId: number;
@@ -22,8 +23,8 @@ export const userAtom = atom<userInfo | null>(null);
 
 export default function Header() {
   const router = useRouter();
-  const [user, setUser] = useAtom(userAtom);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [user, setUser] = useAtom(userAtom);
 
   const toggleMenu = () => {
     setIsMenuOpen((prev) => !prev);
@@ -51,21 +52,17 @@ export default function Header() {
     }
   };
 
-  console.log('헤더에서 조회 - 유저정보', user);
-  console.log(user);
+  const { userInfo, error } = useMemberData();
+  console.log('헤더에서 조회 - 유저정보', userInfo);
 
   useEffect(() => {
-    const checkLogin = async () => {
-      const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
-      try {
-        const res = await axios.get(`${BASE_URL}/account/check`, { withCredentials: true });
-        setUser(res.data);
-      } catch (err) {
-        console.log(err);
-        setUser(null);
-      }
-    };
-    checkLogin();
+    if (error) {
+      console.log('유저 정보 불러오기 실패', error);
+    }
+    if (!userInfo) {
+      setUser(null);
+    }
+    setUser(userInfo);
   }, []);
 
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {

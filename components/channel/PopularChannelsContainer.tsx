@@ -14,8 +14,8 @@ export default function ChannelContainer({ channelList }: props) {
         <Title text='실시간 인기 채널' />
       </div>
       <div>
-        {channelList.map((item) => (
-          <ChannelItem key={item.channelId} channelItem={item} rank={item.channelId} />
+        {channelList.map((item, index) => (
+          <ChannelItem key={item.channelId} channelItem={item} rank={index + 1} />
         ))}
       </div>
     </div>

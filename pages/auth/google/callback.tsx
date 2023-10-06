@@ -1,4 +1,5 @@
 import { userAtom } from '@/components/layouts/Header';
+import useMemberData from '@/hooks/useMemberData';
 import axios from 'axios';
 import { useSetAtom } from 'jotai';
 import { useRouter } from 'next/router';
@@ -18,6 +19,21 @@ export default function Callback() {
     auth();
     router.push('/');
   }, []);
+
+  const { userInfo, error } = useMemberData();
+
+  useEffect(() => {
+    if (error) {
+      console.log('유저 정보 불러오기 실패', error);
+    }
+
+    if (!userInfo) {
+      setUser(null);
+    }
+
+    setUser(userInfo);
+    router.push('/');
+  }, [userInfo]);
 
   return (
     <div className='h-screen flex items-center'>
