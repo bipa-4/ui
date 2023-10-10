@@ -52,7 +52,7 @@ function VideoSummaryItemCol({
           <PiEyeLight className='w-4 h-4' />
           <span className='px-2 border-r-2 border-solid'>{readCount}</span>
           <span className='px-2'>{createAt}</span>
-          <span className='font-extrabold'>videoId : {videoId}</span>
+          {/* <span className='font-extrabold'>videoId : {videoId}</span> */}
         </div>
       </div>
     </div>

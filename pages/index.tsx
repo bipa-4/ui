@@ -1,5 +1,4 @@
 import Head from 'next/head';
-import MainLayoutVer2 from '@/containers/main/MainLayoutVer2';
 import MainLayout from '../containers/main/MainLayout';
 
 export default function Home() {
@@ -13,7 +12,7 @@ export default function Home() {
         <meta property='og:image' content='/images/streamWave.png' />
       </Head>
       <div className='h-full mx-44 max-xl:mx-5'>
-        <MainLayoutVer2 />
+        <MainLayout />
       </div>
     </>
   );

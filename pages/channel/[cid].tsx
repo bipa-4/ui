@@ -1,18 +1,23 @@
 import ChannelDetailLayout from '@/containers/channel/ChannelDetailLayout';
 import Head from 'next/head';
 import { GetServerSidePropsContext } from 'next/types';
-import fetcher from '@/utils/axiosFetcher';
+import { ChannelDetailType } from '@/types/channelType';
+import axios from 'axios';
 
-interface ChannelDetailType {
-  channel: any;
+interface ChannelProps {
+  channel: ChannelDetailType;
 }
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const { params } = context;
-  const vid = params?.vid;
-  const API = `${process.env.NEXT_PUBLIC_BASE_URL}/read/channel/${vid}`;
+  const cid = params?.cid;
+  const API = `${process.env.NEXT_PUBLIC_BASE_URL}/channel/${cid}`;
 
-  const channel = await fetcher(API);
+  const res = await axios.get(API, {
+    withCredentials: true,
+  });
+
+  const channel = res.data;
 
   return {
     props: {
@@ -21,7 +26,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   };
 }
 
-export default function Channel({ channel }: ChannelDetailType) {
+export default function Channel({ channel }: ChannelProps) {
   return (
     <>
       <Head>
@@ -31,8 +36,8 @@ export default function Channel({ channel }: ChannelDetailType) {
         <meta property='og:description' content={channel.content} />
         <meta property='og:image' content={channel.profileUrl} />
       </Head>
-      <div className='mx-44 max-xl:mx-7'>
-        <ChannelDetailLayout />
+      <div className='mx-44 max-xl:mx-7 min-h-screen'>
+        <ChannelDetailLayout channelInfo={channel} />
       </div>
     </>
   );

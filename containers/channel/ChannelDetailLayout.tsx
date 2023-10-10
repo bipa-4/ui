@@ -3,19 +3,27 @@ import Title from '@/components/ui/Title';
 import VideoContainer from '@/components/video/VideoTop10Container';
 import { BiSearch } from 'react-icons/bi';
 import { channelData } from '@/public/staticData/channelData';
+import { ChannelDetailType } from '@/types/channelType';
+import useSWR from 'swr';
+import fetcher from '@/utils/axiosFetcher';
 
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+interface ChannelProps {
+  channelInfo: ChannelDetailType;
+}
 
-export default function ChannelDetailLayout() {
+export default function ChannelDetailLayout({ channelInfo }: ChannelProps) {
+  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+  const { data } = useSWR(`${BASE_URL}/channel/video/${channelInfo.channelId}`, fetcher);
+  console.log('data', data);
   return (
     <>
       <div className='flex w-full h-60 items-center border-0 border-b-2 border-slate-300'>
         <div className='w-48'>
-          <Avatar width='full' marginX={5} />
+          <Avatar width='full' marginX={5} imgUrl={channelInfo.profileUrl} />
         </div>
         <div className='grow pl-4'>
-          <Title text={channelData.channelName} />
-          <div>{channelData.content}</div>
+          <Title text={channelInfo.channelName} />
+          <div>{channelInfo.content}</div>
         </div>
       </div>
       <div className='mt-7'>
@@ -35,7 +43,13 @@ export default function ChannelDetailLayout() {
             </label>
           </div>
         </div>
-        <VideoContainer videoList={channelData.orderedVideoList} />
+        {data?.length === 0 ? (
+          <div className='mx-5 flex items-center'>
+            <p className='mt-52 m-auto'>업로드한 영상이 없습니다.</p>
+          </div>
+        ) : (
+          <VideoContainer videoList={channelData.orderedVideoList} />
+        )}
       </div>
     </>
   );

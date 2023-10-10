@@ -4,7 +4,7 @@ import Title from '../ui/Title';
 import VideoSummaryItemCol from './VideoSummaryItemCol';
 
 type VideoListType = {
-  title: string;
+  title?: string;
   videoList: Array<VideoCardType>;
   dataFetcher: () => void;
   hasMore: boolean;
@@ -13,7 +13,11 @@ type VideoListType = {
 export default function InfiniteVideoContainer({ title, videoList, dataFetcher, hasMore }: VideoListType) {
   return (
     <div>
-      <div className='m-5'>{title && <Title text={`${title}`} />}</div>
+      {title && (
+        <div className='m-5'>
+          <Title text={`${title}`} />
+        </div>
+      )}
       <InfiniteScroll
         dataLength={videoList.length}
         next={dataFetcher}
@@ -38,3 +42,7 @@ export default function InfiniteVideoContainer({ title, videoList, dataFetcher, 
     </div>
   );
 }
+
+InfiniteVideoContainer.defaultProps = {
+  title: '',
+};

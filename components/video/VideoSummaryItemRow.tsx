@@ -23,16 +23,14 @@ function VideoSummaryItemRow({ videoSummaryItem }: VideoSummaryItemRowProps) {
         </div>
       </div>
       <div className='flex-grow'>
-        <div className='font-bold pb-1'>{videoTitle}</div>
+        <div className='font-bold pb-1 line-clamp-2'>{videoTitle}</div>
         <div className='text-sm pb-1'>{channelName}</div>
-        {readCount && createAt && (
-          <div className='flex'>
-            <div className='mr-2 font-light text-xs'>
-              <div>조회수 {readCount}회</div>
-              <div>{createAt}</div>
-            </div>
+        <div className='flex'>
+          <div className='mr-2 font-light text-xs'>
+            <div>조회수 {readCount}회</div>
+            <div>{createAt}</div>
           </div>
-        )}
+        </div>
       </div>
     </div>
   );

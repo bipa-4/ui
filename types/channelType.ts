@@ -10,3 +10,8 @@ export interface ChannelSummaryType {
 export interface ChannelType extends ChannelSummaryType {
   orderedVideoList: Array<VideoCardType>;
 }
+
+export interface ChannelDetailType extends ChannelSummaryType {
+  privateType: boolean;
+  updateFlag: boolean;
+}

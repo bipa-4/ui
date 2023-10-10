@@ -1,47 +1,61 @@
 import VideoSummaryContainer from '@/components/video/VideoTop10Container';
 import ChannelContainer from '@/components/channel/PopularChannelsContainer';
 import channelDataList from '@/public/staticData/channelData';
-import InfiniteVideoContainer from '@/components/video/InfiniteVideoContainer';
 import { VideoCardType } from '@/types/videoType';
 import { useState, useEffect } from 'react';
-import useMainData from '@/hooks/useMainData';
+import axios from 'axios';
+import InfiniteVideoContainer from '@/components/video/InfiniteVideoContainer';
 import useTop10Data from '../../hooks/useTop10Data';
 
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 const PAGE_SIZE = 10;
 
 export default function MainLayout() {
   const { top10Data } = useTop10Data();
-
   const [videoList, setVideoList] = useState<VideoCardType[]>([]);
-  const [page, setPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
+  const [nextId, setNextId] = useState<string | null>(null);
 
-  const { currentVideos } = useMainData(page, PAGE_SIZE);
-
-  console.log('currentVideos', currentVideos);
-  console.log('videoList', videoList);
-
-  if (currentVideos && videoList.length === 0) {
-    setVideoList(currentVideos);
-  }
+  const fetchVideo = async (nextUUID: string) => {
+    const res = await axios.get(
+      `${BASE_URL}/video/latest?${nextUUID ? 'page=' : ''}${nextUUID}&pageSize=${PAGE_SIZE}`,
+      {
+        withCredentials: true,
+      },
+    );
+    console.log('res.data', res.data);
+    setNextId(res.data.nextUUID);
+    return res.data;
+  };
 
   useEffect(() => {
-    console.log('useEffect 호출');
-    if (!currentVideos) {
+    console.log('초기렌더링');
+    const fetchInitData = async () => {
+      const initData = await fetchVideo('');
+      setVideoList(initData.videos as VideoCardType[]);
+    };
+    fetchInitData();
+  }, []);
+
+  const fetchMoreData = async () => {
+    console.log('fetchMoreData 호출');
+    console.log('nextId', nextId);
+
+    if (nextId === '') {
+      setHasMore(false);
       return;
     }
-    setVideoList([...videoList, ...currentVideos]);
-  }, [page]);
 
-  const fetchMoreData = () => {
-    setPage((prev) => prev + 1);
-    // console.log(page);
-    if (currentVideos?.length < PAGE_SIZE) {
-      setHasMore(false);
+    if (nextId) {
+      const data = await fetchVideo(nextId);
+      console.log('more fetched data', data);
+
+      setNextId(data.nextUUID);
+      setVideoList([...videoList, ...data.videos]);
     }
   };
 
-  // console.log('videoList', videoList);
+  console.log('videoList', videoList);
 
   return (
     <>
@@ -54,12 +68,14 @@ export default function MainLayout() {
         </div>
       </div>
       <div className='py-5'>
-        <InfiniteVideoContainer
-          title='최근 업로드'
-          videoList={videoList}
-          dataFetcher={fetchMoreData}
-          hasMore={hasMore}
-        />
+        <div>
+          <InfiniteVideoContainer
+            title='최근업로드'
+            videoList={videoList}
+            dataFetcher={fetchMoreData}
+            hasMore={hasMore}
+          />
+        </div>
       </div>
     </>
   );

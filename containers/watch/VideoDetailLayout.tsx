@@ -3,8 +3,11 @@ import CommentItem from '@/components/comment/CommentItem';
 import VideoDetailInfo from '@/components/video/VideoDetailInfo';
 import VideoSummaryItemRow from '@/components/video/VideoSummaryItemRow';
 import { VideoCardType, VideoDetailType } from '@/types/videoType';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import VideoPlayer from '@/components/video/VideoPlayer';
+import fetcher from '@/utils/axiosFetcher';
+import { set } from 'video.js/dist/types/tech/middleware';
+import axios from 'axios';
 
 interface VideoDetailLayoutProps {
   video: VideoDetailType;
@@ -13,8 +16,31 @@ interface VideoDetailLayoutProps {
 export default function VideoDetailLayout({ video }: VideoDetailLayoutProps) {
   const [like, setLike] = useState(false);
 
-  const handleLike = () => {
-    setLike(!like);
+  useEffect(() => {
+    if (video.isLike === true) {
+      setLike(true);
+    } else if (video.isLike === false) {
+      setLike(false);
+    }
+  }, []);
+
+  const handleLike = async () => {
+    if (video.isLike === null) {
+      alert('로그인이 필요합니다.');
+      return;
+    }
+    if (video.isLike === true) {
+      setLike(!like);
+      const res = await fetcher(`${process.env.NEXT_PUBLIC_BASE_URL}/video/detail/${video.videoId}/like`);
+      console.log(res);
+      return;
+    }
+    if (video.isLike === false) {
+      setLike(!like);
+      const res = await axios.delete(`${process.env.NEXT_PUBLIC_BASE_URL}/video/detail/${video.videoId}/like`);
+      console.log(res);
+      
+    }
   };
 
   const videoArgs = {
@@ -43,11 +69,13 @@ export default function VideoDetailLayout({ video }: VideoDetailLayoutProps) {
         </div>
 
         <VideoDetailInfo
+          isLike={like}
           handleLike={handleLike}
           videoTitle={video.videoTitle}
           channelProfileUrl={video.channelProfileUrl}
           channelName={video.channelName}
-          readCnt={video.readCount}
+          likeCount={video.likeCount}
+          readCount={video.readCount}
           createAt={video.createAt}
           content={video.content}
         />

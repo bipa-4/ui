@@ -1,16 +1,16 @@
 import Image from 'next/image';
-import { useRouter } from 'next/router';
-import useVideoData from '@/hooks/useVideoData';
 import Avatar from '../ui/Avatar';
 import ShareModal from './ShareModal';
 
 type Props = {
+  isLike: boolean | null;
   videoTitle: string;
   channelProfileUrl: string;
   channelName: string;
-  readCnt: number;
+  likeCount: number;
   createAt: string;
   content: string;
+  readCount: number;
   handleLike: () => void;
 };
 
@@ -19,9 +19,11 @@ export default function VideoDetailInfo({
   videoTitle,
   channelProfileUrl,
   channelName,
-  readCnt,
+  likeCount,
+  readCount,
   createAt,
   content,
+  isLike,
 }: Props) {
   return (
     <div className='my-5'>
@@ -42,17 +44,15 @@ export default function VideoDetailInfo({
           </div>
 
           <div className='flex items-center'>
-            <div className='btn bg-slate-100 rounded-full'>
-              <span className='text-sm'>{readCnt}</span>
-              <label className='swap swap-flip text-xl align-text-bottom'>
-                <input type='checkbox' />
-                <div className='swap-on'>
-                  <Image src='/images/heart.png' alt='heart' width={23} height={23} onClick={handleLike} />
-                </div>
-                <div className='swap-off'>
-                  <Image src='/images/heart-empty.png' alt='heart' width={23} height={23} onClick={handleLike} />
-                </div>
-              </label>
+            <div className='btn bg-slate-100 rounded-full' onClick={handleLike}>
+              <span className='text-sm'>{likeCount}</span>
+              <div className=''>
+                {isLike ? (
+                  <Image src='/images/heart.png' alt='heart' width={23} height={23} />
+                ) : (
+                  <Image src='/images/heart-empty.png' alt='heart' width={23} height={23} />
+                )}
+              </div>
             </div>
             <ShareModal />
           </div>
@@ -60,7 +60,7 @@ export default function VideoDetailInfo({
 
         <div className='mx-3 p-5 bg-gray-100 rounded-md'>
           <div className='text-sm pb-3'>
-            조회수 {readCnt}회 · 업로드 {createAt}
+            조회수 {readCount}회 · 업로드 {createAt}
           </div>
           {content}
         </div>
