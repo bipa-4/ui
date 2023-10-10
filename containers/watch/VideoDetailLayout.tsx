@@ -39,7 +39,6 @@ export default function VideoDetailLayout({ video }: VideoDetailLayoutProps) {
       setLike(!like);
       const res = await axios.delete(`${process.env.NEXT_PUBLIC_BASE_URL}/video/detail/${video.videoId}/like`);
       console.log(res);
-      
     }
   };
 
