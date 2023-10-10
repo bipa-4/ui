@@ -1,9 +1,10 @@
+import Title from '@/components/ui/Title';
 import InfiniteVideoContainer from '@/components/video/InfiniteVideoContainer';
 import { CategoryNameType, CategoryType } from '@/types/categoryType';
 import { VideoCardType } from '@/types/videoType';
 import axios from 'axios';
-import { GetServerSidePropsContext } from 'next';
-import { useEffect, useState } from 'react';
+import { GetStaticPropsContext } from 'next';
+import { useState } from 'react';
 
 interface CategoryProps {
   categoryVideos: CategoryType;
@@ -11,33 +12,22 @@ interface CategoryProps {
 }
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
-const PAGE_SIZE = 10;
+const PAGE_SIZE = 15;
 
 export default function Category({ catId, categoryVideos }: CategoryProps) {
   const [hasMore, setHasMore] = useState(true);
-  const [nextId, setNextId] = useState('');
-  const [videoList, setVideoList] = useState<VideoCardType[]>(categoryVideos.categoryVideos);
+  const [nextId, setNextId] = useState(categoryVideos.nextUUID);
+  const [videoList, setVideoList] = useState<VideoCardType[]>(categoryVideos.videos);
 
+  console.log('categoryVideos', categoryVideos);
   const fetchVideo = async (nextUUID: string) => {
-    const res = await axios.get(
-      `${BASE_URL}/video/category?${nextUUID === '' ? '' : 'page='}${nextUUID}&pageSize=${PAGE_SIZE}`,
-      {
-        withCredentials: true,
-      },
-    );
+    const res = await axios.get(`${BASE_URL}/video/category/${catId}?page=${nextUUID}&pageSize=${PAGE_SIZE}`, {
+      withCredentials: true,
+    });
     console.log('res.data', res.data);
     setNextId(res.data.nextUUID);
     return res.data;
   };
-
-  useEffect(() => {
-    console.log('초기렌더링');
-    const fetchInitData = async () => {
-      const initData = await fetchVideo('');
-      setVideoList(initData.videos as VideoCardType[]);
-    };
-    fetchInitData();
-  }, []);
 
   const fetchMoreData = async () => {
     console.log('fetchMoreData 호출');
@@ -55,22 +45,30 @@ export default function Category({ catId, categoryVideos }: CategoryProps) {
     setVideoList([...videoList, ...data.videos]);
   };
 
+  if (!categoryVideos) {
+    return <div className='h-screen flex items-center m-auto'>loading...</div>;
+  }
+
   return (
-    <InfiniteVideoContainer
-      title={categoryVideos.categoryName}
-      videoList={categoryVideos.categoryVideos}
-      dataFetcher={fetchMoreData}
-      hasMore={hasMore}
-    />
+    <div className='mx-44 min-h-screen'>
+      <InfiniteVideoContainer
+        title={categoryVideos.categoryName}
+        videoList={videoList}
+        dataFetcher={fetchMoreData}
+        hasMore={hasMore}
+      />
+    </div>
   );
 }
 
-export const getStaticProps = async (context: GetServerSidePropsContext) => {
-  const res = await axios.get(`${BASE_URL}/read/video/category/${context.params?.catId}?page=1&pageSize=${PAGE_SIZE}`);
-  const categoryVideos = res.data;
+export const getStaticProps = async (context: GetStaticPropsContext) => {
+  const { params } = context;
+  const catId = params?.catId as String;
+  const res = await axios.get(`${BASE_URL}/video/category/${catId}?pageSize=${PAGE_SIZE}`);
+  const categoryVideos = await res.data;
   return {
     props: {
-      catId: context.params?.catId,
+      catId,
       categoryVideos,
     },
     revalidate: 10,
@@ -78,7 +76,7 @@ export const getStaticProps = async (context: GetServerSidePropsContext) => {
 };
 
 export const getStaticPaths = async () => {
-  const res = await axios.get(`${BASE_URL}/read/video/category`);
+  const res = await axios.get(`${BASE_URL}/video/category`);
   const paths = res.data.map((category: CategoryNameType) => ({
     params: { catId: category.categoryNameId },
   }));

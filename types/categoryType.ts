@@ -6,5 +6,6 @@ export interface CategoryNameType {
 }
 
 export interface CategoryType extends CategoryNameType {
-  categoryVideos: VideoCardType[];
+  nextUUID: string;
+  videos: VideoCardType[];
 }
