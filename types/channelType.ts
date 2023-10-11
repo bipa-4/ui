@@ -1,6 +1,7 @@
 import { VideoCardType } from './videoType';
 
 export interface ChannelSummaryType {
+  ranking?: number;
   channelId: number;
   channelName: string;
   content: string;

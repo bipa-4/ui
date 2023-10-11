@@ -67,17 +67,7 @@ export default function VideoDetailLayout({ video }: VideoDetailLayoutProps) {
           </div>
         </div>
 
-        <VideoDetailInfo
-          isLike={like}
-          handleLike={handleLike}
-          videoTitle={video.videoTitle}
-          channelProfileUrl={video.channelProfileUrl}
-          channelName={video.channelName}
-          likeCount={video.likeCount}
-          readCount={video.readCount}
-          createAt={video.createAt}
-          content={video.content}
-        />
+        <VideoDetailInfo isLike={like} handleLike={handleLike} video={video} />
 
         <div className='w-full mx-1 my-5 max-2xl:w-full'>
           <CommentInput />

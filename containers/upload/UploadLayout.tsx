@@ -138,10 +138,10 @@ export default function UploadLayout() {
 
     if (videoFile && thumbnailFile) {
       try {
-        const { videoUrl, imageUrl } = await getPresignedUrl();
-        // const videoUrl =
-        //  'https://du30t7lolw1uk.cloudfront.net/example.mp4?Expires=1696494220&Signature=QYkwmNlA66QqfWN6SnZ2K0Mw4utqMINPGG~nMDdMPSndIAQQ2pe9rvjb8VxR5OwvWDfPoTYoPT68czgdYB9KQ3JOpEbgkTZ39l4s-BEb9V9x17jRmmFyVAVBBI4ZAQsgOdK4WAfhSMR3QJ2jbxTgRhqoaI3zcG0b9WTYlmc3G8KuPi57DzWQHnuUcRUBb-69-Vsi3JiO-gvI9ZLtVDYDUChvFR2wTH2dUNrkXMNKocG0ZZaHhUonS9tHY1jb0CyhLzGWKeAl95oCaR0GnrrlR5djvQanE8xMYoPi8D-59sVaZWINulgwTiJ~uGsP1euWMMHW5xWBMl6tCV5rUqhWOA__&Key-Pair-Id=629daae5-dd22-4b80-8c98-500e4d99372e';
-        // const imageUrl = '';
+        //const { videoUrl, imageUrl } = await getPresignedUrl();
+        const videoUrl =
+          'http://du30t7lolw1uk.cloudfront.net/example2.mp4?Expires=1696990740&Signature=Rsr8Te21r0xGFejEkhXxE4ava~VMAc8apBNIR5pFKWQrg8VHOJgK5X185VKIO82IRG7Tu9n08Ci409Bh-zibjbGlDaeodmu~WvKXmgOwRV5KZ1cn4jtlteAlCkJxICbnZ2ApzPIJ98cx~4pV75CKN37sja3SQGCpmHuzoCudejT0D1ZU6hkUjm6TsOPOeidyDFvvRqaQ2-xLgJVXSypB7UMV0KUenjx4tUjlcJIROt5VlfklUrpjHqpkz3tcL1sZNywLgSrz2uiev6r88IMfhA2gqOp5CunCB6r9Up8k6wFOI6VdWbheY7HeLKuFQ0XdcV9111MTPvzhHPJ400GE8w__&Key-Pair-Id=K2BGKC2WPH3ISX';
+        const imageUrl = '';
         await s3Upload(videoUrl, videoFile, imageUrl, thumbnailFile);
         await postVideoData();
       } catch (error) {

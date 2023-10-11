@@ -1,6 +1,5 @@
 import VideoSummaryContainer from '@/components/video/VideoTop10Container';
 import ChannelContainer from '@/components/channel/PopularChannelsContainer';
-import channelDataList from '@/public/staticData/channelData';
 import { VideoCardType } from '@/types/videoType';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
@@ -18,7 +17,7 @@ export default function MainLayout() {
 
   const fetchVideo = async (nextUUID: string) => {
     const res = await axios.get(
-      `${BASE_URL}/video/latest?${nextUUID ? 'page=' : ''}${nextUUID}&pageSize=${PAGE_SIZE}`,
+      `${BASE_URL}/video/latest?${nextUUID ? 'page=' : ''}${nextUUID}${nextUUID ? '&' : ''}pageSize=${PAGE_SIZE}`,
       {
         withCredentials: true,
       },
@@ -64,7 +63,7 @@ export default function MainLayout() {
           <VideoSummaryContainer title='조회수 급상승' videoList={top10Data} />
         </div>
         <div className='basis-1/4 w-1/4 grow max-xl:hidden'>
-          <ChannelContainer channelList={channelDataList} />
+          <ChannelContainer />
         </div>
       </div>
       <div className='py-5'>

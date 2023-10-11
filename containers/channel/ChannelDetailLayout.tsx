@@ -14,7 +14,8 @@ interface ChannelProps {
 export default function ChannelDetailLayout({ channelInfo }: ChannelProps) {
   const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
   const { data } = useSWR(`${BASE_URL}/channel/video/${channelInfo.channelId}`, fetcher);
-  console.log('data', data);
+  //console.log('data', data);
+  console.log(channelInfo.updateFlag);
   return (
     <>
       <div className='flex w-full h-60 items-center border-0 border-b-2 border-slate-300'>
@@ -25,6 +26,7 @@ export default function ChannelDetailLayout({ channelInfo }: ChannelProps) {
           <Title text={channelInfo.channelName} />
           <div>{channelInfo.content}</div>
         </div>
+        <button className='btn'>채널 정보 수정</button>
       </div>
       <div className='mt-7'>
         <div className='mx-5 flex justify-between items-center'>
