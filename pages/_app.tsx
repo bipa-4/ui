@@ -3,11 +3,14 @@ import '../styles/global.css';
 import { Noto_Sans_KR as notoSansKr } from 'next/font/google';
 import Layout from '@/components/layouts/Layout';
 import { Provider } from 'jotai';
+import axios from 'axios';
 
 const inter = notoSansKr({
   subsets: ['latin'],
   weight: ['100', '300', '400', '500', '700', '900'],
 });
+
+axios.defaults.withCredentials = true;
 
 export default function MyApp({ Component, pageProps }: AppProps) {
   return (
