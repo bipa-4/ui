@@ -25,7 +25,6 @@ export default function Header() {
   const router = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [user, setUser] = useAtom(userAtom);
-  const [keyword, setKeyword] = useState('');
 
   const toggleMenu = () => {
     setIsMenuOpen((prev) => !prev);
@@ -64,7 +63,7 @@ export default function Header() {
     }
     setUser(userInfo);
     console.log('헤더에서 조회 - 유저정보', userInfo);
-  }, []);
+  }, [userInfo]);
 
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault(); // 폼 제출 기본 동작 방지
