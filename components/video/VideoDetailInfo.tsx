@@ -1,8 +1,8 @@
 import Image from 'next/image';
-import Avatar from '../ui/Avatar';
-import ShareModal from './ShareModal';
 import { useRouter } from 'next/router';
 import { VideoDetailType } from '@/types/videoType';
+import Avatar from '../ui/Avatar';
+import ShareModal from './ShareModal';
 
 type Props = {
   isLike: boolean | null;
@@ -31,7 +31,7 @@ export default function VideoDetailInfo({ handleLike, video, isLike }: Props) {
               <Avatar width={12} imgUrl={video.channelProfileUrl} marginX={3} />
             </div>
             <div className=''>{video.channelName || '채널명'}</div>
-            {/*<div className='btn btn-secondary mx-5 btn-sm'> 구독 </div>*/}
+            {/* <div className='btn btn-secondary mx-5 btn-sm'> 구독 </div> */}
           </div>
 
           <div className='flex items-center'>

@@ -21,7 +21,7 @@ export default function Avatar({ width, marginX, nickname, imgUrl }: Props) {
     <div className='flex'>
       <div className={`avatar items-center mx-${marginX}`}>
         <div className={`w-${width} h-${width} rounded-full basis-${width}`}>
-          <Image src={imgUrl || defaultUserImage} alt='cat' width={500} height={500} />
+          <Image src={imgUrl || defaultUserImage} alt='cat' width={800} height={800} />
         </div>
       </div>
       {nickname && <p className='w-4/5 px-1 line-clamp-1'>{nickname}</p>}

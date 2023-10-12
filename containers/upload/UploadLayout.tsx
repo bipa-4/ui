@@ -5,6 +5,7 @@ import axios from 'axios';
 import VideoType from '@/types/videoType';
 import useCategoryList from '@/hooks/useCategoryList';
 import dayjs from 'dayjs';
+import S3upload from '@/utils/S3Upload';
 
 export default function UploadLayout() {
   // 카테고리 목록
@@ -25,7 +26,7 @@ export default function UploadLayout() {
     videoUrl: '',
     thumbnailUrl: '',
     isPublic: true,
-    category: 0,
+    category: [],
   });
   console.log(video);
 
@@ -47,37 +48,37 @@ export default function UploadLayout() {
     }
   };
 
-  const s3Upload = async (videoUrl: string, uploadVideoFile: File, imageUrl: string, uploadImageFile: File) => {
-    try {
-      const videoRes = await axios({
-        method: 'put',
-        data: uploadVideoFile,
-        url: videoUrl,
-        headers: {
-          'Content-Type': 'video/mp4',
-        },
-      });
+  // const s3Upload = async (videoUrl: string, uploadVideoFile: File, imageUrl: string, uploadImageFile: File) => {
+  //  try {
+  //    const videoRes = await axios({
+  //      method: 'put',
+  //      data: uploadVideoFile,
+  //      url: videoUrl,
+  //      headers: {
+  //        'Content-Type': 'video/mp4',
+  //      },
+  //    });
 
-      if (videoRes.status === 200) {
-        console.log('Video upload success');
-      }
+  //    if (videoRes.status === 200) {
+  //      console.log('Video upload success');
+  //    }
 
-      const thumbnailRes = await axios({
-        method: 'put',
-        data: uploadImageFile,
-        url: imageUrl,
-        headers: {
-          'Content-Type': 'image/png',
-        },
-      });
+  //    const thumbnailRes = await axios({
+  //      method: 'put',
+  //      data: uploadImageFile,
+  //      url: imageUrl,
+  //      headers: {
+  //        'Content-Type': 'image/png',
+  //      },
+  //    });
 
-      if (thumbnailRes.status === 200) {
-        console.log('Thumbnail upload success');
-      }
-    } catch (error) {
-      console.log('s3 업로드 에러', error);
-    }
-  };
+  //    if (thumbnailRes.status === 200) {
+  //      console.log('Thumbnail upload success');
+  //    }
+  //  } catch (error) {
+  //    console.log('s3 업로드 에러', error);
+  //  }
+  // };
 
   const handleVideoPrivacyChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setVideo((prev) => ({ ...prev, isPublic: e.target.value === 'public' }));
@@ -92,14 +93,19 @@ export default function UploadLayout() {
   };
 
   const handleCategoryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    // const category = e.target.value;
-    setVideo((prev) => ({ ...prev, category: 1 }));
-    // if (e.target.checked) {
-    //  setVideo((prev) => ({ ...prev, category: category}));
-    // }
-    // else {
-    //  setVideo((prev) => ({ ...prev, category: prev.category.filter((c) => c !== category) }));
-    // }
+    const category = e.target.value;
+    setVideo((prevVideo) => {
+      if (e.target.checked) {
+        return {
+          ...prevVideo,
+          category: [...prevVideo.category, category],
+        };
+      }
+      return {
+        ...prevVideo,
+        category: prevVideo.category.filter((c) => c !== category),
+      };
+    });
   };
 
   const getToday = () => dayjs().format('YYYY-MM-DD');
@@ -138,11 +144,14 @@ export default function UploadLayout() {
 
     if (videoFile && thumbnailFile) {
       try {
-        //const { videoUrl, imageUrl } = await getPresignedUrl();
-        const videoUrl =
-          'http://du30t7lolw1uk.cloudfront.net/example2.mp4?Expires=1696990740&Signature=Rsr8Te21r0xGFejEkhXxE4ava~VMAc8apBNIR5pFKWQrg8VHOJgK5X185VKIO82IRG7Tu9n08Ci409Bh-zibjbGlDaeodmu~WvKXmgOwRV5KZ1cn4jtlteAlCkJxICbnZ2ApzPIJ98cx~4pV75CKN37sja3SQGCpmHuzoCudejT0D1ZU6hkUjm6TsOPOeidyDFvvRqaQ2-xLgJVXSypB7UMV0KUenjx4tUjlcJIROt5VlfklUrpjHqpkz3tcL1sZNywLgSrz2uiev6r88IMfhA2gqOp5CunCB6r9Up8k6wFOI6VdWbheY7HeLKuFQ0XdcV9111MTPvzhHPJ400GE8w__&Key-Pair-Id=K2BGKC2WPH3ISX';
-        const imageUrl = '';
-        await s3Upload(videoUrl, videoFile, imageUrl, thumbnailFile);
+        const { videoUrl, imageUrl } = await getPresignedUrl();
+        // const videoUrl =
+        //  'http://du30t7lolw1uk.cloudfront.net/example2.mp4?Expires=1696990740&Signature=Rsr8Te21r0xGFejEkhXxE4ava~VMAc8apBNIR5pFKWQrg8VHOJgK5X185VKIO82IRG7Tu9n08Ci409Bh-zibjbGlDaeodmu~WvKXmgOwRV5KZ1cn4jtlteAlCkJxICbnZ2ApzPIJ98cx~4pV75CKN37sja3SQGCpmHuzoCudejT0D1ZU6hkUjm6TsOPOeidyDFvvRqaQ2-xLgJVXSypB7UMV0KUenjx4tUjlcJIROt5VlfklUrpjHqpkz3tcL1sZNywLgSrz2uiev6r88IMfhA2gqOp5CunCB6r9Up8k6wFOI6VdWbheY7HeLKuFQ0XdcV9111MTPvzhHPJ400GE8w__&Key-Pair-Id=K2BGKC2WPH3ISX';
+        // const imageUrl = '';
+        // await s3Upload(videoUrl, videoFile, imageUrl, thumbnailFile);
+        console.log('videoUrl', videoUrl);
+        console.log('imageUrl', imageUrl);
+        await S3upload(imageUrl, thumbnailFile, videoUrl, videoFile);
         await postVideoData();
       } catch (error) {
         console.log(error);

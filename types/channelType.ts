@@ -16,3 +16,10 @@ export interface ChannelDetailType extends ChannelSummaryType {
   privateType: boolean;
   updateFlag: boolean;
 }
+
+export interface ChannelUpdateType {
+  channelName: string;
+  content: string;
+  privateType: true;
+  profileUrl: string;
+}

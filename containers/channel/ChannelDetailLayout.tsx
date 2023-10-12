@@ -2,11 +2,13 @@ import Avatar from '@/components/ui/Avatar';
 import Title from '@/components/ui/Title';
 import VideoContainer from '@/components/video/VideoTop10Container';
 import { BiSearch } from 'react-icons/bi';
-import { channelData } from '@/public/staticData/channelData';
-import { ChannelDetailType } from '@/types/channelType';
+import { ChannelDetailType, ChannelUpdateType } from '@/types/channelType';
 import useSWR from 'swr';
 import fetcher from '@/utils/axiosFetcher';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import axios from 'axios';
+import S3Upload from '@/utils/S3Upload';
+import { useRouter } from 'next/router';
 
 interface ChannelProps {
   channelInfo: ChannelDetailType;
@@ -15,27 +17,93 @@ interface ChannelProps {
 export default function ChannelDetailLayout({ channelInfo }: ChannelProps) {
   const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
   const [isUpdate, setIsUpdate] = useState(false);
-  const { data } = useSWR(`${BASE_URL}/channel/video/${channelInfo.channelId}`, fetcher);
-  //console.log('data', data);
+  const router = useRouter();
+  const { cid } = router.query;
+  const [updatedChannelInfo, setUpdatedChannelInfo] = useState<ChannelUpdateType>();
 
-  const handleUpdate = () => {
-    setIsUpdate(true);
+  const { data } = useSWR(`${BASE_URL}/channel/video/${channelInfo.channelId}?pageSize=10`, fetcher);
+  // console.log('data', data);
+
+  const [profileImageFile, setProfileImageFile] = useState<File>();
+  const [previewUrl, setPreviewUrl] = useState<string>();
+
+  const getPresignedUrl = async (imageName: string) => {
+    const res = await axios.post(`${BASE_URL}/video/presigned?imageName=${imageName}`);
+    return res.data;
   };
 
-  const updateChannelInfo = () => {};
+  const handleUpdate = () => {
+    setIsUpdate((prev) => !prev);
+  };
+
+  const updateChannelToServer = async (updatedInfo: ChannelUpdateType) => {
+    try {
+      const res = await axios.put(`${BASE_URL}/channel/${cid}`, {
+        updatedInfo,
+      });
+      if (res.status === 200) {
+        alert('백엔드 채널 정보 수정 완료');
+        router.reload();
+      }
+    } catch (e) {
+      console.log('백엔드 수정 에러', e);
+    }
+  };
+
+  const updateChannel = async () => {
+    if (!profileImageFile) return;
+    if (!updatedChannelInfo) {
+      alert('변경사항이 없습니다.');
+      router.reload();
+      return;
+    }
+    const imageUrl = await getPresignedUrl(profileImageFile.name);
+    await S3Upload(imageUrl, profileImageFile);
+    await updateChannelToServer(updatedChannelInfo);
+    // TODO: send the updated channel info to the server
+  };
+
+  /**
+   * 프로필 이미지 파일 선택시 파일상태, 미리보기 상태 변경
+   */
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedFile = event.target.files?.[0];
+    if (selectedFile) {
+      setProfileImageFile(selectedFile);
+      const imageUrl = URL.createObjectURL(selectedFile);
+      setPreviewUrl(imageUrl);
+    }
+  };
+
+  // const handleChannelName = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //  setUpdatedChannelInfo((prev) => ({ ...prev, channelName: e.target.value }));
+  // }
 
   return (
     <>
       <div className='flex w-full h-60 items-center border-0 border-b-2 border-slate-300'>
         {isUpdate ? (
           <>
-            <div className='w-48'>
-              <Avatar width='full' marginX={5} imgUrl={channelInfo.profileUrl} />
+            <div className='w-48 flex flex-col justify-center items-center'>
+              <Avatar width={34} marginX={5} imgUrl={previewUrl || channelInfo.profileUrl} />
+              <div className='relative'>
+                <input
+                  type='file'
+                  id='thumbnailFile'
+                  accept='image/*'
+                  onChange={handleFileChange}
+                  className='absolute w-full h-full opacity-0 cursor-pointer'
+                />
+                <label className='btn btn-sm justify-center mt-3' htmlFor='thumbnailFile'>
+                  이미지 수정
+                </label>
+              </div>
             </div>
+
             <div className='grow pl-4'>
               <input
                 type='text'
-                value={channelInfo.channelName}
+                defaultValue={channelInfo.channelName}
                 className='input input-bordered w-full max-w-lg mb-3'
                 placeholder='채널 이름을 입력하세요.'
               />
@@ -43,14 +111,19 @@ export default function ChannelDetailLayout({ channelInfo }: ChannelProps) {
                 <textarea
                   id='videoDescription'
                   placeholder='영상 설명을 입력하세요.'
-                  value={channelInfo.content}
+                  defaultValue={channelInfo.content}
                   className='textarea textarea-bordered w-full h-20 resize-none max-w-lg'
                 />
               </div>
             </div>
-            <button className='btn btn-secondary' onClick={updateChannelInfo}>
-              수정하기
-            </button>
+            <div className='flex flex-col justify-center items-center'>
+              <div className='btn btn-secondary btn-md' onClick={updateChannel}>
+                수정하기
+              </div>
+              <div className='btn btn-md' onClick={handleUpdate}>
+                취소
+              </div>
+            </div>
           </>
         ) : (
           <>
@@ -61,9 +134,9 @@ export default function ChannelDetailLayout({ channelInfo }: ChannelProps) {
               <Title text={channelInfo.channelName} />
               <div>{channelInfo.content}</div>
             </div>
-            <button className='btn' onClick={handleUpdate}>
+            <div className='btn' onClick={handleUpdate}>
               채널 정보 수정
-            </button>
+            </div>
           </>
         )}
       </div>
@@ -89,7 +162,7 @@ export default function ChannelDetailLayout({ channelInfo }: ChannelProps) {
             <p className='mt-52 m-auto'>업로드한 영상이 없습니다.</p>
           </div>
         ) : (
-          <VideoContainer videoList={channelData.orderedVideoList} />
+          <VideoContainer videoList={data?.videos} />
         )}
       </div>
     </>

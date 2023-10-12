@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import Title from '@/components/ui/Title';
 import { ChannelSummaryType } from '@/types/channelType';
-import ChannelItem from './ChannelSummarylItem';
 import fetcher from '@/utils/axiosFetcher';
 import useSWR from 'swr';
+import ChannelItem from './ChannelSummarylItem';
 import LoadingSpinner from '../ui/LoadingSpinner';
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;

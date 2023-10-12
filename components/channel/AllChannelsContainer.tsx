@@ -7,7 +7,7 @@ import ChannelSummaryItem from './ChannelSummarylItem';
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 export default function AllChannelsContainer() {
-  const { data } = useSWR<ChannelSummaryType[]>(`${BASE_URL}/channelAll`, fetcher);
+  const { data } = useSWR<ChannelSummaryType[]>(`${BASE_URL}/channel/AllChannel?pageSize=10`, fetcher);
 
   console.log('채널:', data);
 
