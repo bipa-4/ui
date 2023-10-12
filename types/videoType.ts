@@ -6,7 +6,7 @@ export default interface VideoType {
   thumbnailUrl: string;
   viewCount?: number;
   createDate?: string;
-  isPublic: boolean;
+  privateType: boolean;
   category: string[];
 }
 

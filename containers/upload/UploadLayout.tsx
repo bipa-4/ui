@@ -6,6 +6,7 @@ import VideoType from '@/types/videoType';
 import useCategoryList from '@/hooks/useCategoryList';
 import dayjs from 'dayjs';
 import S3upload from '@/utils/S3Upload';
+import { set } from 'video.js/dist/types/tech/middleware';
 
 export default function UploadLayout() {
   // 카테고리 목록
@@ -25,7 +26,7 @@ export default function UploadLayout() {
     content: '',
     videoUrl: '',
     thumbnailUrl: '',
-    isPublic: true,
+    privateType: true,
     category: [],
   });
   console.log(video);
@@ -47,38 +48,6 @@ export default function UploadLayout() {
       setThumbnailPreviewUrl(thumbnailUrl);
     }
   };
-
-  // const s3Upload = async (videoUrl: string, uploadVideoFile: File, imageUrl: string, uploadImageFile: File) => {
-  //  try {
-  //    const videoRes = await axios({
-  //      method: 'put',
-  //      data: uploadVideoFile,
-  //      url: videoUrl,
-  //      headers: {
-  //        'Content-Type': 'video/mp4',
-  //      },
-  //    });
-
-  //    if (videoRes.status === 200) {
-  //      console.log('Video upload success');
-  //    }
-
-  //    const thumbnailRes = await axios({
-  //      method: 'put',
-  //      data: uploadImageFile,
-  //      url: imageUrl,
-  //      headers: {
-  //        'Content-Type': 'image/png',
-  //      },
-  //    });
-
-  //    if (thumbnailRes.status === 200) {
-  //      console.log('Thumbnail upload success');
-  //    }
-  //  } catch (error) {
-  //    console.log('s3 업로드 에러', error);
-  //  }
-  // };
 
   const handleVideoPrivacyChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setVideo((prev) => ({ ...prev, isPublic: e.target.value === 'public' }));
@@ -153,6 +122,7 @@ export default function UploadLayout() {
         // await s3Upload(videoUrl, videoFile, imageUrl, thumbnailFile);
         console.log('videoUrl', videoUrl);
         console.log('imageUrl', imageUrl);
+        setVideo((prev) => ({ ...prev, videoUrl: videoUrl, thumbnailUrl: imageUrl }));
         await S3upload(imageUrl, thumbnailFile, videoUrl, videoFile);
         await postVideoData();
       } catch (error) {
@@ -246,7 +216,7 @@ export default function UploadLayout() {
               <input
                 type='radio'
                 value='public'
-                checked={video.isPublic}
+                checked={video.privateType}
                 onChange={handleVideoPrivacyChange}
                 className='radio radio-secondary radio-sm mx-2'
               />
@@ -256,7 +226,7 @@ export default function UploadLayout() {
               <input
                 type='radio'
                 value='private'
-                checked={!video.isPublic}
+                checked={!video.privateType}
                 onChange={handleVideoPrivacyChange}
                 className='radio radio-secondary radio-sm mx-2'
               />
