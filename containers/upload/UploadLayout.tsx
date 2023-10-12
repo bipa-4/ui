@@ -125,7 +125,9 @@ export default function UploadLayout() {
 
   const postVideoData = async () => {
     try {
-      const res = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/video/upload`, video);
+      const res = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/video/upload`, video, {
+        withCredentials: true,
+      });
       console.log('백엔드에 업로드 : ', res);
     } catch (err) {
       console.log('백엔드 업로드 에러 : ', err);

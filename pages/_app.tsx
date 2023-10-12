@@ -10,8 +10,6 @@ const inter = notoSansKr({
   weight: ['100', '300', '400', '500', '700', '900'],
 });
 
-axios.defaults.withCredentials = true;
-
 export default function MyApp({ Component, pageProps }: AppProps) {
   return (
     <Provider>
