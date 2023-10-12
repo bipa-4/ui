@@ -122,7 +122,7 @@ export default function UploadLayout() {
         // await s3Upload(videoUrl, videoFile, imageUrl, thumbnailFile);
         console.log('videoUrl', videoUrl);
         console.log('imageUrl', imageUrl);
-        setVideo((prev) => ({ ...prev, videoUrl: videoUrl, thumbnailUrl: imageUrl }));
+        setVideo((prev) => ({ ...prev, videoUrl, thumbnailUrl: imageUrl }));
         await S3upload(imageUrl, thumbnailFile, videoUrl, videoFile);
         await postVideoData();
       } catch (error) {
