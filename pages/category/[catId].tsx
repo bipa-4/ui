@@ -1,3 +1,4 @@
+import LoadingSpinner from '@/components/ui/LoadingSpinner';
 import Title from '@/components/ui/Title';
 import InfiniteVideoContainer from '@/components/video/InfiniteVideoContainer';
 import { CategoryNameType, CategoryType } from '@/types/categoryType';
@@ -46,7 +47,11 @@ export default function Category({ catId, categoryVideos }: CategoryProps) {
   };
 
   if (!categoryVideos) {
-    return <div className='h-screen flex items-center m-auto'>loading...</div>;
+    return (
+      <div className='h-screen flex items-center m-auto'>
+        <LoadingSpinner />
+      </div>
+    );
   }
 
   return (

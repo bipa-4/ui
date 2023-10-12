@@ -8,6 +8,7 @@ import VideoPlayer from '@/components/video/VideoPlayer';
 import fetcher from '@/utils/axiosFetcher';
 import { set } from 'video.js/dist/types/tech/middleware';
 import axios from 'axios';
+import LoadingSpinner from '@/components/ui/LoadingSpinner';
 
 interface VideoDetailLayoutProps {
   video: VideoDetailType;
@@ -55,7 +56,11 @@ export default function VideoDetailLayout({ video }: VideoDetailLayoutProps) {
   console.log(like);
 
   if (!video) {
-    return <div className='h-screen flex items-center m-auto'>loading...</div>;
+    return (
+      <div className='h-screen flex items-center m-auto'>
+        <LoadingSpinner />
+      </div>
+    );
   }
 
   return (

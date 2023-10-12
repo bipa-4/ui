@@ -6,6 +6,7 @@ import { channelData } from '@/public/staticData/channelData';
 import { ChannelDetailType } from '@/types/channelType';
 import useSWR from 'swr';
 import fetcher from '@/utils/axiosFetcher';
+import { useEffect, useState } from 'react';
 
 interface ChannelProps {
   channelInfo: ChannelDetailType;
@@ -13,20 +14,58 @@ interface ChannelProps {
 
 export default function ChannelDetailLayout({ channelInfo }: ChannelProps) {
   const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+  const [isUpdate, setIsUpdate] = useState(false);
   const { data } = useSWR(`${BASE_URL}/channel/video/${channelInfo.channelId}`, fetcher);
   //console.log('data', data);
-  console.log(channelInfo.updateFlag);
+
+  const handleUpdate = () => {
+    setIsUpdate(true);
+  };
+
+  const updateChannelInfo = () => {};
+
   return (
     <>
       <div className='flex w-full h-60 items-center border-0 border-b-2 border-slate-300'>
-        <div className='w-48'>
-          <Avatar width='full' marginX={5} imgUrl={channelInfo.profileUrl} />
-        </div>
-        <div className='grow pl-4'>
-          <Title text={channelInfo.channelName} />
-          <div>{channelInfo.content}</div>
-        </div>
-        <button className='btn'>채널 정보 수정</button>
+        {isUpdate ? (
+          <>
+            <div className='w-48'>
+              <Avatar width='full' marginX={5} imgUrl={channelInfo.profileUrl} />
+            </div>
+            <div className='grow pl-4'>
+              <input
+                type='text'
+                value={channelInfo.channelName}
+                className='input input-bordered w-full max-w-lg mb-3'
+                placeholder='채널 이름을 입력하세요.'
+              />
+              <div>
+                <textarea
+                  id='videoDescription'
+                  placeholder='영상 설명을 입력하세요.'
+                  value={channelInfo.content}
+                  className='textarea textarea-bordered w-full h-20 resize-none max-w-lg'
+                />
+              </div>
+            </div>
+            <button className='btn btn-secondary' onClick={updateChannelInfo}>
+              수정하기
+            </button>
+          </>
+        ) : (
+          <>
+            <div className='w-48'>
+              <Avatar width='full' marginX={5} imgUrl={channelInfo.profileUrl} />
+            </div>
+            <div className='grow pl-4'>
+              <Title text={channelInfo.channelName} />
+              <div>{channelInfo.content}</div>
+            </div>
+            <button className='btn' onClick={handleUpdate}>
+              채널 정보 수정
+            </button>
+          </>
+        )}
       </div>
       <div className='mt-7'>
         <div className='mx-5 flex justify-between items-center'>

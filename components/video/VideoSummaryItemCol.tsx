@@ -33,9 +33,9 @@ function VideoSummaryItemCol({
         <Image
           className='absolute top-0 left-0 right-0 bottom-0 w-full h-full object-cover'
           src={thumbnail || defaultImg}
-          alt='cat'
-          width={999}
-          height={999}
+          alt='thumbnail'
+          width={500}
+          height={300}
           priority
         />
       </div>

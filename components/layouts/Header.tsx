@@ -25,6 +25,7 @@ export default function Header() {
   const router = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [user, setUser] = useAtom(userAtom);
+  const [keyword, setKeyword] = useState('');
 
   const toggleMenu = () => {
     setIsMenuOpen((prev) => !prev);
