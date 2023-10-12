@@ -17,7 +17,6 @@ export default function Callback() {
       console.log('콜백 페이지 응답 !', res);
     };
     auth();
-    router.push('/');
   }, []);
 
   const { userInfo, error } = useMemberData();
