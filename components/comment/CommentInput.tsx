@@ -1,7 +1,7 @@
 import { useRef } from 'react';
+import { useAtomValue } from 'jotai';
 import Title from '../ui/Title';
 import Avatar from '../ui/Avatar';
-import { useAtomValue } from 'jotai';
 import { userAtom } from '../layouts/Header';
 
 /**
@@ -18,8 +18,7 @@ export default function CommentInput() {
   };
 
   return (
-    <>
-      <div className='flex w-full py-3 items-center'>
+    <div className='flex w-full py-3 items-center'>
         <Avatar width={10} marginX={3} imgUrl={user?.profileUrl} />
         <div className='grow'>
           <textarea
@@ -34,6 +33,5 @@ export default function CommentInput() {
           등록
         </button>
       </div>
-    </>
   );
 }

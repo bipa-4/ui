@@ -1,9 +1,9 @@
 import useSWR from 'swr';
 import fetcher from '@/utils/axiosFetcher';
 import { ChannelSummaryType } from '@/types/channelType';
+import { useEffect, useState } from 'react';
 import Title from '../ui/Title';
 import ChannelSummaryItem from './ChannelSummarylItem';
-import { useEffect, useState } from 'react';
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 

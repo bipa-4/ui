@@ -60,7 +60,7 @@ export default function VideoDetailLayout({ video }: VideoDetailLayoutProps) {
       autoplay: true,
     },
   };
-  //console.log(like);
+  // console.log(like);
 
   if (!video) {
     return (
