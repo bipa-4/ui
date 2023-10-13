@@ -1,12 +1,15 @@
 import { useRef } from 'react';
 import Title from '../ui/Title';
 import Avatar from '../ui/Avatar';
+import { useAtomValue } from 'jotai';
+import { userAtom } from '../layouts/Header';
 
 /**
  * 댓글 입력 컴포넌트입니다.
  */
 
 export default function CommentInput() {
+  const user = useAtomValue(userAtom);
   const textarea = useRef<HTMLTextAreaElement>(null);
   const handleResizeHeight = () => {
     if (textarea.current === null) return;
@@ -16,11 +19,8 @@ export default function CommentInput() {
 
   return (
     <>
-      <div className='mx-1 pb-3 border-b-2'>
-        <Title text='댓글' />
-      </div>
       <div className='flex w-full py-3 items-center'>
-        <Avatar width={10} marginX={3} />
+        <Avatar width={10} marginX={3} imgUrl={user?.profileUrl} />
         <div className='grow'>
           <textarea
             rows={1}

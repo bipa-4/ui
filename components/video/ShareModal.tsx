@@ -18,7 +18,7 @@ export default function ShareModal() {
 
   const currentPath = `https://bipa-streamwave.vercel.app${router.asPath}`; // 현재 경로 가져오기
 
-  console.log(router);
+  //console.log(router);
   // 클립보드 복사 상태 관리
   const [isCopied, setIsCopied] = useState(false);
 
@@ -50,7 +50,7 @@ export default function ShareModal() {
       });
     }
   };
-  console.log(video);
+  //console.log(video);
 
   return (
     <>

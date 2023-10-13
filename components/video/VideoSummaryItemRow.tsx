@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import { VideoCardType } from '@/types/videoType';
+import defaultImg from '@/public/images/defaultThumbnailImage.png';
 import { useRouter } from 'next/router';
 import React from 'react';
 
@@ -19,7 +20,13 @@ function VideoSummaryItemRow({ videoSummaryItem }: VideoSummaryItemRowProps) {
     <div className='rounded-md p-1 w-full ml-2 flex cursor-pointer hover:bg-slate-200 mb-2' onClick={handleItemClick}>
       <div className='w-1/2 mr-3 flex-shrink-0'>
         <div className='rounded-md overflow-hidden' style={{ paddingBottom: '56.25%', position: 'relative' }}>
-          <Image src={thumbnail} alt='썸네일' layout='fill' objectFit='cover' className='absolute top-0 left-0' />
+          <Image
+            src={thumbnail || defaultImg}
+            alt='썸네일'
+            layout='fill'
+            objectFit='cover'
+            className='absolute top-0 left-0'
+          />
         </div>
       </div>
       <div className='flex-grow'>

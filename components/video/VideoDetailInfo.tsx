@@ -37,13 +37,11 @@ export default function VideoDetailInfo({ handleLike, video, isLike }: Props) {
           <div className='flex items-center'>
             <div className='btn bg-slate-100 rounded-full' onClick={handleLike}>
               <span className='text-sm'>{video.likeCount}</span>
-              <div className=''>
-                {isLike ? (
-                  <Image src='/images/heart.png' alt='heart' width={23} height={23} />
-                ) : (
-                  <Image src='/images/heart-empty.png' alt='heart' width={23} height={23} />
-                )}
-              </div>
+              {isLike ? (
+                <Image src='/images/heart.png' alt='heart' width={23} height={23} />
+              ) : (
+                <Image src='/images/heart-empty.png' alt='heart' width={23} height={23} />
+              )}
             </div>
             <ShareModal />
           </div>

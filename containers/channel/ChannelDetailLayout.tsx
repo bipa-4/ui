@@ -58,6 +58,7 @@ export default function ChannelDetailLayout({ channelInfo }: ChannelProps) {
 
   useEffect(() => {
     const updateChannelToServer = async (updatedInfo: ChannelUpdateType) => {
+      console.log(updatedChannelInfo.profileUrl);
       if (profileImageFile && updatedChannelInfo.profileUrl !== profileImageFile.name)
         try {
           const res = await axios.put(`${BASE_URL}/channel/${cid}`, updatedInfo, { withCredentials: true });
@@ -69,7 +70,6 @@ export default function ChannelDetailLayout({ channelInfo }: ChannelProps) {
           console.log('백엔드 수정 에러', e);
         }
     };
-    console.log();
     updateChannelToServer(updatedChannelInfo);
   }, [updatedChannelInfo.profileUrl]);
 
