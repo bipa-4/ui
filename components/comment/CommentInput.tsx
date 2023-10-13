@@ -19,19 +19,19 @@ export default function CommentInput() {
 
   return (
     <div className='flex w-full py-3 items-center'>
-        <Avatar width={10} marginX={3} imgUrl={user?.profileUrl} />
-        <div className='grow'>
-          <textarea
-            rows={1}
-            placeholder='댓글 입력'
-            ref={textarea}
-            onChange={handleResizeHeight}
-            className='input input-bordered input-primary rounded-md w-full resize-none h-12 p-2 '
-          />
-        </div>
-        <button type='button' className='btn mx-3 btn-outline btn-primary'>
-          등록
-        </button>
+      <Avatar width={10} marginX={3} imgUrl={user?.profileUrl} />
+      <div className='grow'>
+        <textarea
+          rows={1}
+          placeholder='댓글 입력'
+          ref={textarea}
+          onChange={handleResizeHeight}
+          className='input input-bordered input-primary rounded-md w-full resize-none h-12 p-2 '
+        />
       </div>
+      <button type='button' className='btn mx-3 btn-outline btn-primary'>
+        등록
+      </button>
+    </div>
   );
 }
