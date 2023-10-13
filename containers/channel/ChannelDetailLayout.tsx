@@ -15,16 +15,19 @@ interface ChannelProps {
 }
 
 export default function ChannelDetailLayout({ channelInfo }: ChannelProps) {
-  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
-  const [isUpdate, setIsUpdate] = useState(false);
   const router = useRouter();
   const { cid } = router.query;
+  //const { channelInfo } = useSWR(`${process.env.NEXT_PUBLIC_BASE_URL}/channel/${cid}`, fetcher)
+  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+  const [isUpdate, setIsUpdate] = useState(false);
   const [updatedChannelInfo, setUpdatedChannelInfo] = useState<ChannelUpdateType>({
     channelName: channelInfo.channelName,
     content: channelInfo.content,
     privateType: true,
     profileUrl: channelInfo.profileUrl,
   });
+
+  console.log('채널 세부 정보:', channelInfo);
 
   const { data } = useSWR(`${BASE_URL}/channel/video/${channelInfo.channelId}?pageSize=10`, fetcher);
 
@@ -42,8 +45,6 @@ export default function ChannelDetailLayout({ channelInfo }: ChannelProps) {
   const handleUpdate = () => {
     setIsUpdate((prev) => !prev);
   };
-
-  console.log(updatedChannelInfo);
 
   const updateChannel = async () => {
     if (profileImageFile) {

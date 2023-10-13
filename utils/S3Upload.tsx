@@ -26,7 +26,7 @@ async function S3upload(
     if (videoRes.status === 200) {
       console.log('Video upload success');
     } else {
-      console.log('Video upload failed');
+      console.log('CDN Video upload failed');
     }
   }
 
@@ -44,7 +44,7 @@ async function S3upload(
   if (thumbnailRes.status === 200) {
     console.log('Image upload success');
   } else {
-    console.log('Video upload failed');
+    console.log('CDN Image upload failed');
   }
 }
 

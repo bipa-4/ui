@@ -6,8 +6,16 @@ import VideoType from '@/types/videoType';
 import useCategoryList from '@/hooks/useCategoryList';
 import dayjs from 'dayjs';
 import S3upload from '@/utils/S3Upload';
+import { userAtom } from '@/components/layouts/Header';
+import { useAtomValue } from 'jotai';
+import { Router, useRouter } from 'next/router';
 
 export default function UploadLayout() {
+  // 유저 상태(전역)
+  const user = useAtomValue(userAtom);
+
+  const router = useRouter();
+
   // 카테고리 목록
   const { categoryList } = useCategoryList();
 
@@ -104,7 +112,12 @@ export default function UploadLayout() {
     if (videoFile && thumbnailFile) {
       try {
         const { imagePresignedUrl, videoPresignedUrl, videoName, imageName } = await getPresignedUrl();
+        console.log('==================== presigned 받아옴 ==========================');
+        console.log('imagePresignedUrl', imagePresignedUrl);
+        console.log('videoPresignedUrl', videoPresignedUrl);
+
         await S3upload(imagePresignedUrl, thumbnailFile, videoPresignedUrl, videoFile);
+        console.log('==================== s3업로드 ==========================');
         setVideo((prev) => ({
           ...prev,
           videoUrl: `https://du30t7lolw1uk.cloudfront.net/${videoName}`,
@@ -120,12 +133,16 @@ export default function UploadLayout() {
 
   useEffect(() => {
     const postVideoData = async (videoData: VideoType) => {
+      console.log('최종 videoData', video);
+
       if (videoFile && thumbnailFile) {
         try {
           const res = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/video/upload`, videoData, {
             withCredentials: true,
           });
           console.log('백엔드에 업로드 : ', res);
+          alert('업로드되었습니다.');
+          router.push('/');
         } catch (err) {
           console.log('백엔드 업로드 에러 : ', err);
         }
@@ -133,6 +150,10 @@ export default function UploadLayout() {
     };
     postVideoData(video);
   }, [video.videoUrl, video.thumbnailUrl]);
+
+  if (!user) {
+    return <div>로그인이 필요합니다.</div>;
+  }
 
   return (
     <div className='my-14 px-5 flex max-lg:flex-col min-h-screen'>
@@ -244,8 +265,8 @@ export default function UploadLayout() {
             videoId={0}
             thumbnail={thumbnailPreviewUrl || '/images/defaultThumbnailImage.png'}
             videoTitle={video.title}
-            channelProfileUrl=''
-            channelName=''
+            channelProfileUrl={user.profileUrl}
+            channelName={user.name}
             readCount={0}
             createAt={getToday()}
           />
