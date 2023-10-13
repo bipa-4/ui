@@ -3,13 +3,21 @@ import fetcher from '@/utils/axiosFetcher';
 import { ChannelSummaryType } from '@/types/channelType';
 import Title from '../ui/Title';
 import ChannelSummaryItem from './ChannelSummarylItem';
+import { useEffect, useState } from 'react';
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 export default function AllChannelsContainer() {
-  const { data } = useSWR<ChannelSummaryType[]>(`${BASE_URL}/channel/AllChannel?pageSize=10`, fetcher);
+  const [channelList, setChannelList] = useState<ChannelSummaryType[]>([]);
 
-  console.log('채널:', data);
+  const { data } = useSWR(`${BASE_URL}/channel/AllChannel?pageSize=10`, fetcher);
+
+  console.log(data);
+  useEffect(() => {
+    if (data) {
+      setChannelList(data.channelList);
+    }
+  }, [data]);
 
   return (
     <>
@@ -17,7 +25,9 @@ export default function AllChannelsContainer() {
         <Title text='채널 전체' />
       </div>
       <div className='flex flex-wrap w-full'>
-        {data?.map((channel) => <ChannelSummaryItem key={channel.channelId} channelItem={channel} size='large' />)}
+        {channelList.map((channel) => (
+          <ChannelSummaryItem key={channel.channelId} channelItem={channel} size='large' />
+        ))}
       </div>
     </>
   );

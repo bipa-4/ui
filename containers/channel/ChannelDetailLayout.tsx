@@ -5,7 +5,7 @@ import { BiSearch } from 'react-icons/bi';
 import { ChannelDetailType, ChannelUpdateType } from '@/types/channelType';
 import useSWR from 'swr';
 import fetcher from '@/utils/axiosFetcher';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
 import S3Upload from '@/utils/S3Upload';
 import { useRouter } from 'next/router';
@@ -19,49 +19,59 @@ export default function ChannelDetailLayout({ channelInfo }: ChannelProps) {
   const [isUpdate, setIsUpdate] = useState(false);
   const router = useRouter();
   const { cid } = router.query;
-  const [updatedChannelInfo, setUpdatedChannelInfo] = useState<ChannelUpdateType>();
+  const [updatedChannelInfo, setUpdatedChannelInfo] = useState<ChannelUpdateType>({
+    channelName: channelInfo.channelName,
+    content: channelInfo.content,
+    privateType: true,
+    profileUrl: channelInfo.profileUrl,
+  });
 
   const { data } = useSWR(`${BASE_URL}/channel/video/${channelInfo.channelId}?pageSize=10`, fetcher);
-  // console.log('data', data);
 
   const [profileImageFile, setProfileImageFile] = useState<File>();
   const [previewUrl, setPreviewUrl] = useState<string>();
 
   const getPresignedUrl = async (imageName: string) => {
-    const res = await axios.post(`${BASE_URL}/video/presigned?imageName=${imageName}`);
-    return res.data;
+    const res = await axios.post(`${BASE_URL}/channel/presigned?imageName=${imageName}`);
+    return {
+      imageName: res.data.imageName,
+      imageUrl: res.data.imageUrl,
+    };
   };
 
   const handleUpdate = () => {
     setIsUpdate((prev) => !prev);
   };
 
-  const updateChannelToServer = async (updatedInfo: ChannelUpdateType) => {
-    try {
-      const res = await axios.put(`${BASE_URL}/channel/${cid}`, {
-        updatedInfo,
-      });
-      if (res.status === 200) {
-        alert('백엔드 채널 정보 수정 완료');
-        router.reload();
-      }
-    } catch (e) {
-      console.log('백엔드 수정 에러', e);
+  console.log(updatedChannelInfo);
+
+  const updateChannel = async () => {
+    if (profileImageFile) {
+      const { imageUrl, imageName } = await getPresignedUrl(updatedChannelInfo.profileUrl);
+      setUpdatedChannelInfo((prev) => ({
+        ...prev,
+        profileUrl: `https://streamwaves3.s3.ap-northeast-2.amazonaws.com/${imageName}`,
+      }));
+      await S3Upload(imageUrl, profileImageFile);
     }
   };
 
-  const updateChannel = async () => {
-    if (!profileImageFile) return;
-    if (!updatedChannelInfo) {
-      alert('변경사항이 없습니다.');
-      router.reload();
-      return;
-    }
-    const imageUrl = await getPresignedUrl(profileImageFile.name);
-    await S3Upload(imageUrl, profileImageFile);
-    await updateChannelToServer(updatedChannelInfo);
-    // TODO: send the updated channel info to the server
-  };
+  useEffect(() => {
+    const updateChannelToServer = async (updatedInfo: ChannelUpdateType) => {
+      if (profileImageFile && updatedChannelInfo.profileUrl !== profileImageFile.name)
+        try {
+          const res = await axios.put(`${BASE_URL}/channel/${cid}`, updatedInfo, { withCredentials: true });
+          if (res.status === 200) {
+            alert('백엔드 채널 정보 수정 완료');
+            router.reload();
+          }
+        } catch (e) {
+          console.log('백엔드 수정 에러', e);
+        }
+    };
+    console.log();
+    updateChannelToServer(updatedChannelInfo);
+  }, [updatedChannelInfo.profileUrl]);
 
   /**
    * 프로필 이미지 파일 선택시 파일상태, 미리보기 상태 변경
@@ -75,9 +85,13 @@ export default function ChannelDetailLayout({ channelInfo }: ChannelProps) {
     }
   };
 
-  // const handleChannelName = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //  setUpdatedChannelInfo((prev) => ({ ...prev, channelName: e.target.value }));
-  // }
+  const handleChannelName = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setUpdatedChannelInfo((prev) => ({ ...prev, channelName: e.target.value }));
+  };
+
+  const handleChannelDescription = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setUpdatedChannelInfo((prev) => ({ ...prev, content: e.target.value }));
+  };
 
   return (
     <>
@@ -106,13 +120,15 @@ export default function ChannelDetailLayout({ channelInfo }: ChannelProps) {
                 defaultValue={channelInfo.channelName}
                 className='input input-bordered w-full max-w-lg mb-3'
                 placeholder='채널 이름을 입력하세요.'
+                onChange={handleChannelName}
               />
               <div>
                 <textarea
                   id='videoDescription'
-                  placeholder='영상 설명을 입력하세요.'
+                  placeholder='채널 설명을 입력하세요.'
                   defaultValue={channelInfo.content}
                   className='textarea textarea-bordered w-full h-20 resize-none max-w-lg'
+                  onChange={handleChannelDescription}
                 />
               </div>
             </div>

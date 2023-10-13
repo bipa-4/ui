@@ -7,6 +7,7 @@ const nextConfig = {
       'k.kakaocdn.net',
       'lh3.googleusercontent.com',
       'developers.kakao.com',
+      'du30t7lolw1uk.cloudfront.net',
     ],
   },
 };

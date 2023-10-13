@@ -1,12 +1,11 @@
 import Title from '@/components/ui/Title';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import VideoSummaryItemCol from '@/components/video/VideoSummaryItemCol';
 import axios from 'axios';
 import VideoType from '@/types/videoType';
 import useCategoryList from '@/hooks/useCategoryList';
 import dayjs from 'dayjs';
 import S3upload from '@/utils/S3Upload';
-import { set } from 'video.js/dist/types/tech/middleware';
 
 export default function UploadLayout() {
   // 카테고리 목록
@@ -26,10 +25,9 @@ export default function UploadLayout() {
     content: '',
     videoUrl: '',
     thumbnailUrl: '',
-    privateType: true,
+    privateType: false,
     category: [],
   });
-  console.log(video);
 
   const handleVideoFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -50,7 +48,7 @@ export default function UploadLayout() {
   };
 
   const handleVideoPrivacyChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setVideo((prev) => ({ ...prev, isPublic: e.target.value === 'public' }));
+    setVideo((prev) => ({ ...prev, privateType: e.target.value !== 'public' }));
   };
 
   const handleTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -82,25 +80,15 @@ export default function UploadLayout() {
   // presigned url 받아오기
   const getPresignedUrl = async () => {
     const res = await axios.post(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/video/presigned?videoName=${videoFile?.name}&imageName=${thumbnailFile?.name}`,
+      `${process.env.NEXT_PUBLIC_BASE_URL}/video/presigned-cdn?videoName=${videoFile?.name}&imageName=${thumbnailFile?.name}`,
     );
+    console.log('getPresignedUrl', res);
     return {
-      videoUrl: res.data.videoUrl,
-      imageUrl: res.data.imageUrl,
+      videoPresignedUrl: res.data.videoUrl,
+      imagePresignedUrl: res.data.imageUrl,
+      videoName: res.data.videoName,
+      imageName: res.data.imageName,
     };
-  };
-  // setVideoUploadUrl(res.data.videoUrl);
-  // setThumbnailUploadUrl(res.data.imageUrl);
-
-  const postVideoData = async () => {
-    try {
-      const res = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/video/upload`, video, {
-        withCredentials: true,
-      });
-      console.log('백엔드에 업로드 : ', res);
-    } catch (err) {
-      console.log('백엔드 업로드 에러 : ', err);
-    }
   };
 
   const upload = async () => {
@@ -115,16 +103,13 @@ export default function UploadLayout() {
 
     if (videoFile && thumbnailFile) {
       try {
-        const { videoUrl, imageUrl } = await getPresignedUrl();
-        // const videoUrl =
-        //  'http://du30t7lolw1uk.cloudfront.net/example2.mp4?Expires=1696990740&Signature=Rsr8Te21r0xGFejEkhXxE4ava~VMAc8apBNIR5pFKWQrg8VHOJgK5X185VKIO82IRG7Tu9n08Ci409Bh-zibjbGlDaeodmu~WvKXmgOwRV5KZ1cn4jtlteAlCkJxICbnZ2ApzPIJ98cx~4pV75CKN37sja3SQGCpmHuzoCudejT0D1ZU6hkUjm6TsOPOeidyDFvvRqaQ2-xLgJVXSypB7UMV0KUenjx4tUjlcJIROt5VlfklUrpjHqpkz3tcL1sZNywLgSrz2uiev6r88IMfhA2gqOp5CunCB6r9Up8k6wFOI6VdWbheY7HeLKuFQ0XdcV9111MTPvzhHPJ400GE8w__&Key-Pair-Id=K2BGKC2WPH3ISX';
-        // const imageUrl = '';
-        // await s3Upload(videoUrl, videoFile, imageUrl, thumbnailFile);
-        console.log('videoUrl', videoUrl);
-        console.log('imageUrl', imageUrl);
-        setVideo((prev) => ({ ...prev, videoUrl, thumbnailUrl: imageUrl }));
-        await S3upload(imageUrl, thumbnailFile, videoUrl, videoFile);
-        await postVideoData();
+        const { imagePresignedUrl, videoPresignedUrl, videoName, imageName } = await getPresignedUrl();
+        await S3upload(imagePresignedUrl, thumbnailFile, videoPresignedUrl, videoFile);
+        setVideo((prev) => ({
+          ...prev,
+          videoUrl: `https://du30t7lolw1uk.cloudfront.net/${videoName}`,
+          thumbnailUrl: `https://du30t7lolw1uk.cloudfront.net/${imageName}`,
+        }));
       } catch (error) {
         console.log(error);
       }
@@ -132,6 +117,22 @@ export default function UploadLayout() {
       alert('파일을 선택해주세요.');
     }
   };
+
+  useEffect(() => {
+    const postVideoData = async (videoData: VideoType) => {
+      if (videoFile && thumbnailFile) {
+        try {
+          const res = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/video/upload`, videoData, {
+            withCredentials: true,
+          });
+          console.log('백엔드에 업로드 : ', res);
+        } catch (err) {
+          console.log('백엔드 업로드 에러 : ', err);
+        }
+      }
+    };
+    postVideoData(video);
+  }, [video.videoUrl, video.thumbnailUrl]);
 
   return (
     <div className='my-14 px-5 flex max-lg:flex-col min-h-screen'>
@@ -216,7 +217,7 @@ export default function UploadLayout() {
               <input
                 type='radio'
                 value='public'
-                checked={video.privateType}
+                checked={!video.privateType}
                 onChange={handleVideoPrivacyChange}
                 className='radio radio-secondary radio-sm mx-2'
               />
@@ -226,7 +227,7 @@ export default function UploadLayout() {
               <input
                 type='radio'
                 value='private'
-                checked={!video.privateType}
+                checked={video.privateType}
                 onChange={handleVideoPrivacyChange}
                 className='radio radio-secondary radio-sm mx-2'
               />
