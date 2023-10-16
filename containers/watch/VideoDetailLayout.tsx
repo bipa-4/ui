@@ -48,7 +48,7 @@ export default function VideoDetailLayout({ video }: VideoDetailLayoutProps) {
           </div>
         </div>
 
-        <VideoDetailInfo video={video} handleUpdatePage={handleUpdatePage}/>
+        <VideoDetailInfo video={video} handleUpdatePage={handleUpdatePage} />
 
         <div className='w-full mx-1 my-5 max-2xl:w-full'>
           <div className='mx-1 pb-3 border-b-2'>

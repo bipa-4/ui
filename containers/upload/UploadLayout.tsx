@@ -17,7 +17,7 @@ type updateVideoType = {
 
 export default function UploadLayout({ updateVideo }: updateVideoType) {
   // 수정인지 업로드인지
-  const [isUpdate, setIsUpdate] = useState<boolean>(updateVideo ? true : false);
+  const [isUpdate, setIsUpdate] = useState<boolean>(!!updateVideo);
 
   // 유저 상태(전역)
   const user = useAtomValue(userAtom);
@@ -357,3 +357,7 @@ export default function UploadLayout({ updateVideo }: updateVideoType) {
     </div>
   );
 }
+
+UploadLayout.defaultProps = {
+  updateVideo: null,
+};

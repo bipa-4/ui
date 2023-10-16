@@ -1,17 +1,18 @@
 import { useRouter } from 'next/router';
-import UploadLayout from './UploadLayout';
 import fetcher from '@/utils/axiosFetcher';
 import useSWR from 'swr';
 import VideoType, { VideoDetailType } from '@/types/videoType';
+import LoadingSpinner from '@/components/ui/LoadingSpinner';
+import UploadLayout from './UploadLayout';
 
 export default function UpdateLayout() {
   const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
   const router = useRouter();
-  const { vid } = router?.query;
+  const { vid } = router.query;
   const { data } = useSWR<VideoDetailType>(`${BASE_URL}/video/detail/${vid}`, fetcher);
 
   if (!data) {
-    return;
+    return <LoadingSpinner />;
   }
 
   const dataForUpdate: VideoType = {
