@@ -31,8 +31,11 @@ export default function Callback() {
     }
 
     setUser(userInfo);
-    router.push('/');
   }, [userInfo]);
+
+  if (userInfo) {
+    router.push('/');
+  }
 
   return (
     <div className='h-screen flex items-center'>

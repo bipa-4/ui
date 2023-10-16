@@ -34,6 +34,10 @@ export default function Callback() {
     router.push('/');
   }, [userInfo]);
 
+  if (userInfo) {
+    router.push('/');
+  }
+
   return (
     <div className='h-screen flex items-center'>
       <div className='m-auto '>로그인 중..</div>
