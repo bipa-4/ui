@@ -17,7 +17,7 @@ export default function Callback() {
         const userRes = await fetcher(`${BASE_URL}/account/check`);
         setUser(userRes.data);
         console.log('authRes !', authRes);
-        console.log('authRes !', userRes);
+        console.log('userRes !', userRes);
       } catch (error) {
         console.log('error !', error);
       }
@@ -28,8 +28,10 @@ export default function Callback() {
   // const { userInfo, error } = useMemberData();
 
   useEffect(() => {
-    console.log('user !', user);
-    router.push('/');
+    if (user !== null) {
+      console.log('user !', user);
+      router.push('/');
+    }
   }, [user]);
 
   return (

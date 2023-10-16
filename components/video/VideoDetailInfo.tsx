@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import { VideoDetailType } from '@/types/videoType';
 import Avatar from '../ui/Avatar';
 import ShareModal from './ShareModal';
+import { useState } from 'react';
 
 type Props = {
   isLike: boolean | null;
@@ -11,6 +12,7 @@ type Props = {
 };
 
 export default function VideoDetailInfo({ handleLike, video, isLike }: Props) {
+  const [readMore, setReadMore] = useState(false);
   const router = useRouter();
   const channelClickHandler = () => {
     router.push(`/channel/${video.channelId}`);
@@ -25,7 +27,7 @@ export default function VideoDetailInfo({ handleLike, video, isLike }: Props) {
           <div className='' />
         </div>
 
-        <div className='flex items-center py-4 rounded-lg justify-between'>
+        <div className='flex items-center py-4 rounded-lg justify-between '>
           <div className='flex items-center cursor-pointer' onClick={channelClickHandler}>
             <div>
               <Avatar width={12} imgUrl={video.channelProfileUrl} marginX={3} />
@@ -51,7 +53,10 @@ export default function VideoDetailInfo({ handleLike, video, isLike }: Props) {
           <div className='text-sm pb-3'>
             조회수 {video.readCount}회 · 업로드 {video.createAt}
           </div>
-          {video.content}
+          {readMore ? <div className=''>{video.content}</div> : <div className='line-clamp-1'>{video.content}</div>}
+          <div className='text-sm text-blue-500 cursor-pointer mt-4' onClick={() => setReadMore(!readMore)}>
+            {readMore ? '간략히' : '더보기'}
+          </div>
         </div>
       </div>
     </div>
