@@ -25,7 +25,7 @@ export default function Callback() {
     auth();
   }, []);
 
-  //const { userInfo, error } = useMemberData();
+  // const { userInfo, error } = useMemberData();
 
   if (user) {
     router.push('/');
