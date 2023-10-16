@@ -1,9 +1,9 @@
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { VideoDetailType } from '@/types/videoType';
+import { useState } from 'react';
 import Avatar from '../ui/Avatar';
 import ShareModal from './ShareModal';
-import { useState } from 'react';
 
 type Props = {
   isLike: boolean | null;
