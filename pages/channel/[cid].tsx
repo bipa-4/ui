@@ -2,7 +2,6 @@ import ChannelDetailLayout from '@/containers/channel/ChannelDetailLayout';
 import Head from 'next/head';
 import { GetServerSidePropsContext } from 'next/types';
 import { ChannelDetailType } from '@/types/channelType';
-import axios from 'axios';
 import fetcher from '@/utils/axiosFetcher';
 
 interface ChannelProps {
@@ -11,13 +10,10 @@ interface ChannelProps {
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const { params } = context;
-
   const cid = params?.cid;
   const API = `${process.env.NEXT_PUBLIC_BASE_URL}/channel/${cid}`;
 
-  const res = await fetcher(API);
-
-  const channel = res.data;
+  const channel = await fetcher(API);
 
   return {
     props: {

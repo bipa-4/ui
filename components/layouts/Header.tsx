@@ -102,7 +102,7 @@ export default function Header() {
               <div className='dropdown dropdown-end'>
                 <button type='button' tabIndex={0} className='btn btn-ghost btn-circle avatar'>
                   <div className='w-10 rounded-full'>
-                    <Image src={user.profileUrl} alt='profile' width={200} height={200} onClick={toggleMenu} />
+                    <Image src={user.userProfileUrl} alt='profile' width={200} height={200} onClick={toggleMenu} />
                   </div>
                 </button>
                 {isMenuOpen && (
@@ -113,7 +113,7 @@ export default function Header() {
                       </Link>
                     </li>
                     <li>
-                      <Link href='/channel/1' onClick={toggleMenu}>
+                      <Link href={`/channel/${user.channelId}`} onClick={toggleMenu}>
                         내 채널
                       </Link>
                     </li>

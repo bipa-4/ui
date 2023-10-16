@@ -1,9 +1,10 @@
 export type userInfoType = {
-  accountId: number;
+  accountId: string;
+  channelId: string;
+  channelName: string;
+  channelProfileUrl: string;
   email: string;
-  joinDate: number;
   loginId: string;
-  loginType: string;
-  name: string;
-  profileUrl: string;
+  userName: string;
+  userProfileUrl: string;
 };

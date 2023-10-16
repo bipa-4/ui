@@ -19,6 +19,7 @@ export default function ChannelDetailLayout({ channelInfo }: ChannelProps) {
   const { cid } = router.query;
   // const { channelInfo } = useSWR(`${process.env.NEXT_PUBLIC_BASE_URL}/channel/${cid}`, fetcher)
   const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+  const [isMyChannel, setIsMyChannel] = useState(false);
   const [isUpdate, setIsUpdate] = useState(false);
   const [updatedChannelInfo, setUpdatedChannelInfo] = useState<ChannelUpdateType>({
     channelName: channelInfo.channelName,
@@ -33,6 +34,15 @@ export default function ChannelDetailLayout({ channelInfo }: ChannelProps) {
 
   const [profileImageFile, setProfileImageFile] = useState<File>();
   const [previewUrl, setPreviewUrl] = useState<string>();
+
+  const checkMyChannel = async () => {
+    const flag = await fetcher(`${BASE_URL}/channel/flag/${cid}`);
+    setIsMyChannel(flag);
+  };
+
+  useEffect(() => {
+    checkMyChannel();
+  }, []);
 
   const getPresignedUrl = async (imageName: string) => {
     const res = await axios.post(`${BASE_URL}/channel/presigned?imageName=${imageName}`);
@@ -151,9 +161,11 @@ export default function ChannelDetailLayout({ channelInfo }: ChannelProps) {
               <Title text={channelInfo.channelName} />
               <div>{channelInfo.content}</div>
             </div>
-            <div className='btn' onClick={handleUpdate}>
-              채널 정보 수정
-            </div>
+            {isMyChannel && (
+              <div className='btn' onClick={handleUpdate}>
+                채널 정보 수정
+              </div>
+            )}
           </>
         )}
       </div>

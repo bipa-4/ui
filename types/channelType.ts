@@ -14,7 +14,6 @@ export interface ChannelType extends ChannelSummaryType {
 
 export interface ChannelDetailType extends ChannelSummaryType {
   privateType: boolean;
-  updateFlag: boolean;
 }
 
 export interface ChannelUpdateType {
