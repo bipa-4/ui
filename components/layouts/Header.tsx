@@ -8,16 +8,7 @@ import axios from 'axios';
 import { BiSearch } from 'react-icons/bi';
 import { atom, useAtom } from 'jotai';
 import useMemberData from '@/hooks/useMemberData';
-
-type userInfoType = {
-  accountId: number;
-  email: string;
-  joinDate: number;
-  loginId: string;
-  loginType: string;
-  name: string;
-  profileUrl: string;
-};
+import { userInfoType } from '@/types/userType';
 
 export const userAtom = atom<userInfoType | null>(null);
 
@@ -59,6 +50,7 @@ export default function Header() {
       console.log('유저 정보 불러오기 실패', error);
     }
     if (!userInfo) {
+      console.log('유저정보 없음');
       setUser(null);
     }
     setUser(userInfo);
@@ -116,7 +108,7 @@ export default function Header() {
                 {isMenuOpen && (
                   <ul className='mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52'>
                     <li>
-                      <Link href='/' className='justify-between' onClick={toggleMenu}>
+                      <Link href='/profile' className='justify-between' onClick={toggleMenu}>
                         프로필
                       </Link>
                     </li>
