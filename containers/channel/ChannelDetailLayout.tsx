@@ -17,7 +17,7 @@ interface ChannelProps {
 export default function ChannelDetailLayout({ channelInfo }: ChannelProps) {
   const router = useRouter();
   const { cid } = router.query;
-  //const { channelInfo } = useSWR(`${process.env.NEXT_PUBLIC_BASE_URL}/channel/${cid}`, fetcher)
+  // const { channelInfo } = useSWR(`${process.env.NEXT_PUBLIC_BASE_URL}/channel/${cid}`, fetcher)
   const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
   const [isUpdate, setIsUpdate] = useState(false);
   const [updatedChannelInfo, setUpdatedChannelInfo] = useState<ChannelUpdateType>({
