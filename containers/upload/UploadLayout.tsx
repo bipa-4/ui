@@ -8,12 +8,19 @@ import dayjs from 'dayjs';
 import S3upload from '@/utils/S3Upload';
 import { userAtom } from '@/components/layouts/Header';
 import { useAtomValue } from 'jotai';
-import { Router, useRouter } from 'next/router';
+import { useRouter } from 'next/router';
+import Link from 'next/link';
 
-export default function UploadLayout() {
+type updateVideoType = {
+  updateVideo?: VideoType;
+};
+
+export default function UploadLayout({ updateVideo }: updateVideoType) {
+  // 수정인지 업로드인지
+  const [isUpdate, setIsUpdate] = useState<boolean>(updateVideo ? true : false);
+
   // 유저 상태(전역)
   const user = useAtomValue(userAtom);
-
   const router = useRouter();
 
   // 카테고리 목록
@@ -24,18 +31,20 @@ export default function UploadLayout() {
   const [thumbnailFile, setThumbnailFile] = useState<File>();
 
   // 미리보기 url
-  const [videoPreviewUrl, setVideoPreviewUrl] = useState<string>();
-  const [thumbnailPreviewUrl, setThumbnailPreviewUrl] = useState<string>();
+  const [videoPreviewUrl, setVideoPreviewUrl] = useState<string>(updateVideo?.videoUrl || '');
+  const [thumbnailPreviewUrl, setThumbnailPreviewUrl] = useState<string>(updateVideo?.thumbnailUrl || '');
 
   // 백엔드에 전송할 비디오 객체
-  const [video, setVideo] = useState<VideoType>({
-    title: '',
-    content: '',
-    videoUrl: '',
-    thumbnailUrl: '',
-    privateType: false,
-    category: [],
-  });
+  const [video, setVideo] = useState<VideoType>(
+    updateVideo || {
+      title: '',
+      content: '',
+      videoUrl: '',
+      thumbnailUrl: '',
+      privateType: false,
+      category: [],
+    },
+  );
 
   const handleVideoFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -88,7 +97,7 @@ export default function UploadLayout() {
   // presigned url 받아오기
   const getPresignedUrl = async () => {
     const res = await axios.post(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/video/presigned-cdn?videoName=${videoFile?.name}&imageName=${thumbnailFile?.name}`,
+      `${process.env.NEXT_PUBLIC_BASE_URL}/video/presigned?videoName=${videoFile?.name}&imageName=${thumbnailFile?.name}`,
     );
     console.log('getPresignedUrl', res);
     return {
@@ -131,18 +140,65 @@ export default function UploadLayout() {
     }
   };
 
+  const update = async () => {
+    if (!video.title) {
+      alert('제목을 입력해주세요.');
+      return;
+    }
+
+    if (!video.content) {
+      alert('설명을 입력해주세요.');
+      return;
+    }
+
+    if (videoFile && thumbnailFile) {
+      try {
+        const { imagePresignedUrl, videoPresignedUrl, videoName, imageName } = await getPresignedUrl();
+        console.log('==================== presigned 받아옴 ==========================');
+        console.log('imagePresignedUrl', imagePresignedUrl);
+        console.log('videoPresignedUrl', videoPresignedUrl);
+
+        await S3upload(imagePresignedUrl, thumbnailFile, videoPresignedUrl, videoFile);
+        console.log('==================== s3업로드 ==========================');
+        setVideo((prev) => ({
+          ...prev,
+          videoUrl: `https://du30t7lolw1uk.cloudfront.net/${videoName}`,
+          thumbnailUrl: `https://du30t7lolw1uk.cloudfront.net/${imageName}`,
+        }));
+      } catch (error) {
+        console.log(error);
+      }
+    } else {
+      // 비디오 수정
+      const res = await axios.put(`${process.env.NEXT_PUBLIC_BASE_URL}/video/${updateVideo?.id}`, video, {
+        withCredentials: true,
+      });
+      console.log('백엔드에 수정 : ', res);
+      alert('수정되었습니다.');
+      router.push('/');
+    }
+  };
+
   useEffect(() => {
     const postVideoData = async (videoData: VideoType) => {
       console.log('최종 videoData', video);
-
       if (videoFile && thumbnailFile) {
         try {
-          const res = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/video/upload`, videoData, {
-            withCredentials: true,
-          });
-          console.log('백엔드에 업로드 : ', res);
-          alert('업로드되었습니다.');
-          router.push('/');
+          if (!isUpdate) {
+            const res = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/video/upload`, videoData, {
+              withCredentials: true,
+            });
+            console.log('백엔드에 업로드 : ', res);
+            alert('업로드되었습니다.');
+            router.push('/');
+          } else {
+            const res = await axios.put(`${process.env.NEXT_PUBLIC_BASE_URL}/video/${updateVideo?.id}`, videoData, {
+              withCredentials: true,
+            });
+            console.log('백엔드에 수정 : ', res);
+            alert('수정되었습니다.');
+            router.push('/');
+          }
         } catch (err) {
           console.log('백엔드 업로드 에러 : ', err);
         }
@@ -152,7 +208,18 @@ export default function UploadLayout() {
   }, [video.videoUrl, video.thumbnailUrl]);
 
   if (!user) {
-    return <div>로그인이 필요합니다.</div>;
+    return (
+      <div className=' flex flex-col justify-center mx-auto mt-52 text-center max-w-2x1'>
+        <h1 className='text-3xl font-bold tracking-tight text-black md:text-5xl'>로그인이 필요합니다.</h1>
+        <br />
+        <Link
+          className='w-64 p-1 mx-auto font-bold text-center text-black border border-gray-500 rounded-lg sm:p-4'
+          href='/'
+        >
+          돌아가기
+        </Link>
+      </div>
+    );
   }
 
   return (
@@ -273,10 +340,18 @@ export default function UploadLayout() {
         </div>
 
         <div className='mt-5 text-center flex gap-2 justify-center'>
-          <div className='btn flex-1 h-14'>취소</div>
-          <div onClick={upload} className='btn btn-primary flex-1 h-14'>
-            업로드
-          </div>
+          <Link href='/' className='btn flex-1 h-14'>
+            취소
+          </Link>
+          {isUpdate ? (
+            <div onClick={update} className='btn btn-primary flex-1 h-14'>
+              수정
+            </div>
+          ) : (
+            <div onClick={upload} className='btn btn-primary flex-1 h-14'>
+              업로드
+            </div>
+          )}
         </div>
       </div>
     </div>

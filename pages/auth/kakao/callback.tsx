@@ -28,7 +28,7 @@ export default function Callback() {
   // const { userInfo, error } = useMemberData();
 
   useEffect(() => {
-    if (user !== null) {
+    if (user !== null && user !== undefined) {
       console.log('user !', user);
       router.push('/');
     }

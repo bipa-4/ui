@@ -19,7 +19,7 @@ function VideoSummaryItemCol({
 
   const handleItemClick = () => {
     if (!videoId) return;
-    router.push(`/watch/${videoId}`);
+    router.push(`video/watch/${videoId}`);
   };
 
   return (
@@ -40,7 +40,7 @@ function VideoSummaryItemCol({
         />
       </div>
 
-      <div className='card-body w-full gap-1.5'>
+      <div className='card-body w-full gap-1.5 '>
         {videoTitle ? (
           <p className='font-bold mx-1 w-full line-clamp-2'>{videoTitle}</p>
         ) : (

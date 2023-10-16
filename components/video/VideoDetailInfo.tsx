@@ -13,9 +13,10 @@ import Avatar from '../ui/Avatar';
 
 type Props = {
   video: VideoDetailType;
+  handleUpdatePage: () => void;
 };
 
-export default function VideoDetailInfo({ video }: Props) {
+export default function VideoDetailInfo({ video, handleUpdatePage }: Props) {
   const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
   const user = useAtomValue(userAtom);
   const [like, setLike] = useState(false);
@@ -119,7 +120,7 @@ export default function VideoDetailInfo({ video }: Props) {
                 </label>
                 <ul tabIndex={0} className='dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52'>
                   <li>
-                    <Link href='/' className='text-blue-600'>
+                    <Link href={`/video/update/${video.videoId}`} className='text-blue-600' onClick={handleUpdatePage}>
                       수정
                     </Link>
                   </li>
@@ -138,7 +139,7 @@ export default function VideoDetailInfo({ video }: Props) {
           <div className='text-sm pb-3'>
             조회수 {video.readCount}회 · 업로드 {video.createAt}
           </div>
-          {readMore ? <div className=''>{video.content}</div> : <div className='line-clamp-1'>{video.content}</div>}
+          {readMore ? <div>{video.content}</div> : <div className='line-clamp-1'>{video.content}</div>}
           <div className='text-sm text-blue-500 cursor-pointer mt-4' onClick={() => setReadMore(!readMore)}>
             {readMore ? '간략히' : '더보기'}
           </div>

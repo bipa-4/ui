@@ -13,11 +13,11 @@ function VideoSummaryItemRow({ videoSummaryItem }: VideoSummaryItemRowProps) {
   const { videoId, videoTitle, channelName, thumbnail, readCount, createAt } = videoSummaryItem;
 
   const handleItemClick = () => {
-    router.push(`/watch/${videoId}`);
+    router.push(`video/watch/${videoId}`);
   };
 
   return (
-    <div className='rounded-md p-1 w-full ml-2 flex cursor-pointer hover:bg-slate-200 mb-2' onClick={handleItemClick}>
+    <div className='rounded-md w-full flex cursor-pointer hover:bg-slate-200 mb-2 pr-2' onClick={handleItemClick}>
       <div className='w-1/2 mr-3 flex-shrink-0'>
         <div className='rounded-md overflow-hidden' style={{ paddingBottom: '56.25%', position: 'relative' }}>
           <Image
@@ -29,9 +29,11 @@ function VideoSummaryItemRow({ videoSummaryItem }: VideoSummaryItemRowProps) {
           />
         </div>
       </div>
-      <div className='flex-grow'>
+      <div className='w-1/2 flex flex-col items-start'>
         <div className='font-bold pb-1 line-clamp-2'>{videoTitle}</div>
-        <div className='text-sm pb-1'>{channelName}</div>
+        <div className='text-sm pb-1 overflow-hidden'>
+          <span className='line-clamp-1'>{channelName}</span>
+        </div>
         <div className='flex'>
           <div className='mr-2 font-light text-xs'>
             <div>조회수 {readCount}회</div>

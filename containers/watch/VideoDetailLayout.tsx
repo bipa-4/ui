@@ -6,12 +6,15 @@ import { VideoCardType, VideoDetailType } from '@/types/videoType';
 import VideoPlayer from '@/components/video/VideoPlayer';
 import LoadingSpinner from '@/components/ui/LoadingSpinner';
 import Title from '@/components/ui/Title';
+import { useState } from 'react';
+import UploadLayout from '../upload/UploadLayout';
 
 interface VideoDetailLayoutProps {
   video: VideoDetailType;
 }
 
 export default function VideoDetailLayout({ video }: VideoDetailLayoutProps) {
+  const [updateOpen, setUpdateOpen] = useState(false);
   const videoArgs = {
     styles: {
       width: '100%',
@@ -25,12 +28,16 @@ export default function VideoDetailLayout({ video }: VideoDetailLayoutProps) {
   // console.log(like);
 
   if (!video) {
-    return (
-      <div className='h-screen flex items-center m-auto'>
-        <LoadingSpinner />
-      </div>
-    );
+    return <LoadingSpinner />;
   }
+
+  if (updateOpen) {
+    return <UploadLayout />;
+  }
+
+  const handleUpdatePage = () => {
+    setUpdateOpen(true);
+  };
 
   return (
     <div className='w-full flex'>
@@ -41,7 +48,7 @@ export default function VideoDetailLayout({ video }: VideoDetailLayoutProps) {
           </div>
         </div>
 
-        <VideoDetailInfo video={video} />
+        <VideoDetailInfo video={video} handleUpdatePage={handleUpdatePage}/>
 
         <div className='w-full mx-1 my-5 max-2xl:w-full'>
           <div className='mx-1 pb-3 border-b-2'>
@@ -53,7 +60,7 @@ export default function VideoDetailLayout({ video }: VideoDetailLayoutProps) {
           </div>
         </div>
       </div>
-      <div className='basis-1/4 max-2xl:hidden my-4 shrink-0'>
+      <div className='basis-1/4 max-2xl:hidden my-4 shrink-0 mx-2'>
         {video.recommendedList?.map((v: VideoCardType) => <VideoSummaryItemRow key={v.videoId} videoSummaryItem={v} />)}
       </div>
     </div>
