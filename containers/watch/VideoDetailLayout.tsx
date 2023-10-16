@@ -3,13 +3,8 @@ import CommentItem from '@/components/comment/CommentItem';
 import VideoDetailInfo from '@/components/video/VideoDetailInfo';
 import VideoSummaryItemRow from '@/components/video/VideoSummaryItemRow';
 import { VideoCardType, VideoDetailType } from '@/types/videoType';
-import { useEffect, useState } from 'react';
 import VideoPlayer from '@/components/video/VideoPlayer';
-import fetcher from '@/utils/axiosFetcher';
-import axios from 'axios';
 import LoadingSpinner from '@/components/ui/LoadingSpinner';
-import { useAtomValue } from 'jotai';
-import { userAtom } from '@/components/layouts/Header';
 import Title from '@/components/ui/Title';
 
 interface VideoDetailLayoutProps {
@@ -17,39 +12,6 @@ interface VideoDetailLayoutProps {
 }
 
 export default function VideoDetailLayout({ video }: VideoDetailLayoutProps) {
-  const [like, setLike] = useState(false);
-  const user = useAtomValue(userAtom);
-
-  useEffect(() => {
-    if (video.isLike === true) {
-      setLike(true);
-    } else if (video.isLike === false) {
-      setLike(false);
-    }
-  }, []);
-
-  const handleLike = async () => {
-    console.log('유저 정보 : ', user);
-    console.log('video: ', video);
-    console.log('좋아요? : ', video.isLike);
-
-    if (!user) {
-      alert('로그인이 필요합니다.');
-      return;
-    }
-    if (video.isLike === true) {
-      setLike(!like);
-      const res = await fetcher(`${process.env.NEXT_PUBLIC_BASE_URL}/video/detail/${video.videoId}/like`);
-      console.log(res);
-      return;
-    }
-    if (video.isLike === false) {
-      setLike(!like);
-      const res = await axios.delete(`${process.env.NEXT_PUBLIC_BASE_URL}/video/detail/${video.videoId}/like`);
-      console.log(res);
-    }
-  };
-
   const videoArgs = {
     styles: {
       width: '100%',
@@ -79,7 +41,7 @@ export default function VideoDetailLayout({ video }: VideoDetailLayoutProps) {
           </div>
         </div>
 
-        <VideoDetailInfo isLike={like} handleLike={handleLike} video={video} />
+        <VideoDetailInfo video={video} />
 
         <div className='w-full mx-1 my-5 max-2xl:w-full'>
           <div className='mx-1 pb-3 border-b-2'>

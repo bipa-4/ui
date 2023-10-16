@@ -16,6 +16,19 @@ export default function Header() {
   const router = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [user, setUser] = useAtom(userAtom);
+  const { userInfo, error } = useMemberData();
+
+  useEffect(() => {
+    if (error) {
+      console.log('유저 정보 불러오기 실패', error);
+    }
+    if (!userInfo) {
+      console.log('유저정보 없음');
+      setUser(null);
+    }
+    setUser(userInfo);
+    console.log('헤더에서 조회 - 유저정보', userInfo);
+  }, [userInfo]);
 
   const toggleMenu = () => {
     setIsMenuOpen((prev) => !prev);
@@ -42,20 +55,6 @@ export default function Header() {
       alert('로그아웃되었습니다.');
     }
   };
-
-  const { userInfo, error } = useMemberData();
-
-  useEffect(() => {
-    if (error) {
-      console.log('유저 정보 불러오기 실패', error);
-    }
-    if (!userInfo) {
-      console.log('유저정보 없음');
-      setUser(null);
-    }
-    setUser(userInfo);
-    console.log('헤더에서 조회 - 유저정보', userInfo);
-  }, [userInfo]);
 
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault(); // 폼 제출 기본 동작 방지
