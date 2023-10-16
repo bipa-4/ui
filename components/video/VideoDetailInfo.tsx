@@ -7,37 +7,41 @@ import ShareModal from './ShareModal';
 import fetcher from '@/utils/axiosFetcher';
 import { useAtomValue } from 'jotai';
 import { userAtom } from '../layouts/Header';
-import PreviousMap from 'postcss/lib/previous-map';
 import axios from 'axios';
+import { FiMoreHorizontal } from 'react-icons/fi';
+import Link from 'next/link';
 
 type Props = {
   video: VideoDetailType;
 };
 
 export default function VideoDetailInfo({ video }: Props) {
+  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+  const user = useAtomValue(userAtom);
   const [like, setLike] = useState(false);
   const [likeCount, setLikeCount] = useState(video.likeCount);
-  const user = useAtomValue(userAtom);
-  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
-
+  const [isMyVideo, setIsMyVideo] = useState(false);
   const [readMore, setReadMore] = useState(false);
   const router = useRouter();
-  const channelClickHandler = () => {
-    router.push(`/channel/${video.channelId}`);
-  };
 
   useEffect(() => {
     const checkLiked = async () => {
       const hasLiked = await fetcher(`${BASE_URL}/video/like/${video.videoId}`);
       console.log('hasLiked', hasLiked);
-      if (hasLiked === true) {
-        setLike(true);
-      } else {
-        setLike(false);
-      }
+      setLike(hasLiked);
+    };
+    const checkMyVideo = async () => {
+      const res = await axios.get(`${BASE_URL}/video/check?videoId=${video.videoId}`, { withCredentials: true });
+      console.log('isMyVideo', res.data);
+      setIsMyVideo(res.data);
     };
     checkLiked();
+    checkMyVideo();
   }, []);
+
+  const channelClickHandler = () => {
+    router.push(`/channel/${video.channelId}`);
+  };
 
   const handleLike = async () => {
     console.log('video: ', video);
@@ -53,7 +57,7 @@ export default function VideoDetailInfo({ video }: Props) {
       const deleted = await axios.delete(`${BASE_URL}/video/detail/${video.videoId}/like`, {
         withCredentials: true,
       });
-      console.log('deleted', deleted);
+      console.log('좋아요 삭제', deleted);
       return;
     }
 
@@ -65,6 +69,19 @@ export default function VideoDetailInfo({ video }: Props) {
       });
       console.log('좋아요 누름', liked);
       return;
+    }
+  };
+
+  const deleteVideo = async () => {
+    const confirm = window.confirm('정말 삭제하시겠습니까?');
+    if (confirm) {
+      try {
+        const res = await axios.delete(`${BASE_URL}/video/detail/${video.videoId}`, { withCredentials: true });
+        console.log('res', res);
+        router.push('/');
+      } catch (err) {
+        console.log(err);
+      }
     }
   };
 
@@ -86,7 +103,7 @@ export default function VideoDetailInfo({ video }: Props) {
             {/* <div className='btn btn-secondary mx-5 btn-sm'> 구독 </div> */}
           </div>
 
-          <div className='flex items-center'>
+          <div className='flex items-center mx-3'>
             <div className='btn bg-slate-100 rounded-full' onClick={handleLike}>
               <span className='text-sm'>{likeCount}</span>
               {like ? (
@@ -96,6 +113,27 @@ export default function VideoDetailInfo({ video }: Props) {
               )}
             </div>
             <ShareModal />
+            {isMyVideo && (
+              <>
+                <div className='dropdown dropdown-end'>
+                  <label tabIndex={0} className='btn bg-slate-100 rounded-full m-1'>
+                    <FiMoreHorizontal />
+                  </label>
+                  <ul tabIndex={0} className='dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52'>
+                    <li>
+                      <Link href='' className='text-blue-600'>
+                        수정
+                      </Link>
+                    </li>
+                    <li>
+                      <div className='text-red-600' onClick={deleteVideo}>
+                        삭제
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              </>
+            )}
           </div>
         </div>
 
