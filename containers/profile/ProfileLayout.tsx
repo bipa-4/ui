@@ -14,14 +14,14 @@ export default function ProfileLayout() {
     <>
       <div className='flex w-full h-60 items-center border-0 border-b-2 border-slate-300'>
         <div className='w-48'>
-          <Avatar width='full' marginX={5} imgUrl={user.profileUrl} />
+          <Avatar width='full' marginX={5} imgUrl={user.userProfileUrl} />
         </div>
         <div className='grow pl-4'>
           <Title text={user.loginId} />
           <div>{user.email}</div>
         </div>
       </div>
-      <div>이름: {user.name}</div>
+      <div>이름: {user.userName}</div>
     </>
   );
 }

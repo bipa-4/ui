@@ -265,8 +265,8 @@ export default function UploadLayout() {
             videoId={0}
             thumbnail={thumbnailPreviewUrl || '/images/defaultThumbnailImage.png'}
             videoTitle={video.title}
-            channelProfileUrl={user.profileUrl}
-            channelName={user.name}
+            channelProfileUrl={user.channelProfileUrl}
+            channelName={user.channelName}
             readCount={0}
             createAt={getToday()}
           />

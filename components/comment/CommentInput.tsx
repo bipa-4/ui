@@ -19,7 +19,7 @@ export default function CommentInput() {
 
   return (
     <div className='flex w-full py-3 items-center'>
-      <Avatar width={10} marginX={3} imgUrl={user?.profileUrl} />
+      <Avatar width={10} marginX={3} imgUrl={user?.userProfileUrl} />
       <div className='grow'>
         <textarea
           rows={1}
