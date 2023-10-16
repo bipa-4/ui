@@ -50,7 +50,8 @@
     "jsx-a11y/media-has-caption": "off",
     "no-multi-assign": "off",
     "no-plusplus": "off",
-    "no-unused-vars": "off"
+    "no-unused-vars": "off",
+    "jsx-a11y/no-noninteractive-tabindex": "off"
   },
   "globals": {
     "React": "writable"

@@ -2,14 +2,14 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { VideoDetailType } from '@/types/videoType';
 import { useState, useEffect } from 'react';
-import Avatar from '../ui/Avatar';
-import ShareModal from './ShareModal';
 import fetcher from '@/utils/axiosFetcher';
 import { useAtomValue } from 'jotai';
-import { userAtom } from '../layouts/Header';
 import axios from 'axios';
 import { FiMoreHorizontal } from 'react-icons/fi';
 import Link from 'next/link';
+import { userAtom } from '../layouts/Header';
+import ShareModal from './ShareModal';
+import Avatar from '../ui/Avatar';
 
 type Props = {
   video: VideoDetailType;
@@ -68,7 +68,6 @@ export default function VideoDetailInfo({ video }: Props) {
         withCredentials: true,
       });
       console.log('좋아요 누름', liked);
-      return;
     }
   };
 
@@ -114,25 +113,23 @@ export default function VideoDetailInfo({ video }: Props) {
             </div>
             <ShareModal />
             {isMyVideo && (
-              <>
-                <div className='dropdown dropdown-end'>
-                  <label tabIndex={0} className='btn bg-slate-100 rounded-full m-1'>
-                    <FiMoreHorizontal />
-                  </label>
-                  <ul tabIndex={0} className='dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52'>
-                    <li>
-                      <Link href='' className='text-blue-600'>
-                        수정
-                      </Link>
-                    </li>
-                    <li>
-                      <div className='text-red-600' onClick={deleteVideo}>
-                        삭제
-                      </div>
-                    </li>
-                  </ul>
-                </div>
-              </>
+              <div className='dropdown dropdown-end'>
+                <label tabIndex={0} className='btn bg-slate-100 rounded-full m-1'>
+                  <FiMoreHorizontal />
+                </label>
+                <ul tabIndex={0} className='dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52'>
+                  <li>
+                    <Link href='/' className='text-blue-600'>
+                      수정
+                    </Link>
+                  </li>
+                  <li>
+                    <div className='text-red-600' onClick={deleteVideo}>
+                      삭제
+                    </div>
+                  </li>
+                </ul>
+              </div>
             )}
           </div>
         </div>
