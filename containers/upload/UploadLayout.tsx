@@ -163,8 +163,8 @@ export default function UploadLayout({ updateVideo }: updateVideoType) {
       return;
     }
 
-    //const contentWithLineBreaks = video.content.replace(/\n/g, '<br>');
-    //setVideo((prev) => ({ ...prev, content: contentWithLineBreaks }));
+    // const contentWithLineBreaks = video.content.replace(/\n/g, '<br>');
+    // setVideo((prev) => ({ ...prev, content: contentWithLineBreaks }));
 
     if (thumbnailFile) {
       try {
@@ -202,11 +202,11 @@ export default function UploadLayout({ updateVideo }: updateVideoType) {
     }
   };
 
-  //useEffect(() => {
+  // useEffect(() => {
   //  if (!videoFile && !thumbnailFile) {
   //    postVideoData(video);
   //  }
-  //}, [video.content])
+  // }, [video.content])
 
   useEffect(() => {
     if (videoFile || thumbnailFile) {
