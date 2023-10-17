@@ -24,7 +24,7 @@ export default function Avatar({ width, marginX, nickname, imgUrl }: Props) {
           <Image src={imgUrl || defaultUserImage} alt='cat' width={800} height={800} />
         </div>
       </div>
-      {nickname && <p className='w-4/5 px-1 line-clamp-1'>{nickname}</p>}
+      {nickname && <p className=' whitespace-pre-line w-4/5 px-1 line-clamp-1'>{nickname}</p>}
     </div>
   );
 }

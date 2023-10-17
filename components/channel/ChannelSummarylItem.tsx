@@ -18,7 +18,7 @@ type props = {
 export default function ChannelSummaryItem({ channelItem, rank, size }: props) {
   const buttonSize = `${
     size === 'large' ? 'w-1/2' : 'w-full'
-  } bg-base-100 hover:bg-gray-100 text-left rounded-2xl hover:bg-slate-200 max-lg:w-full cursor-pointer`;
+  } bg-base-100 hover:bg-gray-100 text-left rounded-2xl hover:bg-slate-200 max-lg:w-full cursor-pointer overflow-hidden`;
 
   const router = useRouter();
 
@@ -27,15 +27,20 @@ export default function ChannelSummaryItem({ channelItem, rank, size }: props) {
   };
 
   return (
-    <div className={buttonSize} onClick={handleItemClick}>
-      <div className={`flex items-center px-2 justify-center ${size === 'large' ? 'h-40' : 'h-20'}`}>
+    <div
+      className={`${
+        size === 'large' ? 'w-1/2' : 'w-full'
+      } bg-base-100 text-left rounded-2xl hover:bg-slate-200 max-lg:w-full cursor-pointer`}
+      onClick={handleItemClick}
+    >
+      <div className={`w-full flex items-center px-2 justify-center ${size === 'large' ? 'h-40' : 'h-20'}`}>
         {rank && <div className='px-1'>{rank}</div>}
 
         {size === 'small' && (
           <>
             <Avatar width={11} marginX={2} imgUrl={channelItem.profileUrl} />
-            <div className='grow'>
-              <div className='font-bold text-sm'>{channelItem.channelName}</div>
+            <div className='grow overflow-hidden'>
+              <div className='font-bold text-sm line-clamp-1'>{channelItem.channelName}</div>
               <p className='flex-wrap text-xs overflow-hidden line-clamp-2'>{channelItem.content}</p>
             </div>
           </>
@@ -43,9 +48,9 @@ export default function ChannelSummaryItem({ channelItem, rank, size }: props) {
         {size === 'large' && (
           <>
             <Avatar width={20} marginX={5} imgUrl={channelItem.profileUrl} />
-            <div className='grow'>
+            <div className='grow overflow-hidden'>
               <div className='font-bold text-base'>{channelItem.channelName}</div>
-              <div className='flex-wrap text-sm overflow-hidden'>{channelItem.content}</div>
+              <div className='flex-wrap text-sm'>{channelItem.content}</div>
             </div>
           </>
         )}

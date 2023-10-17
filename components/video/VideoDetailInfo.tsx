@@ -76,7 +76,7 @@ export default function VideoDetailInfo({ video, handleUpdatePage }: Props) {
     const confirm = window.confirm('정말 삭제하시겠습니까?');
     if (confirm) {
       try {
-        const res = await axios.delete(`${BASE_URL}/video/detail/${video.videoId}`, { withCredentials: true });
+        const res = await axios.delete(`${BASE_URL}/video/${video.videoId}`, { withCredentials: true });
         console.log('res', res);
         router.push('/');
       } catch (err) {
@@ -139,7 +139,11 @@ export default function VideoDetailInfo({ video, handleUpdatePage }: Props) {
           <div className='text-sm pb-3'>
             조회수 {video.readCount}회 · 업로드 {video.createAt}
           </div>
-          {readMore ? <div>{video.content}</div> : <div className='line-clamp-1'>{video.content}</div>}
+          {readMore ? (
+            <div className='whitespace-pre-line'>{video.content}</div>
+          ) : (
+            <div className='whitespace-pre-line line-clamp-1'>{video.content}</div>
+          )}
           <div className='text-sm text-blue-500 cursor-pointer mt-4' onClick={() => setReadMore(!readMore)}>
             {readMore ? '간략히' : '더보기'}
           </div>

@@ -96,6 +96,29 @@ export default function UploadLayout({ updateVideo }: updateVideoType) {
 
   const getToday = () => dayjs().format('YYYY-MM-DD');
 
+  const postVideoData = async (videoData: VideoType) => {
+    console.log('최종 videoData', videoData);
+    try {
+      if (!isUpdate) {
+        const res = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/video/upload`, videoData, {
+          withCredentials: true,
+        });
+        console.log('백엔드에 업로드 : ', res);
+        alert('업로드되었습니다.');
+        router.push('/');
+      } else {
+        const res = await axios.put(`${process.env.NEXT_PUBLIC_BASE_URL}/video/${updateVideo?.id}`, videoData, {
+          withCredentials: true,
+        });
+        console.log('백엔드에 수정 : ', res);
+        alert('수정되었습니다.');
+        router.push('/');
+      }
+    } catch (err) {
+      console.log('백엔드 업로드 에러 : ', err);
+    }
+  };
+
   const upload = async () => {
     if (!video.title) {
       alert('제목을 입력해주세요.');
@@ -140,6 +163,9 @@ export default function UploadLayout({ updateVideo }: updateVideoType) {
       return;
     }
 
+    //const contentWithLineBreaks = video.content.replace(/\n/g, '<br>');
+    //setVideo((prev) => ({ ...prev, content: contentWithLineBreaks }));
+
     if (thumbnailFile) {
       try {
         const { imagePresignedUrl, imageName } = await getPresignedImageUrl(thumbnailFile?.name);
@@ -172,37 +198,15 @@ export default function UploadLayout({ updateVideo }: updateVideoType) {
 
     // 비디오 수정
     if (!videoFile && !thumbnailFile) {
-      const res = await axios.put(`${process.env.NEXT_PUBLIC_BASE_URL}/video/${updateVideo?.id}`, video, {
-        withCredentials: true,
-      });
-      console.log('백엔드에 수정 : ', res);
-      alert('수정되었습니다.');
-      router.push('/');
+      postVideoData(video);
     }
   };
 
-  const postVideoData = async (videoData: VideoType) => {
-    console.log('최종 videoData', videoData);
-    try {
-      if (!isUpdate) {
-        const res = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/video/upload`, videoData, {
-          withCredentials: true,
-        });
-        console.log('백엔드에 업로드 : ', res);
-        alert('업로드되었습니다.');
-        router.push('/');
-      } else {
-        const res = await axios.put(`${process.env.NEXT_PUBLIC_BASE_URL}/video/${updateVideo?.id}`, videoData, {
-          withCredentials: true,
-        });
-        console.log('백엔드에 수정 : ', res);
-        alert('수정되었습니다.');
-        router.push('/');
-      }
-    } catch (err) {
-      console.log('백엔드 업로드 에러 : ', err);
-    }
-  };
+  //useEffect(() => {
+  //  if (!videoFile && !thumbnailFile) {
+  //    postVideoData(video);
+  //  }
+  //}, [video.content])
 
   useEffect(() => {
     if (videoFile || thumbnailFile) {
@@ -226,6 +230,8 @@ export default function UploadLayout({ updateVideo }: updateVideoType) {
   }
 
   console.log(video);
+
+  const handleContent = (e: React.ChangeEvent<HTMLTextAreaElement>) => {};
 
   return (
     <div className='my-14 px-5 flex max-lg:flex-col min-h-screen'>
