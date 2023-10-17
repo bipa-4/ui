@@ -13,7 +13,7 @@ function VideoSummaryItemRow({ videoSummaryItem }: VideoSummaryItemRowProps) {
   const { videoId, videoTitle, channelName, thumbnail, readCount, createAt } = videoSummaryItem;
 
   const handleItemClick = () => {
-    router.push(`video/watch/${videoId}`);
+    router.push(`/video/watch/${videoId}`);
   };
 
   return (

@@ -19,7 +19,7 @@ function VideoSummaryItemCol({
 
   const handleItemClick = () => {
     if (!videoId) return;
-    router.push(`video/watch/${videoId}`);
+    router.push(`/video/watch/${videoId}`);
   };
 
   return (

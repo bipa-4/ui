@@ -109,7 +109,7 @@ export default function VideoDetailInfo({ video, handleUpdatePage }: Props) {
               {like ? (
                 <Image src='/images/heart.png' alt='heart' width={23} height={23} />
               ) : (
-                <Image src='/images/heart-empty.png' alt='heart' width={23} height={23} />
+                <Image src='/images/heart_empty.png' alt='heart' width={23} height={23} />
               )}
             </div>
             <ShareModal />
