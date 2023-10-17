@@ -25,5 +25,6 @@ export interface VideoDetailType extends VideoCardType {
   videoUrl: string;
   content: string;
   likeCount: number;
+  categoryId: string[];
   recommendedList: VideoCardType[];
 }

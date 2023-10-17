@@ -1,7 +1,7 @@
 import { VideoCardType } from './videoType';
 
 export interface CategoryNameType {
-  categoryNameId: number;
+  categoryNameId: string;
   categoryName: string;
 }
 

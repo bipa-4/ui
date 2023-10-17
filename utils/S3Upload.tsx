@@ -8,8 +8,8 @@ import axios from 'axios';
  * @param uploadVideoFile 비디오 파일
  */
 async function S3upload(
-  presignedImageUrl: string,
-  uploadImageFile: File,
+  presignedImageUrl: string | null,
+  uploadImageFile: File | null,
   presignedVideoUrl?: string,
   uploadVideoFile?: File,
 ) {
@@ -30,21 +30,23 @@ async function S3upload(
     }
   }
 
-  const thumbnailRes = await axios({
-    method: 'put',
-    data: uploadImageFile,
-    url: presignedImageUrl,
-    headers: {
-      'Content-Type': 'image/png',
-    },
-  });
+  if (presignedImageUrl && uploadImageFile) {
+    const thumbnailRes = await axios({
+      method: 'put',
+      data: uploadImageFile,
+      url: presignedImageUrl,
+      headers: {
+        'Content-Type': 'image/png',
+      },
+    });
 
-  console.log('thumbnailRes', thumbnailRes);
+    console.log('thumbnailRes', thumbnailRes);
 
-  if (thumbnailRes.status === 200) {
-    console.log('Image upload success');
-  } else {
-    console.log('CDN Image upload failed');
+    if (thumbnailRes.status === 200) {
+      console.log('Image upload success');
+    } else {
+      console.log('CDN Image upload failed');
+    }
   }
 }
 

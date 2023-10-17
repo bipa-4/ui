@@ -22,7 +22,7 @@ export default function UpdateLayout() {
     videoUrl: data.videoUrl,
     thumbnailUrl: data.thumbnail,
     privateType: false,
-    category: ['동물'],
+    category: data.categoryId,
   };
 
   return (

@@ -9,6 +9,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import S3Upload from '@/utils/S3Upload';
 import { useRouter } from 'next/router';
+import getPresignedImageUrl from '@/utils/getPresignedUrl';
 
 interface ChannelProps {
   channelInfo: ChannelDetailType;
@@ -17,14 +18,13 @@ interface ChannelProps {
 export default function ChannelDetailLayout({ channelInfo }: ChannelProps) {
   const router = useRouter();
   const { cid } = router.query;
-  // const { channelInfo } = useSWR(`${process.env.NEXT_PUBLIC_BASE_URL}/channel/${cid}`, fetcher)
   const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
   const [isMyChannel, setIsMyChannel] = useState(false);
   const [isUpdate, setIsUpdate] = useState(false);
   const [updatedChannelInfo, setUpdatedChannelInfo] = useState<ChannelUpdateType>({
     channelName: channelInfo.channelName,
     content: channelInfo.content,
-    privateType: true,
+    privateType: false,
     profileUrl: channelInfo.profileUrl,
   });
 
@@ -44,44 +44,40 @@ export default function ChannelDetailLayout({ channelInfo }: ChannelProps) {
     checkMyChannel();
   }, []);
 
-  const getPresignedUrl = async (imageName: string) => {
-    const res = await axios.post(`${BASE_URL}/channel/presigned?imageName=${imageName}`);
-    return {
-      imageName: res.data.imageName,
-      imageUrl: res.data.imageUrl,
-    };
-  };
-
   const handleUpdate = () => {
     setIsUpdate((prev) => !prev);
   };
 
+  const updateChannelToServer = async (updatedInfo: ChannelUpdateType) => {
+    console.log(updatedChannelInfo.profileUrl);
+    try {
+      const res = await axios.put(`${BASE_URL}/channel/${cid}`, updatedInfo, { withCredentials: true });
+      if (res.status === 200) {
+        alert('백엔드 채널 정보 수정 완료');
+        router.reload();
+      }
+    } catch (e) {
+      console.log('백엔드 수정 에러', e);
+    }
+  };
+
   const updateChannel = async () => {
     if (profileImageFile) {
-      const { imageUrl, imageName } = await getPresignedUrl(updatedChannelInfo.profileUrl);
+      const { imageUrl, imageName } = await getPresignedImageUrl(updatedChannelInfo.profileUrl);
       setUpdatedChannelInfo((prev) => ({
         ...prev,
         profileUrl: `https://streamwaves3.s3.ap-northeast-2.amazonaws.com/${imageName}`,
       }));
       await S3Upload(imageUrl, profileImageFile);
+      return;
     }
+    updateChannelToServer(updatedChannelInfo);
   };
 
   useEffect(() => {
-    const updateChannelToServer = async (updatedInfo: ChannelUpdateType) => {
-      console.log(updatedChannelInfo.profileUrl);
-      if (profileImageFile && updatedChannelInfo.profileUrl !== profileImageFile.name)
-        try {
-          const res = await axios.put(`${BASE_URL}/channel/${cid}`, updatedInfo, { withCredentials: true });
-          if (res.status === 200) {
-            alert('백엔드 채널 정보 수정 완료');
-            router.reload();
-          }
-        } catch (e) {
-          console.log('백엔드 수정 에러', e);
-        }
-    };
-    updateChannelToServer(updatedChannelInfo);
+    if (profileImageFile && updatedChannelInfo.profileUrl !== profileImageFile.name) {
+      updateChannelToServer(updatedChannelInfo);
+    }
   }, [updatedChannelInfo.profileUrl]);
 
   /**

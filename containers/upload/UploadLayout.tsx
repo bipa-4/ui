@@ -10,6 +10,7 @@ import { userAtom } from '@/components/layouts/Header';
 import { useAtomValue } from 'jotai';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
+import getPresignedImageUrl, { getPresignedVideoUrl } from '@/utils/getPresignedUrl';
 
 type updateVideoType = {
   updateVideo?: VideoType;
@@ -17,10 +18,11 @@ type updateVideoType = {
 
 export default function UploadLayout({ updateVideo }: updateVideoType) {
   // 수정인지 업로드인지
-  const [isUpdate, setIsUpdate] = useState<boolean>(!!updateVideo);
+  const isUpdate: boolean = !!updateVideo;
 
   // 유저 상태(전역)
   const user = useAtomValue(userAtom);
+
   const router = useRouter();
 
   // 카테고리 목록
@@ -94,20 +96,6 @@ export default function UploadLayout({ updateVideo }: updateVideoType) {
 
   const getToday = () => dayjs().format('YYYY-MM-DD');
 
-  // presigned url 받아오기
-  const getPresignedUrl = async () => {
-    const res = await axios.post(
-      `${process.env.NEXT_PUBLIC_BASE_URL}/video/presigned?videoName=${videoFile?.name}&imageName=${thumbnailFile?.name}`,
-    );
-    console.log('getPresignedUrl', res);
-    return {
-      videoPresignedUrl: res.data.videoUrl,
-      imagePresignedUrl: res.data.imageUrl,
-      videoName: res.data.videoName,
-      imageName: res.data.imageName,
-    };
-  };
-
   const upload = async () => {
     if (!video.title) {
       alert('제목을 입력해주세요.');
@@ -120,7 +108,8 @@ export default function UploadLayout({ updateVideo }: updateVideoType) {
 
     if (videoFile && thumbnailFile) {
       try {
-        const { imagePresignedUrl, videoPresignedUrl, videoName, imageName } = await getPresignedUrl();
+        const { imagePresignedUrl, imageName } = await getPresignedImageUrl(thumbnailFile?.name);
+        const { videoPresignedUrl, videoName } = await getPresignedVideoUrl(videoFile?.name);
         console.log('==================== presigned 받아옴 ==========================');
         console.log('imagePresignedUrl', imagePresignedUrl);
         console.log('videoPresignedUrl', videoPresignedUrl);
@@ -151,25 +140,38 @@ export default function UploadLayout({ updateVideo }: updateVideoType) {
       return;
     }
 
-    if (videoFile && thumbnailFile) {
+    if (thumbnailFile) {
       try {
-        const { imagePresignedUrl, videoPresignedUrl, videoName, imageName } = await getPresignedUrl();
-        console.log('==================== presigned 받아옴 ==========================');
+        const { imagePresignedUrl, imageName } = await getPresignedImageUrl(thumbnailFile?.name);
+        console.log('==================== image presigned 받아옴 ==========================');
         console.log('imagePresignedUrl', imagePresignedUrl);
-        console.log('videoPresignedUrl', videoPresignedUrl);
+        await S3upload(imagePresignedUrl, thumbnailFile);
+        setVideo((prev) => ({
+          ...prev,
+          thumbnailUrl: `https://du30t7lolw1uk.cloudfront.net/${imageName}`,
+        }));
+      } catch (e) {
+        console.log(e);
+      }
+    }
 
-        await S3upload(imagePresignedUrl, thumbnailFile, videoPresignedUrl, videoFile);
-        console.log('==================== s3업로드 ==========================');
+    if (videoFile) {
+      try {
+        const { videoPresignedUrl, videoName } = await getPresignedVideoUrl(videoFile?.name);
+        console.log('==================== video presigned 받아옴 ==========================');
+        console.log('videoPresignedUrl', videoPresignedUrl);
+        await S3upload(null, null, videoPresignedUrl, videoFile);
         setVideo((prev) => ({
           ...prev,
           videoUrl: `https://du30t7lolw1uk.cloudfront.net/${videoName}`,
-          thumbnailUrl: `https://du30t7lolw1uk.cloudfront.net/${imageName}`,
         }));
-      } catch (error) {
-        console.log(error);
+      } catch (e) {
+        console.log(e);
       }
-    } else {
-      // 비디오 수정
+    }
+
+    // 비디오 수정
+    if (!videoFile && !thumbnailFile) {
       const res = await axios.put(`${process.env.NEXT_PUBLIC_BASE_URL}/video/${updateVideo?.id}`, video, {
         withCredentials: true,
       });
@@ -179,32 +181,33 @@ export default function UploadLayout({ updateVideo }: updateVideoType) {
     }
   };
 
-  useEffect(() => {
-    const postVideoData = async (videoData: VideoType) => {
-      console.log('최종 videoData', video);
-      if (videoFile && thumbnailFile) {
-        try {
-          if (!isUpdate) {
-            const res = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/video/upload`, videoData, {
-              withCredentials: true,
-            });
-            console.log('백엔드에 업로드 : ', res);
-            alert('업로드되었습니다.');
-            router.push('/');
-          } else {
-            const res = await axios.put(`${process.env.NEXT_PUBLIC_BASE_URL}/video/${updateVideo?.id}`, videoData, {
-              withCredentials: true,
-            });
-            console.log('백엔드에 수정 : ', res);
-            alert('수정되었습니다.');
-            router.push('/');
-          }
-        } catch (err) {
-          console.log('백엔드 업로드 에러 : ', err);
-        }
+  const postVideoData = async (videoData: VideoType) => {
+    console.log('최종 videoData', videoData);
+    try {
+      if (!isUpdate) {
+        const res = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/video/upload`, videoData, {
+          withCredentials: true,
+        });
+        console.log('백엔드에 업로드 : ', res);
+        alert('업로드되었습니다.');
+        router.push('/');
+      } else {
+        const res = await axios.put(`${process.env.NEXT_PUBLIC_BASE_URL}/video/${updateVideo?.id}`, videoData, {
+          withCredentials: true,
+        });
+        console.log('백엔드에 수정 : ', res);
+        alert('수정되었습니다.');
+        router.push('/');
       }
-    };
-    postVideoData(video);
+    } catch (err) {
+      console.log('백엔드 업로드 에러 : ', err);
+    }
+  };
+
+  useEffect(() => {
+    if (videoFile || thumbnailFile) {
+      postVideoData(video);
+    }
   }, [video.videoUrl, video.thumbnailUrl]);
 
   if (!user) {
@@ -221,6 +224,8 @@ export default function UploadLayout({ updateVideo }: updateVideoType) {
       </div>
     );
   }
+
+  console.log(video);
 
   return (
     <div className='my-14 px-5 flex max-lg:flex-col min-h-screen'>
@@ -292,6 +297,7 @@ export default function UploadLayout({ updateVideo }: updateVideoType) {
                 type='checkbox'
                 value={category.categoryNameId}
                 onChange={handleCategoryChange}
+                checked={video.category.includes(category.categoryNameId)}
                 className='checkbox checkbox-secondary checkbox-sm mx-2'
               />
               <span className='label-text'>{category.categoryName}</span>

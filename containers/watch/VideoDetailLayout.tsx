@@ -25,7 +25,7 @@ export default function VideoDetailLayout({ video }: VideoDetailLayoutProps) {
       autoplay: true,
     },
   };
-  // console.log(like);
+  console.log('video 디테일: ', video);
 
   if (!video) {
     return <LoadingSpinner />;
