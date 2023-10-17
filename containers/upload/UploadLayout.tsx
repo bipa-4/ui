@@ -212,7 +212,7 @@ export default function UploadLayout({ updateVideo }: updateVideoType) {
 
   if (!user) {
     return (
-      <div className=' flex flex-col justify-center mx-auto mt-52 text-center max-w-2x1'>
+      <div className='min-h-screen flex flex-col justify-center mx-auto text-center'>
         <h1 className='text-3xl font-bold tracking-tight text-black md:text-5xl'>로그인이 필요합니다.</h1>
         <br />
         <Link

@@ -15,9 +15,9 @@ export default function Callback() {
       try {
         const authRes = await fetcher(BASE_URL + authCode);
         const userRes = await fetcher(`${BASE_URL}/account/check`);
-        setUser(userRes.data);
+        setUser(userRes);
         console.log('authRes !', authRes);
-        console.log('user !', user);
+        console.log('user !', userRes);
       } catch (error) {
         console.log('error !', error);
       }
@@ -25,11 +25,12 @@ export default function Callback() {
     auth();
   }, []);
 
-  // const { userInfo, error } = useMemberData();
-
-  if (user) {
-    router.push('/');
-  }
+  useEffect(() => {
+    if (user !== null && user !== undefined) {
+      console.log('user !', user);
+      router.push('/');
+    }
+  }, [user]);
 
   return (
     <div className='h-screen flex items-center'>
