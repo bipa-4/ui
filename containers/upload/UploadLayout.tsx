@@ -341,7 +341,7 @@ export default function UploadLayout({ updateVideo }: updateVideoType) {
         <Title text='미리보기' />
         <div className='mt-5'>
           <VideoSummaryItemCol
-            videoId={''}
+            videoId=""
             thumbnail={thumbnailPreviewUrl || '/images/defaultThumbnailImage.png'}
             videoTitle={video.title}
             channelProfileUrl={user.channelProfileUrl}
