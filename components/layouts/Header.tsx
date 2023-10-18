@@ -64,7 +64,7 @@ export default function Header() {
 
   return (
     <div className='w-full'>
-      <div className='navbar bg-base-100 justify-between shadow-md px-40 max-xl:px-5'>
+      <div className='navbar bg-base-100 justify-between shadow-md px-32 max-xl:px-5'>
         <div className='flex justify-start w-1/5'>
           <div className='flex-none'>
             <label htmlFor='my-drawer-3' className='btn btn-square btn-ghost'>
@@ -101,16 +101,11 @@ export default function Header() {
               <div className='dropdown dropdown-end'>
                 <button type='button' tabIndex={0} className='btn btn-ghost btn-circle avatar'>
                   <div className='w-10 rounded-full'>
-                    <Image src={user.userProfileUrl} alt='profile' width={200} height={200} onClick={toggleMenu} />
+                    <Image src={user.channelProfileUrl} alt='profile' width={200} height={200} onClick={toggleMenu} />
                   </div>
                 </button>
                 {isMenuOpen && (
                   <ul className='mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52'>
-                    <li>
-                      <Link href='/profile' className='justify-between' onClick={toggleMenu}>
-                        프로필
-                      </Link>
-                    </li>
                     <li>
                       <Link href={`/channel/${user.channelId}`} onClick={toggleMenu}>
                         내 채널
