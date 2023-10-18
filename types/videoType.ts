@@ -1,5 +1,5 @@
 export default interface VideoType {
-  id?: number;
+  id?: string;
   title: string;
   content: string;
   videoUrl: string;

@@ -6,11 +6,12 @@ import { VideoCardType, VideoDetailType } from '@/types/videoType';
 import VideoPlayer from '@/components/video/VideoPlayer';
 import LoadingSpinner from '@/components/ui/LoadingSpinner';
 import Title from '@/components/ui/Title';
-import { useState } from 'react';
-import UploadLayout from '../upload/UploadLayout';
+import { useEffect, useState } from 'react';
 import useSWR from 'swr';
 import fetcher from '@/utils/axiosFetcher';
 import { parentCommentType } from '@/types/commentType';
+import axios from 'axios';
+import UploadLayout from '../upload/UploadLayout';
 
 interface VideoDetailLayoutProps {
   video: VideoDetailType;
@@ -30,14 +31,6 @@ export default function VideoDetailLayout({ video }: VideoDetailLayoutProps) {
   };
   console.log('video 디테일: ', video);
 
-  if (!video) {
-    return <LoadingSpinner />;
-  }
-
-  if (updateOpen) {
-    return <UploadLayout />;
-  }
-
   const handleUpdatePage = () => {
     setUpdateOpen(true);
   };
@@ -46,6 +39,14 @@ export default function VideoDetailLayout({ video }: VideoDetailLayoutProps) {
     `${process.env.NEXT_PUBLIC_BASE_URL}/comment/${video.videoId}/comment-parent`,
     fetcher,
   );
+
+  if (!video) {
+    return <LoadingSpinner />;
+  }
+
+  if (updateOpen) {
+    return <UploadLayout />;
+  }
 
   if (!data) {
     return <LoadingSpinner />;
@@ -70,8 +71,8 @@ export default function VideoDetailLayout({ video }: VideoDetailLayoutProps) {
           <CommentInput />
           <div className='w-full'>
             {data.length === 0 && <div className='text-center'>댓글이 없습니다.</div>}
-            {data.map((comment: parentCommentType) => (
-              <CommentItem comment={comment} videoId={video.videoId} key={comment.commentId} />
+            {data.map((c: parentCommentType) => (
+              <CommentItem comment={c} videoId={video.videoId} key={c.commentId} />
             ))}
           </div>
         </div>

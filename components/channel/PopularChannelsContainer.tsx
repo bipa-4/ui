@@ -4,7 +4,6 @@ import { ChannelSummaryType } from '@/types/channelType';
 import fetcher from '@/utils/axiosFetcher';
 import useSWR from 'swr';
 import ChannelItem from './ChannelSummarylItem';
-import VideoSummarySkeletonRow from '../skeleton/ChannelSummarySkeletonRow';
 import ChannelSummarySkeletonRow from '../skeleton/ChannelSummarySkeletonRow';
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;

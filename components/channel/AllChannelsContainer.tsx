@@ -1,10 +1,9 @@
-import useSWR from 'swr';
 import fetcher from '@/utils/axiosFetcher';
 import { ChannelSummaryType } from '@/types/channelType';
 import { useEffect, useState } from 'react';
+import InfiniteScroll from 'react-infinite-scroll-component';
 import Title from '../ui/Title';
 import ChannelSummaryItem from './ChannelSummarylItem';
-import InfiniteScroll from 'react-infinite-scroll-component';
 import LoadingSpinner from '../ui/LoadingSpinner';
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;

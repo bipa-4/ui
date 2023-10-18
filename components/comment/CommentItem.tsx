@@ -1,10 +1,9 @@
 import { useState } from 'react';
 import { IoMdArrowDropdown } from 'react-icons/io';
+import { parentCommentType } from '@/types/commentType';
 import ReplyItem from './ReplyItem';
 import Avatar from '../ui/Avatar';
 import CommentInput from './CommentInput';
-import { childCommentType, parentCommentType } from '@/types/commentType';
-import useSWR from 'swr';
 
 type commentType = {
   videoId: string;
@@ -42,10 +41,12 @@ export default function CommentItem({ videoId, comment }: commentType) {
           <span className='btn bg-transparent rounded-md btn-sm mr-4 border-none' onClick={handleWrite}>
             답글
           </span>
-          <span className='text-sm text-secondary cursor-pointer' onClick={handleReplyOpen}>
-            <IoMdArrowDropdown className='inline-block' />
-            답글 {comment.childCount}개
-          </span>
+          {comment.childCount !== '0' && (
+            <span className='text-sm text-secondary cursor-pointer' onClick={handleReplyOpen}>
+              <IoMdArrowDropdown className='inline-block' />
+              답글 {comment.childCount}개
+            </span>
+          )}
           {writeChildReply && <CommentInput />}
           {isReplyOpen && <ReplyItem videoId={videoId} groupIndex={comment.groupIndex} />}
         </div>

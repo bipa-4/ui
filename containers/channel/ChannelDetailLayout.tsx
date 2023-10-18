@@ -224,7 +224,7 @@ export default function ChannelDetailLayout({ channelInfo }: ChannelProps) {
             <p className='mt-52 m-auto'>업로드한 영상이 없습니다.</p>
           </div>
         ) : (
-          //<VideoContainer videoList={data?.videos} />
+          // <VideoContainer videoList={data?.videos} />
           <InfiniteVideoContainer videoList={videoList} dataFetcher={fetchMoreData} hasMore={hasMore} />
         )}
       </div>

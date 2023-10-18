@@ -5,6 +5,7 @@ import { CategoryNameType, CategoryType } from '@/types/categoryType';
 import { VideoCardType } from '@/types/videoType';
 import axios from 'axios';
 import { GetStaticPropsContext } from 'next';
+import { set } from 'nprogress';
 import { useState } from 'react';
 
 interface CategoryProps {
@@ -56,12 +57,14 @@ export default function Category({ catId, categoryVideos }: CategoryProps) {
 
   return (
     <div className='mx-44 min-h-screen'>
-      <InfiniteVideoContainer
-        title={categoryVideos.categoryName}
-        videoList={videoList}
-        dataFetcher={fetchMoreData}
-        hasMore={hasMore}
-      />
+      {categoryVideos.videos.length !== 0 && (
+        <InfiniteVideoContainer
+          title={categoryVideos.categoryName}
+          videoList={videoList}
+          dataFetcher={fetchMoreData}
+          hasMore={hasMore}
+        />
+      )}
     </div>
   );
 }
@@ -71,6 +74,21 @@ export const getStaticProps = async (context: GetStaticPropsContext) => {
   const catId = params?.catId as String;
   const res = await axios.get(`${BASE_URL}/video/category/${catId}?pageSize=${PAGE_SIZE}`);
   const categoryVideos = await res.data;
+
+  if (res.status !== 200) {
+    return {
+      props: {
+        catId,
+        categoryVideos: {
+          categoryName: '',
+          categoryNameId: '',
+          nextUUID: '',
+          videos: [],
+        },
+      },
+      revalidate: 10,
+    };
+  }
   return {
     props: {
       catId,
