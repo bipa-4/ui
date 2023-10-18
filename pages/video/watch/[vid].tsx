@@ -1,7 +1,7 @@
 import VideoDetailLayout from '@/containers/watch/VideoDetailLayout';
 import Head from 'next/head';
 import { GetServerSidePropsContext } from 'next/types';
-import fetcher from '@/utils/axiosFetcher';
+import fetcher from '@/types/utils/axiosFetcher';
 import { VideoDetailType } from '@/types/videoType';
 import { SWRConfig } from 'swr';
 

@@ -1,26 +1,32 @@
 import Avatar from '@/components/ui/Avatar';
 import Title from '@/components/ui/Title';
-import VideoContainer from '@/components/video/VideoTop10Container';
 import { BiSearch } from 'react-icons/bi';
 import { ChannelDetailType, ChannelUpdateType } from '@/types/channelType';
-import useSWR from 'swr';
-import fetcher from '@/utils/axiosFetcher';
+import fetcher from '@/types/utils/axiosFetcher';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import S3Upload from '@/utils/S3Upload';
+import S3Upload from '@/types/utils/S3Upload';
 import { useRouter } from 'next/router';
-import getPresignedImageUrl from '@/utils/getPresignedUrl';
+import getPresignedImageUrl from '@/types/utils/getPresignedUrl';
+import InfiniteVideoContainer from '@/components/video/InfiniteVideoContainer';
+import { VideoCardType } from '@/types/videoType';
 
 interface ChannelProps {
   channelInfo: ChannelDetailType;
 }
 
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+const PAGE_SIZE = 10;
+
 export default function ChannelDetailLayout({ channelInfo }: ChannelProps) {
   const router = useRouter();
   const { cid } = router.query;
-  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+
+  // 채널 수정 관련 state
   const [isMyChannel, setIsMyChannel] = useState(false);
   const [isUpdate, setIsUpdate] = useState(false);
+  const [profileImageFile, setProfileImageFile] = useState<File>();
+  const [previewUrl, setPreviewUrl] = useState<string>();
   const [updatedChannelInfo, setUpdatedChannelInfo] = useState<ChannelUpdateType>({
     channelName: channelInfo.channelName,
     content: channelInfo.content,
@@ -28,21 +34,15 @@ export default function ChannelDetailLayout({ channelInfo }: ChannelProps) {
     profileUrl: channelInfo.profileUrl,
   });
 
-  console.log('채널 세부 정보:', channelInfo);
-
-  const { data } = useSWR(`${BASE_URL}/channel/video/${channelInfo.channelId}?pageSize=10`, fetcher);
-
-  const [profileImageFile, setProfileImageFile] = useState<File>();
-  const [previewUrl, setPreviewUrl] = useState<string>();
+  // 무한 스크롤 관련 state
+  const [videoList, setVideoList] = useState<VideoCardType[]>([]);
+  const [hasMore, setHasMore] = useState(true);
+  const [nextId, setNextId] = useState<string | null>(null);
 
   const checkMyChannel = async () => {
     const flag = await fetcher(`${BASE_URL}/channel/flag/${cid}`);
     setIsMyChannel(flag);
   };
-
-  useEffect(() => {
-    checkMyChannel();
-  }, []);
 
   const handleUpdate = () => {
     setIsUpdate((prev) => !prev);
@@ -74,15 +74,7 @@ export default function ChannelDetailLayout({ channelInfo }: ChannelProps) {
     updateChannelToServer(updatedChannelInfo);
   };
 
-  useEffect(() => {
-    if (profileImageFile && updatedChannelInfo.profileUrl !== profileImageFile.name) {
-      updateChannelToServer(updatedChannelInfo);
-    }
-  }, [updatedChannelInfo.profileUrl]);
-
-  /**
-   * 프로필 이미지 파일 선택시 파일상태, 미리보기 상태 변경
-   */
+  // 프로필 이미지 파일 선택시 파일상태, 미리보기 상태 변경
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = event.target.files?.[0];
     if (selectedFile) {
@@ -99,6 +91,51 @@ export default function ChannelDetailLayout({ channelInfo }: ChannelProps) {
   const handleChannelDescription = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setUpdatedChannelInfo((prev) => ({ ...prev, content: e.target.value }));
   };
+
+  const fetchVideo = async (nextUUID: string) => {
+    const res = await axios.get(
+      `${BASE_URL}/channel/video/${channelInfo.channelId}?${nextUUID ? 'page=' : ''}${nextUUID}${
+        nextUUID ? '&' : ''
+      }pageSize=${PAGE_SIZE}`,
+      {
+        withCredentials: true,
+      },
+    );
+    console.log('res.data', res.data);
+    setNextId(res.data.nextUUID);
+    return res.data;
+  };
+
+  const fetchMoreData = async () => {
+    if (nextId === '') {
+      setHasMore(false);
+      return;
+    }
+
+    if (nextId) {
+      const data = await fetchVideo(nextId);
+      console.log('more fetched data', data);
+
+      setNextId(data.nextUUID);
+      setVideoList([...videoList, ...data.videos]);
+    }
+  };
+
+  useEffect(() => {
+    console.log('초기렌더링');
+    const fetchInitData = async () => {
+      const initData = await fetchVideo('');
+      setVideoList(initData.videos as VideoCardType[]);
+    };
+    fetchInitData();
+    checkMyChannel();
+  }, []);
+
+  useEffect(() => {
+    if (profileImageFile && updatedChannelInfo.profileUrl !== profileImageFile.name) {
+      updateChannelToServer(updatedChannelInfo);
+    }
+  }, [updatedChannelInfo.profileUrl]);
 
   return (
     <>
@@ -182,12 +219,13 @@ export default function ChannelDetailLayout({ channelInfo }: ChannelProps) {
             </label>
           </div>
         </div>
-        {data?.length === 0 ? (
+        {videoList?.length === 0 ? (
           <div className='mx-5 flex items-center'>
             <p className='mt-52 m-auto'>업로드한 영상이 없습니다.</p>
           </div>
         ) : (
-          <VideoContainer videoList={data?.videos} />
+          //<VideoContainer videoList={data?.videos} />
+          <InfiniteVideoContainer videoList={videoList} dataFetcher={fetchMoreData} hasMore={hasMore} />
         )}
       </div>
     </>

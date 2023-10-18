@@ -8,6 +8,9 @@ import LoadingSpinner from '@/components/ui/LoadingSpinner';
 import Title from '@/components/ui/Title';
 import { useState } from 'react';
 import UploadLayout from '../upload/UploadLayout';
+import useSWR from 'swr';
+import fetcher from '@/types/utils/axiosFetcher';
+import { parentCommentType } from '@/types/commentType';
 
 interface VideoDetailLayoutProps {
   video: VideoDetailType;
@@ -39,6 +42,16 @@ export default function VideoDetailLayout({ video }: VideoDetailLayoutProps) {
     setUpdateOpen(true);
   };
 
+  const { data } = useSWR<parentCommentType[]>(
+    `${process.env.NEXT_PUBLIC_BASE_URL}/comment/${video.videoId}/comment-parent`,
+    fetcher,
+  );
+
+  if (!data) {
+    return <LoadingSpinner />;
+  }
+  console.log('부모 댓글 조회: ', data);
+
   return (
     <div className='w-full flex'>
       <div className='grow my-4'>
@@ -56,7 +69,10 @@ export default function VideoDetailLayout({ video }: VideoDetailLayoutProps) {
           </div>
           <CommentInput />
           <div className='w-full'>
-            <CommentItem />
+            {data.length === 0 && <div className='text-center'>댓글이 없습니다.</div>}
+            {data.map((comment: parentCommentType) => (
+              <CommentItem comment={comment} videoId={video.videoId} key={comment.commentId} />
+            ))}
           </div>
         </div>
       </div>

@@ -17,11 +17,11 @@ export interface VideoCardType {
   videoTitle: string;
   createAt: string;
   readCount: number;
-  videoId: number;
+  videoId: string;
 }
 
 export interface VideoDetailType extends VideoCardType {
-  channelId: number;
+  channelId: string;
   videoUrl: string;
   content: string;
   likeCount: number;

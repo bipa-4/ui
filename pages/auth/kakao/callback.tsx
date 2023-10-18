@@ -1,5 +1,5 @@
 import { userAtom } from '@/components/layouts/Header';
-import fetcher from '@/utils/axiosFetcher';
+import fetcher from '@/types/utils/axiosFetcher';
 import { useAtom } from 'jotai';
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';

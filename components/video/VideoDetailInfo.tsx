@@ -2,7 +2,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { VideoDetailType } from '@/types/videoType';
 import { useState, useEffect } from 'react';
-import fetcher from '@/utils/axiosFetcher';
+import fetcher from '@/types/utils/axiosFetcher';
 import { useAtomValue } from 'jotai';
 import axios from 'axios';
 import { FiMoreHorizontal } from 'react-icons/fi';

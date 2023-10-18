@@ -1,5 +1,5 @@
 import { CategoryNameType } from '@/types/categoryType';
-import fetcher from '@/utils/axiosFetcher';
+import fetcher from '@/types/utils/axiosFetcher';
 import useSWR from 'swr';
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;

@@ -37,9 +37,6 @@ export default function MainLayout() {
   }, []);
 
   const fetchMoreData = async () => {
-    console.log('fetchMoreData 호출');
-    console.log('nextId', nextId);
-
     if (nextId === '') {
       setHasMore(false);
       return;

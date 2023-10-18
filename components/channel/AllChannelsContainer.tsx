@@ -1,5 +1,5 @@
 import useSWR from 'swr';
-import fetcher from '@/utils/axiosFetcher';
+import fetcher from '@/types/utils/axiosFetcher';
 import { ChannelSummaryType } from '@/types/channelType';
 import { useEffect, useState } from 'react';
 import Title from '../ui/Title';

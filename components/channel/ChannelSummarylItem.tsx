@@ -16,10 +16,6 @@ type props = {
  * @returns {JSX.Element} 채널 요약 정보 컴포넌트
  */
 export default function ChannelSummaryItem({ channelItem, rank, size }: props) {
-  const buttonSize = `${
-    size === 'large' ? 'w-1/2' : 'w-full'
-  } bg-base-100 hover:bg-gray-100 text-left rounded-2xl hover:bg-slate-200 max-lg:w-full cursor-pointer overflow-hidden`;
-
   const router = useRouter();
 
   const handleItemClick = () => {
