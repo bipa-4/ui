@@ -9,7 +9,7 @@ import Title from '@/components/ui/Title';
 import { useState } from 'react';
 import UploadLayout from '../upload/UploadLayout';
 import useSWR from 'swr';
-import fetcher from '@/types/utils/axiosFetcher';
+import fetcher from '@/utils/axiosFetcher';
 import { parentCommentType } from '@/types/commentType';
 
 interface VideoDetailLayoutProps {

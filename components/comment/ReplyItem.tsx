@@ -1,7 +1,7 @@
 import React from 'react';
 import Avatar from '../ui/Avatar';
 import useSWR from 'swr';
-import fetcher from '@/types/utils/axiosFetcher';
+import fetcher from '@/utils/axiosFetcher';
 import { childCommentType } from '@/types/commentType';
 import LoadingSpinner from '../ui/LoadingSpinner';
 

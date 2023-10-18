@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Title from '@/components/ui/Title';
 import { ChannelSummaryType } from '@/types/channelType';
-import fetcher from '@/types/utils/axiosFetcher';
+import fetcher from '@/utils/axiosFetcher';
 import useSWR from 'swr';
 import ChannelItem from './ChannelSummarylItem';
 import VideoSummarySkeletonRow from '../skeleton/ChannelSummarySkeletonRow';

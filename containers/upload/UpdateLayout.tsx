@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import fetcher from '@/types/utils/axiosFetcher';
+import fetcher from '@/utils/axiosFetcher';
 import useSWR from 'swr';
 import VideoType, { VideoDetailType } from '@/types/videoType';
 import LoadingSpinner from '@/components/ui/LoadingSpinner';

@@ -27,15 +27,6 @@ export default function MainLayout() {
     return res.data;
   };
 
-  useEffect(() => {
-    console.log('초기렌더링');
-    const fetchInitData = async () => {
-      const initData = await fetchVideo('');
-      setVideoList(initData.videos as VideoCardType[]);
-    };
-    fetchInitData();
-  }, []);
-
   const fetchMoreData = async () => {
     if (nextId === '') {
       setHasMore(false);
@@ -51,7 +42,14 @@ export default function MainLayout() {
     }
   };
 
-  console.log('videoList', videoList);
+  useEffect(() => {
+    console.log('초기렌더링');
+    const fetchInitData = async () => {
+      const initData = await fetchVideo('');
+      setVideoList(initData.videos as VideoCardType[]);
+    };
+    fetchInitData();
+  }, []);
 
   return (
     <>

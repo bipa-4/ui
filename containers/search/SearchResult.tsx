@@ -1,7 +1,7 @@
 import LoadingSpinner from '@/components/ui/LoadingSpinner';
 import Title from '@/components/ui/Title';
 import VideoSummaryContainer from '@/components/video/VideoTop10Container';
-import fetcher from '@/types/utils/axiosFetcher';
+import fetcher from '@/utils/axiosFetcher';
 import { useRouter } from 'next/router';
 import useSWR from 'swr';
 

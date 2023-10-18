@@ -2,12 +2,12 @@ import Avatar from '@/components/ui/Avatar';
 import Title from '@/components/ui/Title';
 import { BiSearch } from 'react-icons/bi';
 import { ChannelDetailType, ChannelUpdateType } from '@/types/channelType';
-import fetcher from '@/types/utils/axiosFetcher';
+import fetcher from '@/utils/axiosFetcher';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import S3Upload from '@/types/utils/S3Upload';
+import S3Upload from '@/utils/S3Upload';
 import { useRouter } from 'next/router';
-import getPresignedImageUrl from '@/types/utils/getPresignedUrl';
+import getPresignedImageUrl from '@/utils/getPresignedUrl';
 import InfiniteVideoContainer from '@/components/video/InfiniteVideoContainer';
 import { VideoCardType } from '@/types/videoType';
 
@@ -92,6 +92,12 @@ export default function ChannelDetailLayout({ channelInfo }: ChannelProps) {
     setUpdatedChannelInfo((prev) => ({ ...prev, content: e.target.value }));
   };
 
+  useEffect(() => {
+    if (profileImageFile && updatedChannelInfo.profileUrl !== profileImageFile.name) {
+      updateChannelToServer(updatedChannelInfo);
+    }
+  }, [updatedChannelInfo.profileUrl]);
+
   const fetchVideo = async (nextUUID: string) => {
     const res = await axios.get(
       `${BASE_URL}/channel/video/${channelInfo.channelId}?${nextUUID ? 'page=' : ''}${nextUUID}${
@@ -130,12 +136,6 @@ export default function ChannelDetailLayout({ channelInfo }: ChannelProps) {
     fetchInitData();
     checkMyChannel();
   }, []);
-
-  useEffect(() => {
-    if (profileImageFile && updatedChannelInfo.profileUrl !== profileImageFile.name) {
-      updateChannelToServer(updatedChannelInfo);
-    }
-  }, [updatedChannelInfo.profileUrl]);
 
   return (
     <>

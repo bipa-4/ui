@@ -2,7 +2,7 @@ import ChannelDetailLayout from '@/containers/channel/ChannelDetailLayout';
 import Head from 'next/head';
 import { GetServerSidePropsContext } from 'next/types';
 import { ChannelDetailType } from '@/types/channelType';
-import fetcher from '@/types/utils/axiosFetcher';
+import fetcher from '@/utils/axiosFetcher';
 
 interface ChannelProps {
   channel: ChannelDetailType;
