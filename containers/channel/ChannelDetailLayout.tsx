@@ -10,6 +10,8 @@ import { useRouter } from 'next/router';
 import getPresignedImageUrl from '@/utils/getPresignedUrl';
 import InfiniteVideoContainer from '@/components/video/InfiniteVideoContainer';
 import { VideoCardType } from '@/types/videoType';
+import LoadingSpinner from '@/components/ui/LoadingSpinner';
+import SearchInput from '@/components/ui/SearchInput';
 
 interface ChannelProps {
   channelInfo: ChannelDetailType;
@@ -30,12 +32,12 @@ export default function ChannelDetailLayout({ channelInfo }: ChannelProps) {
   const [updatedChannelInfo, setUpdatedChannelInfo] = useState<ChannelUpdateType>({
     channelName: channelInfo.channelName,
     content: channelInfo.content,
-    privateType: false,
+    privateType: channelInfo.privateType,
     profileUrl: channelInfo.profileUrl,
   });
 
   // 무한 스크롤 관련 state
-  const [videoList, setVideoList] = useState<VideoCardType[]>([]);
+  const [videoList, setVideoList] = useState<VideoCardType[] | null>([]);
   const [hasMore, setHasMore] = useState(true);
   const [nextId, setNextId] = useState<string | null>(null);
 
@@ -92,6 +94,10 @@ export default function ChannelDetailLayout({ channelInfo }: ChannelProps) {
     setUpdatedChannelInfo((prev) => ({ ...prev, content: e.target.value }));
   };
 
+  const handleChannelPrivacyType = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setUpdatedChannelInfo((prev) => ({ ...prev, privateType: e.target.value !== 'public' }));
+  };
+
   useEffect(() => {
     if (profileImageFile && updatedChannelInfo.profileUrl !== profileImageFile.name) {
       updateChannelToServer(updatedChannelInfo);
@@ -107,6 +113,12 @@ export default function ChannelDetailLayout({ channelInfo }: ChannelProps) {
         withCredentials: true,
       },
     );
+    if (res.status !== 200) {
+      return {
+        videos: null,
+        nextUUID: '',
+      };
+    }
     console.log('res.data', res.data);
     setNextId(res.data.nextUUID);
     return res.data;
@@ -123,7 +135,12 @@ export default function ChannelDetailLayout({ channelInfo }: ChannelProps) {
       console.log('more fetched data', data);
 
       setNextId(data.nextUUID);
-      setVideoList([...videoList, ...data.videos]);
+      setVideoList((prevVideoList) => {
+        if (prevVideoList) {
+          return [...prevVideoList, ...data.videos];
+        }
+        return data.videos;
+      });
     }
   };
 
@@ -175,12 +192,35 @@ export default function ChannelDetailLayout({ channelInfo }: ChannelProps) {
                   onChange={handleChannelDescription}
                 />
               </div>
+              <div>
+                <label className='mr-4 label cursor-pointer inline-flex justify-start'>
+                  <input
+                    type='radio'
+                    value='public'
+                    checked={!updatedChannelInfo.privateType}
+                    onChange={handleChannelPrivacyType}
+                    className='radio radio-secondary radio-sm mx-2'
+                  />
+                  공개
+                </label>
+                <label className='mr-4 label cursor-pointer inline-flex justify-start'>
+                  <input
+                    type='radio'
+                    value='private'
+                    checked={updatedChannelInfo.privateType}
+                    onChange={handleChannelPrivacyType}
+                    className='radio radio-secondary radio-sm mx-2'
+                  />
+                  비공개
+                </label>
+              </div>
             </div>
+
             <div className='flex flex-col justify-center items-center'>
-              <div className='btn btn-secondary btn-md' onClick={updateChannel}>
+              <div className='btn btn-secondary btn-md w-24 mb-1' onClick={updateChannel}>
                 수정하기
               </div>
-              <div className='btn btn-md' onClick={handleUpdate}>
+              <div className='btn btn-md w-24' onClick={handleUpdate}>
                 취소
               </div>
             </div>
@@ -205,26 +245,15 @@ export default function ChannelDetailLayout({ channelInfo }: ChannelProps) {
       <div className='mt-7'>
         <div className='mx-5 flex justify-between items-center'>
           <Title text='최근 업로드' />
-          <div>
-            <label className='relative block'>
-              <span className='sr-only'>Search</span>
-              <span className='absolute inset-y-0 left-0 flex items-center pl-3'>
-                <BiSearch className='w-5 h-5 stroke-slate-200' />
-              </span>
-              <input
-                type='text'
-                placeholder='검색'
-                className='input input-bordered w-full max-w-xs placeholder:italic placeholder:text-slate-400 block  py-2 pl-9 pr-3 sm:text-sm '
-              />
-            </label>
-          </div>
+          <SearchInput />
         </div>
         {videoList?.length === 0 ? (
           <div className='mx-5 flex items-center'>
-            <p className='mt-52 m-auto'>업로드한 영상이 없습니다.</p>
+            <LoadingSpinner />
           </div>
+        ) : videoList === null ? (
+          <div className='mx-5 flex items-center m-auto justify-center h-52'>업로드한 영상이 없습니다.</div>
         ) : (
-          // <VideoContainer videoList={data?.videos} />
           <InfiniteVideoContainer videoList={videoList} dataFetcher={fetchMoreData} hasMore={hasMore} />
         )}
       </div>

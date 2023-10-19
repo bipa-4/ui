@@ -202,12 +202,6 @@ export default function UploadLayout({ updateVideo }: updateVideoType) {
     }
   };
 
-  // useEffect(() => {
-  //  if (!videoFile && !thumbnailFile) {
-  //    postVideoData(video);
-  //  }
-  // }, [video.content])
-
   useEffect(() => {
     if (videoFile || thumbnailFile) {
       postVideoData(video);
@@ -230,8 +224,6 @@ export default function UploadLayout({ updateVideo }: updateVideoType) {
   }
 
   console.log(video);
-
-  const handleContent = (e: React.ChangeEvent<HTMLTextAreaElement>) => {};
 
   return (
     <div className='my-14 px-5 flex max-lg:flex-col min-h-screen'>
@@ -341,7 +333,7 @@ export default function UploadLayout({ updateVideo }: updateVideoType) {
         <Title text='미리보기' />
         <div className='mt-5'>
           <VideoSummaryItemCol
-            videoId=""
+            videoId=''
             thumbnail={thumbnailPreviewUrl || '/images/defaultThumbnailImage.png'}
             videoTitle={video.title}
             channelProfileUrl={user.channelProfileUrl}

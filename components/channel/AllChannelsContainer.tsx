@@ -5,6 +5,7 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import Title from '../ui/Title';
 import ChannelSummaryItem from './ChannelSummarylItem';
 import LoadingSpinner from '../ui/LoadingSpinner';
+import SearchInput from '../ui/SearchInput';
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 const PAGE_SIZE = 10;
@@ -32,7 +33,6 @@ export default function AllChannelsContainer() {
     if (nextId) {
       const data = await fetchChannels(nextId);
       console.log('more fetched data', data);
-
       setNextId(data.nextUUID);
       setChannelList([...channelList, ...data.channelList]);
     }
@@ -49,8 +49,9 @@ export default function AllChannelsContainer() {
 
   return (
     <>
-      <div className='border-0 border-b border-slate-400 p-6 my-2'>
+      <div className='flex justify-between items-center border-0 border-b border-slate-400 p-6 my-2 pb-3'>
         <Title text='채널 전체' />
+        <SearchInput />
       </div>
       <InfiniteScroll
         dataLength={channelList.length}

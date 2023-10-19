@@ -1,11 +1,11 @@
 import LoadingSpinner from '@/components/ui/LoadingSpinner';
-import Title from '@/components/ui/Title';
 import InfiniteVideoContainer from '@/components/video/InfiniteVideoContainer';
+import useCategoryList from '@/hooks/useCategoryList';
 import { CategoryNameType, CategoryType } from '@/types/categoryType';
 import { VideoCardType } from '@/types/videoType';
 import axios from 'axios';
 import { GetStaticPropsContext } from 'next';
-import { set } from 'nprogress';
+import { useRouter } from 'next/router';
 import { useState } from 'react';
 
 interface CategoryProps {
@@ -20,29 +20,26 @@ export default function Category({ catId, categoryVideos }: CategoryProps) {
   const [hasMore, setHasMore] = useState(true);
   const [nextId, setNextId] = useState(categoryVideos.nextUUID);
   const [videoList, setVideoList] = useState<VideoCardType[]>(categoryVideos.videos);
+  const { categoryList } = useCategoryList();
+  const router = useRouter();
 
   console.log('categoryVideos', categoryVideos);
   const fetchVideo = async (nextUUID: string) => {
     const res = await axios.get(`${BASE_URL}/video/category/${catId}?page=${nextUUID}&pageSize=${PAGE_SIZE}`, {
       withCredentials: true,
     });
-    console.log('res.data', res.data);
     setNextId(res.data.nextUUID);
     return res.data;
   };
 
   const fetchMoreData = async () => {
-    console.log('fetchMoreData 호출');
-    console.log('nextId', nextId);
-
+    //console.log('fetchMoreData 호출');
+    //console.log('nextId', nextId);
     if (nextId === '') {
       setHasMore(false);
       return;
     }
-
     const data = await fetchVideo(nextId);
-    console.log('more fetched data', data);
-
     setNextId(data.nextUUID);
     setVideoList([...videoList, ...data.videos]);
   };
@@ -56,14 +53,29 @@ export default function Category({ catId, categoryVideos }: CategoryProps) {
   }
 
   return (
-    <div className='mx-44 min-h-screen'>
-      {categoryVideos.videos.length !== 0 && (
+    <div className='mx-32 min-h-screen'>
+      <div className='flex items-center m-3 mt-5 border-b'>
+        {categoryList?.map((category) => (
+          <div
+            className={`w-28 p-4 text-center text-lg ${
+              category.categoryNameId === catId && 'font-bold'
+            } cursor-pointer hover:bg-slate-100`}
+            onClick={() => router.push(`/category/${category.categoryNameId}`)}
+            key={category.categoryNameId}
+          >
+            {category.categoryName}
+          </div>
+        ))}
+      </div>
+      {categoryVideos.videos.length !== 0 ? (
         <InfiniteVideoContainer
           title={categoryVideos.categoryName}
           videoList={videoList}
           dataFetcher={fetchMoreData}
           hasMore={hasMore}
         />
+      ) : (
+        <div className='flex items-center m-auto h-36 justify-center'>업로드한 영상이 없습니다.</div>
       )}
     </div>
   );
