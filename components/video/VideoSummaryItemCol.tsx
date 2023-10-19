@@ -46,13 +46,15 @@ function VideoSummaryItemCol({
         ) : (
           <p className='font-bold mx-1 text-gray-400 italic'>제목을 입력하세요.</p>
         )}
-
-        <Avatar width={6} marginX={1} nickname={channelName} imgUrl={channelProfileUrl} />
+        <div className='flex items-center'>
+          <Avatar width={6} marginX={1} imgUrl={channelProfileUrl} />
+          <div className=' whitespace-pre-line w-4/5 px-1 line-clamp-1'>{channelName}</div>
+        </div>
         <div className='mx-2 text-xs flex items-center justify-start'>
           <PiEyeLight className='w-4 h-4' />
           <span className='px-2 border-r-2 border-solid'>{readCount}</span>
           <span className='px-2'>{createAt}</span>
-          {/* <span className='font-extrabold'>videoId : {videoId}</span> */}
+          {/*<span className='font-extrabold'>videoId : {videoId}</span>*/}
         </div>
       </div>
     </div>

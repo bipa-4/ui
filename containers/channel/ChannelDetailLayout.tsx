@@ -119,7 +119,7 @@ export default function ChannelDetailLayout({ channelInfo }: ChannelProps) {
         nextUUID: '',
       };
     }
-    console.log('res.data', res.data);
+    //console.log('res.data', res.data);
     setNextId(res.data.nextUUID);
     return res.data;
   };
@@ -132,7 +132,6 @@ export default function ChannelDetailLayout({ channelInfo }: ChannelProps) {
 
     if (nextId) {
       const data = await fetchVideo(nextId);
-      console.log('more fetched data', data);
 
       setNextId(data.nextUUID);
       setVideoList((prevVideoList) => {
@@ -145,7 +144,6 @@ export default function ChannelDetailLayout({ channelInfo }: ChannelProps) {
   };
 
   useEffect(() => {
-    console.log('초기렌더링');
     const fetchInitData = async () => {
       const initData = await fetchVideo('');
       setVideoList(initData.videos as VideoCardType[]);
@@ -153,14 +151,14 @@ export default function ChannelDetailLayout({ channelInfo }: ChannelProps) {
     fetchInitData();
     checkMyChannel();
   }, []);
-
+  console.log(videoList);
   return (
     <>
       <div className='flex w-full h-60 items-center border-0 border-b-2 border-slate-300'>
         {isUpdate ? (
           <>
             <div className='w-48 flex flex-col justify-center items-center'>
-              <Avatar width={34} marginX={5} imgUrl={previewUrl || channelInfo.profileUrl} />
+              <Avatar width={32} marginX={5} imgUrl={previewUrl || channelInfo.profileUrl} />
               <div className='relative'>
                 <input
                   type='file'
@@ -179,7 +177,7 @@ export default function ChannelDetailLayout({ channelInfo }: ChannelProps) {
               <input
                 type='text'
                 defaultValue={channelInfo.channelName}
-                className='input input-bordered w-full max-w-lg mb-3'
+                className='input input-bordered w-full max-w-lg mb-2'
                 placeholder='채널 이름을 입력하세요.'
                 onChange={handleChannelName}
               />
@@ -227,10 +225,11 @@ export default function ChannelDetailLayout({ channelInfo }: ChannelProps) {
           </>
         ) : (
           <>
-            <div className='w-48'>
-              <Avatar width='full' marginX={5} imgUrl={channelInfo.profileUrl} />
-            </div>
+            <Avatar width={36} marginX={5} imgUrl={channelInfo.profileUrl} />
             <div className='grow pl-4'>
+              <div className='text-sm pt-4 opacity-80 pb-1'>
+                {isMyChannel && (channelInfo.privateType === true ? '🔸 비공개 채널' : '🔹 공개 채널')}
+              </div>
               <Title text={channelInfo.channelName} />
               <div>{channelInfo.content}</div>
             </div>

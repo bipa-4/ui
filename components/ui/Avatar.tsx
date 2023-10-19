@@ -13,18 +13,14 @@ type Props = {
  * @param {number | 'full'} width  이미지 너비
  * @param {number} marginX 이미지와 닉네임 사이의 간격
  * @param {string} imageUrl 이미지 주소
- * @param {string} nickname 닉네임
  * @returns 아바타 컴포넌트
  */
-export default function Avatar({ width, marginX, nickname, imgUrl }: Props) {
+export default function Avatar({ width, marginX, imgUrl }: Props) {
   return (
-    <div className='flex'>
-      <div className={`avatar items-center mx-${marginX}`}>
-        <div className={`w-${width} h-${width} rounded-full basis-${width}`}>
-          <Image src={imgUrl || defaultUserImage} alt='cat' width={800} height={800} />
-        </div>
+    <div className={`avatar mx-${marginX} w-${width}`}>
+      <div className={`w-full h-${width} rounded-full basis-${width}`}>
+        <Image src={imgUrl || defaultUserImage} alt='cat' width={800} height={800} />
       </div>
-      {nickname && <p className=' whitespace-pre-line w-4/5 px-1 line-clamp-1'>{nickname}</p>}
     </div>
   );
 }
