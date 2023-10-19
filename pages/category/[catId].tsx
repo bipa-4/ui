@@ -33,8 +33,8 @@ export default function Category({ catId, categoryVideos }: CategoryProps) {
   };
 
   const fetchMoreData = async () => {
-    //console.log('fetchMoreData 호출');
-    //console.log('nextId', nextId);
+    // console.log('fetchMoreData 호출');
+    // console.log('nextId', nextId);
     if (nextId === '') {
       setHasMore(false);
       return;

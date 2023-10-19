@@ -4,7 +4,6 @@ import defaultUserImage from '@/public/images/user.png';
 type Props = {
   width: number | 'full';
   marginX: number;
-  nickname?: string;
   imgUrl?: string;
 };
 
@@ -26,6 +25,5 @@ export default function Avatar({ width, marginX, imgUrl }: Props) {
 }
 
 Avatar.defaultProps = {
-  nickname: '',
   imgUrl: defaultUserImage,
 };

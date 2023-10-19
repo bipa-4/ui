@@ -119,7 +119,7 @@ export default function ChannelDetailLayout({ channelInfo }: ChannelProps) {
         nextUUID: '',
       };
     }
-    //console.log('res.data', res.data);
+    // console.log('res.data', res.data);
     setNextId(res.data.nextUUID);
     return res.data;
   };
