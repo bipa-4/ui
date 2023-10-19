@@ -6,17 +6,20 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import axios from 'axios';
 import { BiSearch } from 'react-icons/bi';
-import { atom, useAtom } from 'jotai';
+import { useAtom } from 'jotai';
 import useMemberData from '@/hooks/useMemberData';
-import { userInfoType } from '@/types/userType';
-
-export const userAtom = atom<userInfoType | null>(null);
+import { userAtom } from '@/atoms/atoms';
+import { BsSun } from 'react-icons/bs';
+import { LuMoonStar } from 'react-icons/lu';
+import { useTheme } from 'next-themes';
+import { set } from 'nprogress';
 
 export default function Header() {
   const router = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [user, setUser] = useAtom(userAtom);
   const { userInfo, error } = useMemberData();
+  const { theme, setTheme } = useTheme();
 
   useEffect(() => {
     if (error) {
@@ -62,6 +65,17 @@ export default function Header() {
     router.push(`/search?keyword=${searchTerm}`);
   };
 
+  const handleTheme = () => {
+    if (theme === 'dark') {
+      setTheme('light');
+      return;
+    }
+    setTheme('dark');
+  };
+
+  useEffect(() => {}, [theme]);
+  console.log('theme', theme);
+
   return (
     <div className='w-full'>
       <div className='navbar bg-base-100 justify-between shadow-md px-32 max-xl:px-5'>
@@ -95,9 +109,15 @@ export default function Header() {
         <div className='flex justify-end w-1/5'>
           {user ? (
             <>
+              <label className='swap swap-rotate '>
+                <input type='checkbox' onChange={handleTheme} />
+                <BsSun className='swap-off w-6 h-6' />
+                <LuMoonStar className='swap-on w-6 h-6' />
+              </label>
               <Link href='/upload'>
                 <div className='btn bg-base-100 px-5 mx-5'>upload</div>
               </Link>
+
               <div className='dropdown dropdown-end'>
                 <button type='button' tabIndex={0} className='btn btn-ghost btn-circle avatar'>
                   <div className='w-10 rounded-full'>

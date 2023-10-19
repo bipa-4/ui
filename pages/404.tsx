@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 export default function Custom400() {
   return (
-    <div className='h-screen'>
+    <div className='h-screen  bg-base-100'>
       <Head>
         <title>nine4</title>
       </Head>

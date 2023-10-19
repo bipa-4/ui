@@ -7,9 +7,9 @@ import { useAtomValue } from 'jotai';
 import axios from 'axios';
 import { FiMoreHorizontal } from 'react-icons/fi';
 import Link from 'next/link';
-import { userAtom } from '../layouts/Header';
 import ShareModal from './ShareModal';
 import Avatar from '../ui/Avatar';
+import { userAtom } from '@/atoms/atoms';
 
 type Props = {
   video: VideoDetailType;
@@ -104,7 +104,7 @@ export default function VideoDetailInfo({ video, handleUpdatePage }: Props) {
           </div>
 
           <div className='flex items-center mx-3'>
-            <div className='btn bg-slate-100 rounded-full' onClick={handleLike}>
+            <div className='btn bg-base-100 rounded-full' onClick={handleLike}>
               <span className='text-sm'>{likeCount}</span>
               {like ? (
                 <Image src='/images/heart.png' alt='heart' width={23} height={23} />
@@ -115,7 +115,7 @@ export default function VideoDetailInfo({ video, handleUpdatePage }: Props) {
             <ShareModal />
             {isMyVideo && (
               <div className='dropdown dropdown-end'>
-                <label tabIndex={0} className='btn bg-slate-100 rounded-full m-1'>
+                <label tabIndex={0} className='btn bg-base-100 rounded-full m-1'>
                   <FiMoreHorizontal />
                 </label>
                 <ul tabIndex={0} className='dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52'>

@@ -17,7 +17,7 @@ function VideoSummaryItemRow({ videoSummaryItem }: VideoSummaryItemRowProps) {
   };
 
   return (
-    <div className='rounded-md w-full flex cursor-pointer hover:bg-slate-200 mb-2 pr-2' onClick={handleItemClick}>
+    <div className='rounded-md w-full flex cursor-pointer hover:bg-base-200 mb-2 pr-2' onClick={handleItemClick}>
       <div className='w-1/2 mr-3 flex-shrink-0'>
         <div className='rounded-md overflow-hidden' style={{ paddingBottom: '56.25%', position: 'relative' }}>
           <Image

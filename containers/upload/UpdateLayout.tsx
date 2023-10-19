@@ -26,7 +26,7 @@ export default function UpdateLayout() {
   };
 
   return (
-    <div className='h-full mx-44 max-xl:mx-5'>
+    <div className='h-full px-44 max-xl:px-5  bg-base-100'>
       <UploadLayout updateVideo={dataForUpdate} />
     </div>
   );

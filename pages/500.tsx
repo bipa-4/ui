@@ -4,7 +4,7 @@ import React from 'react';
 
 export default function Custom500() {
   return (
-    <div className='h-screen'>
+    <div className='h-screen  bg-base-100'>
       <Head>
         <title>nine4</title>
       </Head>

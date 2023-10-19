@@ -6,11 +6,11 @@ import VideoType from '@/types/videoType';
 import useCategoryList from '@/hooks/useCategoryList';
 import dayjs from 'dayjs';
 import S3upload from '@/utils/S3Upload';
-import { userAtom } from '@/components/layouts/Header';
 import { useAtomValue } from 'jotai';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import getPresignedImageUrl, { getPresignedVideoUrl } from '@/utils/getPresignedUrl';
+import { userAtom } from '@/atoms/atoms';
 
 type updateVideoType = {
   updateVideo?: VideoType;

@@ -7,7 +7,7 @@ type Props = {
 
 export default function Login({ kakaoLogin, googleLogin }: Props) {
   return (
-    <div className='modal'>
+    <div className='modal  bg-base-100'>
       <div className='modal-box'>
         <h3 className='text-lg font-bold text-center pt-5'>StreamWave에 오신걸 환영합니다!</h3>
         <div className='py-10 text-center'>

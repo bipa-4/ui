@@ -53,7 +53,7 @@ export default function ShareModal() {
 
   return (
     <>
-      <div className='btn bg-slate-100 rounded-full mx-3' onClick={() => modalRef.current?.showModal()}>
+      <div className='btn bg-base-100 rounded-full mx-3' onClick={() => modalRef.current?.showModal()}>
         <BsFillShareFill />
       </div>
       <dialog ref={modalRef} className='modal'>

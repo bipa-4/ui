@@ -53,13 +53,13 @@ export default function Category({ catId, categoryVideos }: CategoryProps) {
   }
 
   return (
-    <div className='mx-32 min-h-screen'>
+    <div className='px-32 min-h-screen bg-base-100'>
       <div className='flex items-center m-3 mt-5 border-b'>
         {categoryList?.map((category) => (
           <div
             className={`w-28 p-4 text-center text-lg ${
               category.categoryNameId === catId && 'font-bold'
-            } cursor-pointer hover:bg-slate-100`}
+            } cursor-pointer hover:bg-base-100`}
             onClick={() => router.push(`/category/${category.categoryNameId}`)}
             key={category.categoryNameId}
           >

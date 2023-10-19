@@ -1,4 +1,4 @@
-import { userAtom } from '@/components/layouts/Header';
+import { userAtom } from '@/atoms/atoms';
 import fetcher from '@/utils/axiosFetcher';
 import { useAtom } from 'jotai';
 import { useRouter } from 'next/router';

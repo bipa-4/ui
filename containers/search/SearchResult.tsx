@@ -14,7 +14,7 @@ export default function SearchResult() {
 
   if (!data) {
     return (
-      <div className='min-h-screen mx-44 my-10 flex items-center'>
+      <div className='min-h-screen px-44 my-10 flex items-center  bg-base-100'>
         <div className='m-auto'>
           <LoadingSpinner />
         </div>
@@ -23,7 +23,7 @@ export default function SearchResult() {
   }
 
   return (
-    <div className='min-h-screen mx-44 my-10'>
+    <div className='min-h-screen px-44 my-10'>
       <div className='border-b-2 p-5'>
         <Title text={`"${keyword}" 검색 결과`} />
       </div>

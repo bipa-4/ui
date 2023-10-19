@@ -6,6 +6,7 @@ import Layout from '@/components/layouts/Layout';
 import { Provider } from 'jotai';
 import nProgress from 'nprogress';
 import Router from 'next/router';
+import { ThemeProvider } from 'next-themes';
 
 const inter = notoSansKr({
   subsets: ['latin'],
@@ -19,11 +20,13 @@ Router.events.on('routeChangeError', () => nProgress.done());
 export default function MyApp({ Component, pageProps }: AppProps) {
   return (
     <Provider>
-      <main className={inter.className}>
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
-      </main>
+      <ThemeProvider defaultTheme='system'>
+        <main className={inter.className}>
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </main>
+      </ThemeProvider>
     </Provider>
   );
 }

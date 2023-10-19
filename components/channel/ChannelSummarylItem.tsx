@@ -26,7 +26,7 @@ export default function ChannelSummaryItem({ channelItem, rank, size }: props) {
     <div
       className={`${
         size === 'large' ? 'w-1/2' : 'w-full'
-      } bg-base-100 text-left rounded-2xl hover:bg-slate-200 max-lg:w-full cursor-pointer`}
+      } bg-base-100 text-left rounded-2xl hover:bg-base-200 max-lg:w-full cursor-pointer`}
       onClick={handleItemClick}
     >
       <div className={`w-full flex items-center px-2 justify-center ${size === 'large' ? 'h-40' : 'h-20'}`}>

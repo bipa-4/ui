@@ -154,7 +154,7 @@ export default function ChannelDetailLayout({ channelInfo }: ChannelProps) {
   console.log(videoList);
   return (
     <>
-      <div className='flex w-full h-60 items-center border-0 border-b-2 border-slate-300'>
+      <div className='flex w-full h-60 items-center border-0 border-b-2 border-slate-300  bg-base-100'>
         {isUpdate ? (
           <>
             <div className='w-48 flex flex-col justify-center items-center'>

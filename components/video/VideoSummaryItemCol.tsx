@@ -25,7 +25,7 @@ function VideoSummaryItemCol({
   return (
     <div
       className={`card card-compact bg-base-100 shadow-md overflow-hidden ${
-        videoId ? 'hover:bg-slate-100 cursor-pointer' : 'hover:none'
+        videoId ? 'hover:bg-base-300 cursor-pointer' : 'hover:none'
       }`}
       onClick={handleItemClick}
     >
