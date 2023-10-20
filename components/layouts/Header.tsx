@@ -12,7 +12,6 @@ import { userAtom } from '@/atoms/atoms';
 import { BsSun } from 'react-icons/bs';
 import { LuMoonStar } from 'react-icons/lu';
 import { useTheme } from 'next-themes';
-import { set } from 'nprogress';
 
 export default function Header() {
   const router = useRouter();
@@ -67,14 +66,11 @@ export default function Header() {
 
   const handleTheme = () => {
     if (theme === 'dark') {
-      setTheme('light');
+      setTheme('emerald');
       return;
     }
     setTheme('dark');
   };
-
-  useEffect(() => {}, [theme]);
-  console.log('theme', theme);
 
   return (
     <div className='w-full'>
@@ -109,7 +105,7 @@ export default function Header() {
         <div className='flex justify-end w-1/5'>
           {user ? (
             <>
-              <label className='swap swap-rotate '>
+              <label className='swap swap-rotate rounded-full hover:bg-base-300 w-8 h-8'>
                 <input type='checkbox' onChange={handleTheme} />
                 <BsSun className='swap-off w-6 h-6' />
                 <LuMoonStar className='swap-on w-6 h-6' />
@@ -125,7 +121,7 @@ export default function Header() {
                   </div>
                 </button>
                 {isMenuOpen && (
-                  <ul className='mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52'>
+                  <ul className='mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content rounded-box w-52 bg-base-200'>
                     <li>
                       <Link href={`/channel/${user.channelId}`} onClick={toggleMenu}>
                         내 채널

@@ -29,7 +29,7 @@ function VideoSummaryItemCol({
       }`}
       onClick={handleItemClick}
     >
-      <div className='relative overflow-hidden' style={{ paddingBottom: '56.25%' }}>
+      <div className='relative overflow-hidden ' style={{ paddingBottom: '56.25%' }}>
         <Image
           className='absolute top-0 left-0 right-0 bottom-0 w-full h-full object-cover'
           src={thumbnail || defaultImg}

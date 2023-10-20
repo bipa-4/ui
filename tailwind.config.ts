@@ -22,8 +22,20 @@ const config: Config = {
 
   // daisyUI config
   daisyui: {
-    themes: true,
-    darkTheme: 'dracula',
+    themes: [
+      {
+        dark: {
+          ...require('daisyui/src/theming/themes')['[data-theme=dark]'],
+          'base-100': '#282C34',
+          'primary': '#77AF8D',
+          'primary-focus': '#1DA1F2',
+          'secondary': '#2881DF',
+          'base-content': '#DDE1EA',
+        },
+      },
+      'emerald',
+    ],
+    darkTheme: 'dark',
     base: true,
     styled: true,
     utils: true,

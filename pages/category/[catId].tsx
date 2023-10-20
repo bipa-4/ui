@@ -54,11 +54,11 @@ export default function Category({ catId, categoryVideos }: CategoryProps) {
 
   return (
     <div className='px-32 min-h-screen bg-base-100'>
-      <div className='flex items-center m-3 mt-5 border-b'>
+      <div className='tabs w-full m-3 mt-8'>
         {categoryList?.map((category) => (
           <div
-            className={`w-28 p-4 text-center text-lg ${
-              category.categoryNameId === catId && 'font-bold'
+            className={`tab tab-lg tab-bordered w-36 ${
+              category.categoryNameId === catId && 'tab-active'
             } cursor-pointer hover:bg-base-100`}
             onClick={() => router.push(`/category/${category.categoryNameId}`)}
             key={category.categoryNameId}
@@ -67,6 +67,7 @@ export default function Category({ catId, categoryVideos }: CategoryProps) {
           </div>
         ))}
       </div>
+
       {categoryVideos.videos.length !== 0 ? (
         <InfiniteVideoContainer
           title={categoryVideos.categoryName}

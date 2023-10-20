@@ -23,7 +23,7 @@ export default function SearchResult() {
   }
 
   return (
-    <div className='min-h-screen px-44 my-10'>
+    <div className='min-h-screen px-44 py-10 bg-base-100'>
       <div className='border-b-2 p-5'>
         <Title text={`"${keyword}" 검색 결과`} />
       </div>

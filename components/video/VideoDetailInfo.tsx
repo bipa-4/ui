@@ -10,6 +10,7 @@ import Link from 'next/link';
 import ShareModal from './ShareModal';
 import Avatar from '../ui/Avatar';
 import { userAtom } from '@/atoms/atoms';
+import { PiHeart, PiHeartFill } from 'react-icons/pi';
 
 type Props = {
   video: VideoDetailType;
@@ -58,7 +59,6 @@ export default function VideoDetailInfo({ video, handleUpdatePage }: Props) {
       const deleted = await axios.delete(`${BASE_URL}/video/detail/${video.videoId}/like`, {
         withCredentials: true,
       });
-      console.log('좋아요 삭제', deleted);
       return;
     }
 
@@ -68,7 +68,6 @@ export default function VideoDetailInfo({ video, handleUpdatePage }: Props) {
       const liked = await axios.get(`${BASE_URL}/video/detail/${video.videoId}/like`, {
         withCredentials: true,
       });
-      console.log('좋아요 누름', liked);
     }
   };
 
@@ -76,8 +75,7 @@ export default function VideoDetailInfo({ video, handleUpdatePage }: Props) {
     const confirm = window.confirm('정말 삭제하시겠습니까?');
     if (confirm) {
       try {
-        const res = await axios.delete(`${BASE_URL}/video/${video.videoId}`, { withCredentials: true });
-        console.log('res', res);
+        await axios.delete(`${BASE_URL}/video/${video.videoId}`, { withCredentials: true });
         router.push('/');
       } catch (err) {
         console.log(err);
@@ -94,7 +92,7 @@ export default function VideoDetailInfo({ video, handleUpdatePage }: Props) {
           <div className='' />
         </div>
 
-        <div className='flex items-center py-4 rounded-lg justify-between '>
+        <div className='flex items-center py-4 rounded-lg justify-between'>
           <div className='flex items-center cursor-pointer' onClick={channelClickHandler}>
             <div>
               <Avatar width={12} imgUrl={video.channelProfileUrl} marginX={3} />
@@ -107,9 +105,10 @@ export default function VideoDetailInfo({ video, handleUpdatePage }: Props) {
             <div className='btn bg-base-100 rounded-full' onClick={handleLike}>
               <span className='text-sm'>{likeCount}</span>
               {like ? (
-                <Image src='/images/heart.png' alt='heart' width={23} height={23} />
+                //<Image src='/images/heart.png' alt='heart' width={23} height={23} />
+                <PiHeartFill className='fill-red-500 w-7 h-7' />
               ) : (
-                <Image src='/images/heart_empty.png' alt='heart' width={23} height={23} />
+                <PiHeart className='border-red-500 w-7 h-7' />
               )}
             </div>
             <ShareModal />
@@ -135,7 +134,7 @@ export default function VideoDetailInfo({ video, handleUpdatePage }: Props) {
           </div>
         </div>
 
-        <div className='mx-3 p-5 bg-gray-100 rounded-md'>
+        <div className='mx-3 p-5 bg-base-200 rounded-md'>
           <div className='text-sm pb-3'>
             조회수 {video.readCount}회 · 업로드 {video.createAt}
           </div>

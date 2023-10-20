@@ -22,8 +22,8 @@ export default function UploadLayout({ updateVideo }: updateVideoType) {
 
   // 유저 상태(전역)
   const user = useAtomValue(userAtom);
-
   const router = useRouter();
+  const [isUploading, setIsUploading] = useState<boolean>(false);
 
   // 카테고리 목록
   const { categoryList } = useCategoryList();
@@ -129,6 +129,9 @@ export default function UploadLayout({ updateVideo }: updateVideoType) {
       return;
     }
 
+    // 업로드 중 상태로 변경
+    setIsUploading(true);
+
     if (videoFile && thumbnailFile) {
       try {
         const { imagePresignedUrl, imageName } = await getPresignedImageUrl(thumbnailFile?.name);
@@ -150,6 +153,9 @@ export default function UploadLayout({ updateVideo }: updateVideoType) {
     } else {
       alert('파일을 선택해주세요.');
     }
+
+    // 업로드가 완료되면 상태를 다시 false로 설정
+    setIsUploading(false);
   };
 
   const update = async () => {
@@ -162,9 +168,6 @@ export default function UploadLayout({ updateVideo }: updateVideoType) {
       alert('설명을 입력해주세요.');
       return;
     }
-
-    // const contentWithLineBreaks = video.content.replace(/\n/g, '<br>');
-    // setVideo((prev) => ({ ...prev, content: contentWithLineBreaks }));
 
     if (thumbnailFile) {
       try {
@@ -352,9 +355,9 @@ export default function UploadLayout({ updateVideo }: updateVideoType) {
               수정
             </div>
           ) : (
-            <div onClick={upload} className='btn btn-primary flex-1 h-14'>
-              업로드
-            </div>
+            <button onClick={upload} className='btn btn-primary flex-1 h-14' type='button' disabled={isUploading}>
+              {isUploading ? '업로드 중...' : '업로드'}
+            </button>
           )}
         </div>
       </div>
