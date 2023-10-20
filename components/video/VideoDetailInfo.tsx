@@ -56,7 +56,7 @@ export default function VideoDetailInfo({ video, handleUpdatePage }: Props) {
     if (like === true) {
       setLike((prev) => !prev);
       setLikeCount((prev) => prev - 1);
-      const deleted = await axios.delete(`${BASE_URL}/video/detail/${video.videoId}/like`, {
+      await axios.delete(`${BASE_URL}/video/detail/${video.videoId}/like`, {
         withCredentials: true,
       });
       return;
@@ -65,7 +65,7 @@ export default function VideoDetailInfo({ video, handleUpdatePage }: Props) {
     if (like === false) {
       setLike((prev) => !prev);
       setLikeCount((prev) => prev + 1);
-      const liked = await axios.get(`${BASE_URL}/video/detail/${video.videoId}/like`, {
+      await axios.get(`${BASE_URL}/video/detail/${video.videoId}/like`, {
         withCredentials: true,
       });
     }
@@ -98,18 +98,12 @@ export default function VideoDetailInfo({ video, handleUpdatePage }: Props) {
               <Avatar width={12} imgUrl={video.channelProfileUrl} marginX={3} />
             </div>
             <div className=''>{video.channelName || '채널명'}</div>
-            {/* <div className='btn btn-secondary mx-5 btn-sm'> 구독 </div> */}
           </div>
 
           <div className='flex items-center mx-3'>
             <div className='btn bg-base-100 rounded-full' onClick={handleLike}>
               <span className='text-sm'>{likeCount}</span>
-              {like ? (
-                // <Image src='/images/heart.png' alt='heart' width={23} height={23} />
-                <PiHeartFill className='fill-red-500 w-7 h-7' />
-              ) : (
-                <PiHeart className='border-red-500 w-7 h-7' />
-              )}
+              {like ? <PiHeartFill className='fill-red-500 w-7 h-7' /> : <PiHeart className='border-red-500 w-7 h-7' />}
             </div>
             <ShareModal />
             {isMyVideo && (

@@ -6,7 +6,7 @@ import { VideoCardType } from '@/types/videoType';
 import axios from 'axios';
 import { GetStaticPropsContext } from 'next';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 interface CategoryProps {
   categoryVideos: CategoryType;
@@ -14,16 +14,26 @@ interface CategoryProps {
 }
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
-const PAGE_SIZE = 15;
+const PAGE_SIZE = 5;
 
 export default function Category({ catId, categoryVideos }: CategoryProps) {
   const [hasMore, setHasMore] = useState(true);
-  const [nextId, setNextId] = useState(categoryVideos.nextUUID);
-  const [videoList, setVideoList] = useState<VideoCardType[]>(categoryVideos.videos);
+  const [nextId, setNextId] = useState('');
+  const [videoList, setVideoList] = useState<VideoCardType[]>([]);
   const { categoryList } = useCategoryList();
   const router = useRouter();
 
-  console.log('categoryVideos', categoryVideos);
+  //console.log('videoList', videoList);
+  //console.log('nextId', nextId);
+  //console.log('hasmore', hasMore);
+  //console.log('-------------------------------');
+
+  useEffect(() => {
+    setVideoList(categoryVideos.videos);
+    setNextId(categoryVideos.nextUUID);
+    setHasMore(true);
+  }, [categoryVideos.videos]);
+
   const fetchVideo = async (nextUUID: string) => {
     const res = await axios.get(`${BASE_URL}/video/category/${catId}?page=${nextUUID}&pageSize=${PAGE_SIZE}`, {
       withCredentials: true,
@@ -33,8 +43,6 @@ export default function Category({ catId, categoryVideos }: CategoryProps) {
   };
 
   const fetchMoreData = async () => {
-    // console.log('fetchMoreData 호출');
-    // console.log('nextId', nextId);
     if (nextId === '') {
       setHasMore(false);
       return;
@@ -46,14 +54,14 @@ export default function Category({ catId, categoryVideos }: CategoryProps) {
 
   if (!categoryVideos) {
     return (
-      <div className='h-screen flex items-center m-auto'>
+      <div className='h-screen flex items-center justify-center m-auto'>
         <LoadingSpinner />
       </div>
     );
   }
 
   return (
-    <div className='px-32 min-h-screen bg-base-100'>
+    <div className='px-32 min-h-screen bg-base-100 max-xl:px-5'>
       <div className='tabs w-full m-3 mt-8'>
         {categoryList?.map((category) => (
           <div
@@ -69,12 +77,7 @@ export default function Category({ catId, categoryVideos }: CategoryProps) {
       </div>
 
       {categoryVideos.videos.length !== 0 ? (
-        <InfiniteVideoContainer
-          title={categoryVideos.categoryName}
-          videoList={videoList}
-          dataFetcher={fetchMoreData}
-          hasMore={hasMore}
-        />
+        <InfiniteVideoContainer videoList={videoList} dataFetcher={fetchMoreData} hasMore={hasMore} />
       ) : (
         <div className='flex items-center m-auto h-36 justify-center'>업로드한 영상이 없습니다.</div>
       )}

@@ -6,11 +6,10 @@ import { VideoCardType, VideoDetailType } from '@/types/videoType';
 import VideoPlayer from '@/components/video/VideoPlayer';
 import LoadingSpinner from '@/components/ui/LoadingSpinner';
 import Title from '@/components/ui/Title';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import useSWR from 'swr';
 import fetcher from '@/utils/axiosFetcher';
 import { parentCommentType } from '@/types/commentType';
-import axios from 'axios';
 import UploadLayout from '../upload/UploadLayout';
 
 interface VideoDetailLayoutProps {
