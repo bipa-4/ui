@@ -1,20 +1,21 @@
 import { useState } from 'react';
 import { IoMdArrowDropdown } from 'react-icons/io';
-import { parentCommentType } from '@/types/commentType';
 import ReplyItem from './ReplyItem';
 import Avatar from '../ui/Avatar';
 import CommentInput from './CommentInput';
+import { commentType } from '@/types/commentType';
 
-type commentType = {
+type commentPropsType = {
   videoId: string;
-  comment: parentCommentType;
+  comment: commentType;
+  setIsUpdated: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 /**
  * 댓글 컴포넌트입니다.
  * Todo: 렌더링 최적화
  */
-export default function CommentItem({ videoId, comment }: commentType) {
+export default function CommentItem({ videoId, comment, setIsUpdated }: commentPropsType) {
   const [isReplyOpen, setIsReplyOpen] = useState(false);
   const [writeChildReply, setWriteChildReply] = useState(false);
   // Todo: 채널 클릭시 해당 채널로 이동
@@ -37,7 +38,7 @@ export default function CommentItem({ videoId, comment }: commentType) {
           <span>groupIdx: {comment.groupIndex}</span>
         </div>
         <div className='w-full mb-2'>
-          <div className='pb-2 pr-6'>{comment.content}</div>
+          <div className='whitespace-pre-line pb-2 pr-6'>{comment.content}</div>
           <span className='btn bg-transparent rounded-md btn-sm mr-4 border-none' onClick={handleWrite}>
             답글
           </span>
@@ -47,7 +48,14 @@ export default function CommentItem({ videoId, comment }: commentType) {
               답글 {comment.childCount}개
             </span>
           )}
-          {writeChildReply && <CommentInput />}
+          {writeChildReply && (
+            <CommentInput
+              videoId={videoId}
+              commentType='child'
+              groupIndex={comment.groupIndex}
+              setIsUpdated={setIsUpdated}
+            />
+          )}
           {isReplyOpen && <ReplyItem videoId={videoId} groupIndex={comment.groupIndex} />}
         </div>
       </div>

@@ -12,6 +12,7 @@ import { userAtom } from '@/atoms/atoms';
 import { BsSun } from 'react-icons/bs';
 import { LuMoonStar } from 'react-icons/lu';
 import { useTheme } from 'next-themes';
+import defaultUserImage from '@/public/images/user.png';
 
 export default function Header() {
   const router = useRouter();
@@ -117,7 +118,13 @@ export default function Header() {
               <div className='dropdown dropdown-end'>
                 <button type='button' tabIndex={0} className='btn btn-ghost btn-circle avatar'>
                   <div className='w-10 rounded-full'>
-                    <Image src={user.channelProfileUrl} alt='profile' width={200} height={200} onClick={toggleMenu} />
+                    <Image
+                      src={user.channelProfileUrl || defaultUserImage}
+                      alt='profile'
+                      width={200}
+                      height={200}
+                      onClick={toggleMenu}
+                    />
                   </div>
                 </button>
                 {isMenuOpen && (
