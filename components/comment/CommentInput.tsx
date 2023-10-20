@@ -1,10 +1,10 @@
 import { useRef, useState } from 'react';
 import { useAtomValue } from 'jotai';
 import { userAtom } from '@/atoms/atoms';
-import Avatar from '../ui/Avatar';
 import axios from 'axios';
-import LoadingSpinner from '../ui/LoadingSpinner';
 import { set } from 'nprogress';
+import Avatar from '../ui/Avatar';
+import LoadingSpinner from '../ui/LoadingSpinner';
 
 type commentPropsType = {
   videoId: string;
@@ -22,7 +22,7 @@ export default function CommentInput({ videoId, commentType, groupIndex, setIsUp
   const textarea = useRef<HTMLTextAreaElement>(null);
   const [commentInput, setCommentInput] = useState('');
   const [isPosting, setIsPosting] = useState(false);
-  //const router = useRouter();
+  // const router = useRouter();
 
   // 댓글 입력창 엔터에 따라 높이 조절
   const handleResizeHeight = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -45,12 +45,12 @@ export default function CommentInput({ videoId, commentType, groupIndex, setIsUp
           },
           { withCredentials: true },
         );
-        //if (res.status === 200) {
+        // if (res.status === 200) {
         //  alert('댓글이 등록되었습니다.');
         //  console.log(res);
-        //} else {
+        // } else {
         //  console.log(res.data);
-        //}
+        // }
         if (textarea.current) {
           textarea.current.value = '';
         }

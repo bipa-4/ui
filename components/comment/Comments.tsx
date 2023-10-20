@@ -1,12 +1,12 @@
 import { VideoDetailType } from '@/types/videoType';
-import Title from '../ui/Title';
-import CommentInput from './CommentInput';
 import { commentType } from '@/types/commentType';
-import LoadingSpinner from '../ui/LoadingSpinner';
-import CommentItem from './CommentItem';
 import { useEffect, useState } from 'react';
 import useSWR from 'swr';
 import fetcher from '@/utils/axiosFetcher';
+import Title from '../ui/Title';
+import CommentInput from './CommentInput';
+import LoadingSpinner from '../ui/LoadingSpinner';
+import CommentItem from './CommentItem';
 
 type commentsPropsType = {
   video: VideoDetailType;
@@ -16,10 +16,10 @@ export default function Comments({ video }: commentsPropsType) {
   const [isUpdated, setIsUpdated] = useState(false);
   const [commentList, setCommentList] = useState<commentType[]>([]);
 
-  //const { data } = useSWR<commentType[]>(
+  // const { data } = useSWR<commentType[]>(
   //  `${process.env.NEXT_PUBLIC_BASE_URL}/comment/${video.videoId}/comment-parent`,
   //  fetcher,
-  //);
+  // );
 
   console.log('isUpdated', isUpdated);
 

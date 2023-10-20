@@ -4,8 +4,8 @@ import { VideoCardType, VideoDetailType } from '@/types/videoType';
 import VideoPlayer from '@/components/video/VideoPlayer';
 import LoadingSpinner from '@/components/ui/LoadingSpinner';
 import { useState } from 'react';
-import UploadLayout from '../upload/UploadLayout';
 import Comments from '@/components/comment/Comments';
+import UploadLayout from '../upload/UploadLayout';
 
 interface VideoDetailLayoutProps {
   video: VideoDetailType;

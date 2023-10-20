@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { IoMdArrowDropdown } from 'react-icons/io';
+import { commentType } from '@/types/commentType';
 import ReplyItem from './ReplyItem';
 import Avatar from '../ui/Avatar';
 import CommentInput from './CommentInput';
-import { commentType } from '@/types/commentType';
 
 type commentPropsType = {
   videoId: string;

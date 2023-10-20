@@ -23,10 +23,10 @@ export default function Category({ catId, categoryVideos }: CategoryProps) {
   const { categoryList } = useCategoryList();
   const router = useRouter();
 
-  //console.log('videoList', videoList);
-  //console.log('nextId', nextId);
-  //console.log('hasmore', hasMore);
-  //console.log('-------------------------------');
+  // console.log('videoList', videoList);
+  // console.log('nextId', nextId);
+  // console.log('hasmore', hasMore);
+  // console.log('-------------------------------');
 
   useEffect(() => {
     setVideoList(categoryVideos.videos);
