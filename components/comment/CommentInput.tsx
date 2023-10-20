@@ -1,7 +1,7 @@
 import { useRef } from 'react';
 import { useAtomValue } from 'jotai';
-import Avatar from '../ui/Avatar';
 import { userAtom } from '@/atoms/atoms';
+import Avatar from '../ui/Avatar';
 
 /**
  * 댓글 입력 컴포넌트입니다.

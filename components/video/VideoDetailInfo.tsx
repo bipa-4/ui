@@ -7,10 +7,10 @@ import { useAtomValue } from 'jotai';
 import axios from 'axios';
 import { FiMoreHorizontal } from 'react-icons/fi';
 import Link from 'next/link';
-import ShareModal from './ShareModal';
-import Avatar from '../ui/Avatar';
 import { userAtom } from '@/atoms/atoms';
 import { PiHeart, PiHeartFill } from 'react-icons/pi';
+import ShareModal from './ShareModal';
+import Avatar from '../ui/Avatar';
 
 type Props = {
   video: VideoDetailType;
@@ -105,7 +105,7 @@ export default function VideoDetailInfo({ video, handleUpdatePage }: Props) {
             <div className='btn bg-base-100 rounded-full' onClick={handleLike}>
               <span className='text-sm'>{likeCount}</span>
               {like ? (
-                //<Image src='/images/heart.png' alt='heart' width={23} height={23} />
+                // <Image src='/images/heart.png' alt='heart' width={23} height={23} />
                 <PiHeartFill className='fill-red-500 w-7 h-7' />
               ) : (
                 <PiHeart className='border-red-500 w-7 h-7' />
