@@ -8,7 +8,7 @@ import axios from 'axios';
 import { BiSearch } from 'react-icons/bi';
 import { useAtom } from 'jotai';
 import useMemberData from '@/hooks/useMemberData';
-import { userAtom } from '@/atoms/atoms';
+import userAtom from '@/atoms/atoms';
 import { BsSun } from 'react-icons/bs';
 import { LuMoonStar } from 'react-icons/lu';
 import { useTheme } from 'next-themes';

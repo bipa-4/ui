@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { VideoDetailType } from '@/types/videoType';
 import { useState, useEffect } from 'react';
@@ -7,7 +6,7 @@ import { useAtomValue } from 'jotai';
 import axios from 'axios';
 import { FiMoreHorizontal } from 'react-icons/fi';
 import Link from 'next/link';
-import { userAtom } from '@/atoms/atoms';
+import userAtom from '@/atoms/atoms';
 import { PiHeart, PiHeartFill } from 'react-icons/pi';
 import ShareModal from './ShareModal';
 import Avatar from '../ui/Avatar';
@@ -94,9 +93,7 @@ export default function VideoDetailInfo({ video, handleUpdatePage }: Props) {
 
         <div className='flex items-center py-4 rounded-lg justify-between'>
           <div className='flex items-center cursor-pointer justify-center' onClick={channelClickHandler}>
-            <div>
-              <Avatar width={12} imgUrl={video.channelProfileUrl} marginX={3} />
-            </div>
+            <Avatar width={12} imgUrl={video.channelProfileUrl} marginX={3} />
             <div>{video.channelName || '채널명'}</div>
           </div>
 

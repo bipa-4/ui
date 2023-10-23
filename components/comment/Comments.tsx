@@ -1,7 +1,6 @@
 import { VideoDetailType } from '@/types/videoType';
 import { commentType } from '@/types/commentType';
 import { useEffect, useState } from 'react';
-import useSWR from 'swr';
 import fetcher from '@/utils/axiosFetcher';
 import Title from '../ui/Title';
 import CommentInput from './CommentInput';
@@ -13,15 +12,8 @@ type commentsPropsType = {
 };
 
 export default function Comments({ video }: commentsPropsType) {
-  const [isUpdated, setIsUpdated] = useState(false);
+  const [isCommentUpdated, setIsCommentUpdated] = useState(false);
   const [commentList, setCommentList] = useState<commentType[]>([]);
-
-  // const { data } = useSWR<commentType[]>(
-  //  `${process.env.NEXT_PUBLIC_BASE_URL}/comment/${video.videoId}/comment-parent`,
-  //  fetcher,
-  // );
-
-  console.log('isUpdated', isUpdated);
 
   const getComments = async () => {
     const res = await fetcher(`${process.env.NEXT_PUBLIC_BASE_URL}/comment/${video.videoId}/comment-parent`);
@@ -34,18 +26,24 @@ export default function Comments({ video }: commentsPropsType) {
   }, []);
 
   useEffect(() => {
-    if (isUpdated) {
+    if (isCommentUpdated) {
       getComments();
-      setIsUpdated(false);
+      setIsCommentUpdated(false);
     }
-  }, [isUpdated]);
+  }, [isCommentUpdated]);
 
   return (
     <div className='w-full mx-1 my-5 max-2xl:w-full'>
       <div className='mx-1 pb-3 border-b-2'>
         <Title text='댓글' />
       </div>
-      <CommentInput videoId={video.videoId} commentType='parent' groupIndex={null} setIsUpdated={setIsUpdated} />
+      <CommentInput
+        videoId={video.videoId}
+        commentLevel='parent'
+        groupIndex={null}
+        setIsUpdated={setIsCommentUpdated}
+        setCommentList={setCommentList}
+      />
       <div className='w-full'>
         {!commentList && <LoadingSpinner />}
         {commentList?.length === 0 && <div className='text-center'>댓글이 없습니다.</div>}
@@ -54,8 +52,8 @@ export default function Comments({ video }: commentsPropsType) {
             comment={c}
             videoId={video.videoId}
             key={c.commentId}
-            setIsUpdated={setIsUpdated}
-            isParent={true}
+            setIsCommentUpdated={setIsCommentUpdated}
+            setCommentList={setCommentList}
           />
         ))}
       </div>

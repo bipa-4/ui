@@ -1,23 +1,30 @@
 import { useRef, useState } from 'react';
 import { useAtomValue } from 'jotai';
-import { userAtom } from '@/atoms/atoms';
+import userAtom from '@/atoms/atoms';
 import axios from 'axios';
-import { set } from 'nprogress';
+import { commentType } from '@/types/commentType';
 import Avatar from '../ui/Avatar';
 import LoadingSpinner from '../ui/LoadingSpinner';
 
 type commentPropsType = {
   videoId: string;
-  commentType: 'parent' | 'child';
+  commentLevel: 'parent' | 'child';
   groupIndex: string | null;
   setIsUpdated: React.Dispatch<React.SetStateAction<boolean>>;
+  setCommentList: React.Dispatch<React.SetStateAction<commentType[]>>;
 };
 
 /**
  * 댓글 입력 컴포넌트입니다.
  */
 
-export default function CommentInput({ videoId, commentType, groupIndex, setIsUpdated }: commentPropsType) {
+export default function CommentInput({
+  videoId,
+  commentLevel,
+  groupIndex,
+  setIsUpdated,
+  setCommentList,
+}: commentPropsType) {
   const user = useAtomValue(userAtom);
   const textarea = useRef<HTMLTextAreaElement>(null);
   const [commentInput, setCommentInput] = useState('');
@@ -34,7 +41,7 @@ export default function CommentInput({ videoId, commentType, groupIndex, setIsUp
 
   const postCommentHandler = async () => {
     setIsPosting(true);
-    if (commentType === 'parent') {
+    if (commentLevel === 'parent') {
       try {
         await axios.post(
           `${process.env.NEXT_PUBLIC_BASE_URL}/commentParent`,
@@ -55,7 +62,7 @@ export default function CommentInput({ videoId, commentType, groupIndex, setIsUp
       setIsPosting(false);
       return;
     }
-    if (commentType === 'child') {
+    if (commentLevel === 'child') {
       try {
         await axios.post(
           `${process.env.NEXT_PUBLIC_BASE_URL}/commentChild?groupIndex=${groupIndex}`,
@@ -66,6 +73,19 @@ export default function CommentInput({ videoId, commentType, groupIndex, setIsUp
           },
           { withCredentials: true },
         );
+        // commentList에서 groupIndex가 같은 부모 댓글의 childCount를 1 증가시킴
+        setCommentList((prev) =>
+          [...prev].map((comment) => {
+            if (comment.groupIndex === groupIndex) {
+              return {
+                ...comment,
+                childCount: comment.childCount ? comment.childCount + 1 : '0',
+              };
+            }
+            return comment;
+          }),
+        );
+
         if (textarea.current) {
           textarea.current.value = '';
         }
