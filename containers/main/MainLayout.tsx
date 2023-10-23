@@ -28,7 +28,7 @@ export default function MainLayout() {
   };
 
   const fetchMoreData = async () => {
-    if (nextId === '') {
+    if (!nextId) {
       setHasMore(false);
       return;
     }

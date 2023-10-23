@@ -75,49 +75,53 @@ export default function Header() {
 
   return (
     <div className='w-full'>
-      <div className='navbar bg-base-100 justify-between shadow-md px-32 max-xl:px-5'>
-        <div className='flex justify-start w-1/5'>
+      <div className='navbar bg-base-100 justify-between shadow-md px-32 max-xl:px-2'>
+        <div className='flex justify-start'>
           <div className='flex-none'>
             <label htmlFor='my-drawer-3' className='btn btn-square btn-ghost'>
               <input type='checkbox' id='my-drawer-3' className='hidden' />
-              <FiMenu className='w-6 h-6 m-2' />
+              <FiMenu className='w-6 h-6 m-2 max-xl:m-1 max-xl:w-5 max-xl:h-5' />
             </label>
           </div>
-          <Link href='/' className='btn btn-ghost normal-case text-xl'>
+          <Link href='/' className='btn btn-ghost normal-case text-xl max-xl:hidden'>
             StreamWave
           </Link>
         </div>
-        <div className='grow w-3/5 justify-center m-auto max-xl:hidden '>
-          <form className='w-4/5 flex' onSubmit={handleSearch}>
-            <div className='grow relative flex items-center justify-center'>
+        <div className='grow justify-center mx-3 max-xl:mx-1 '>
+          <form className='w-4/5 max-lg:w-full flex' onSubmit={handleSearch}>
+            <div className='grow relative flex items-center justify-center w-full'>
               <input
                 type='text'
                 name='search'
                 placeholder='영상 검색'
-                className='input input-bordered md:w-4/5 pr-10 rounded-r-none' // 오른쪽 패딩 추가
+                className='input input-bordered w-11/12 focus:outline-none pr-10 rounded-r-none' // 오른쪽 패딩 추가
               />
-              <button type='submit' className='btn btn-secondary rounded-l-none'>
-                <BiSearch className='w-6 h-6 m-2' />
+              <button type='submit' className='btn btn-secondary rounded-l-none px-2'>
+                <BiSearch className='w-6 h-6 m-2 max-xl:w-4 max-xl:h-4 max-xl:m-1' />
               </button>
             </div>
           </form>
         </div>
 
-        <div className='flex justify-end w-1/5'>
+        <div className='flex justify-center'>
           {user ? (
             <>
-              <label className='swap swap-rotate rounded-full hover:bg-base-300 w-8 h-8'>
+              <label className='swap swap-rotate rounded-full hover:bg-base-300 w-8 h-8 max-xl:mx-1 max-md:w-6 max-md:h-6'>
                 <input type='checkbox' onChange={handleTheme} />
-                <BsSun className='swap-off w-6 h-6' />
-                <LuMoonStar className='swap-on w-6 h-6' />
+                <BsSun className='swap-off w-6 h-6 max-xl:w-5 max-md:h-5 ' />
+                <LuMoonStar className='swap-on w-6 h-6  max-xl:w-5 max-md:h-5' />
               </label>
               <Link href='/upload'>
-                <div className='btn bg-base-100 px-5 mx-5'>upload</div>
+                <div className='btn bg-base-100 px-5 mx-5 max-xl:hidden'>upload</div>
               </Link>
 
               <div className='dropdown dropdown-end'>
-                <button type='button' tabIndex={0} className='btn btn-ghost btn-circle avatar'>
-                  <div className='w-10 rounded-full'>
+                <button
+                  type='button'
+                  tabIndex={0}
+                  className='btn btn-ghost btn-circle avatar border-none  max-md:w-7 mx-1'
+                >
+                  <div className='w-10 rounded-full max-md:w-6'>
                     <Image
                       src={user.channelProfileUrl || defaultUserImage}
                       alt='profile'
@@ -133,6 +137,9 @@ export default function Header() {
                       <Link href={`/channel/${user.channelId}`} onClick={toggleMenu}>
                         내 채널
                       </Link>
+                    </li>
+                    <li className='xl:hidden'>
+                      <Link href='/upload'>업로드</Link>
                     </li>
                     <li>
                       <Link href='/' onClick={handleLogout}>

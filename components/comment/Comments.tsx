@@ -46,7 +46,7 @@ export default function Comments({ video }: commentsPropsType) {
       />
       <div className='w-full'>
         {!commentList && <LoadingSpinner />}
-        {commentList?.length === 0 && <div className='text-center'>댓글이 없습니다.</div>}
+        {commentList?.length === 0 && <div className='h-40 flex items-center justify-center m-auto'>댓글이 없습니다.</div>}
         {commentList?.map((c: commentType) => (
           <CommentItem
             comment={c}

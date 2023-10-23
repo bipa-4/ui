@@ -21,15 +21,19 @@ export default function VideoDetailInfo({ video, handleUpdatePage }: Props) {
   const user = useAtomValue(userAtom);
   const [like, setLike] = useState(false);
   const [likeCount, setLikeCount] = useState(video.likeCount);
-  const [isMyVideo, setIsMyVideo] = useState(false);
+  const [isMyVideo, setIsMyVideo] = useState<boolean>(false);
   const [readMore, setReadMore] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
     const checkLiked = async () => {
-      const hasLiked = await fetcher(`${BASE_URL}/video/like/${video.videoId}`);
-      console.log('hasLiked', hasLiked);
-      setLike(hasLiked);
+      try {
+        const hasLiked = await fetcher(`${BASE_URL}/video/like/${video.videoId}`);
+        console.log('hasLiked', hasLiked);
+        setLike(hasLiked);
+      } catch (err) {
+        console.log('좋아요 확인 에러: ', err);
+      }
     };
     const checkMyVideo = async () => {
       const res = await axios.get(`${BASE_URL}/video/check?videoId=${video.videoId}`, { withCredentials: true });
@@ -87,14 +91,13 @@ export default function VideoDetailInfo({ video, handleUpdatePage }: Props) {
       <div className='rounded-md w-full mx-auto'>
         <div className='flex justify-between py-5 items-center'>
           <div className='text-2xl mx-3 font-bold'>{video.videoTitle}</div>
-
           <div className='' />
         </div>
 
-        <div className='flex items-center py-4 rounded-lg justify-between'>
-          <div className='flex items-center cursor-pointer justify-center' onClick={channelClickHandler}>
-            <Avatar width={12} imgUrl={video.channelProfileUrl} marginX={3} />
-            <div>{video.channelName || '채널명'}</div>
+        <div className='flex items-center py-4 justify-between w-full h-24'>
+          <div className='flex items-center cursor-pointer justify-start' onClick={channelClickHandler}>
+            <Avatar width={11} imgUrl={video.channelProfileUrl} marginX={3} />
+            <div className='font-bold'>{video.channelName || '채널명'}</div>
           </div>
 
           <div className='flex items-center mx-3'>
@@ -110,12 +113,16 @@ export default function VideoDetailInfo({ video, handleUpdatePage }: Props) {
                 </label>
                 <ul tabIndex={0} className='dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52'>
                   <li>
-                    <Link href={`/video/update/${video.videoId}`} className='text-blue-600' onClick={handleUpdatePage}>
+                    <Link
+                      href={`/video/update/${video.videoId}`}
+                      className='text-blue-600 font-bold'
+                      onClick={handleUpdatePage}
+                    >
                       수정
                     </Link>
                   </li>
                   <li>
-                    <div className='text-red-600' onClick={deleteVideo}>
+                    <div className='text-red-600 font-bold' onClick={deleteVideo}>
                       삭제
                     </div>
                   </li>

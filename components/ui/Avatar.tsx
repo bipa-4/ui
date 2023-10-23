@@ -18,7 +18,7 @@ export default function Avatar({ width, marginX, imgUrl }: Props) {
   return (
     <div className={`avatar mx-${marginX} w-${width}`}>
       <div className={`w-full h-${width} rounded-full basis-${width}`}>
-        <Image src={imgUrl || defaultUserImage} alt='cat' width={800} height={800} />
+        <Image src={imgUrl || defaultUserImage} alt='profileImage' width={800} height={800} />
       </div>
     </div>
   );

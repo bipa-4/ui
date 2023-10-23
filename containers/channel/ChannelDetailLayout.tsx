@@ -36,6 +36,8 @@ export default function ChannelDetailLayout({ channelInfo }: ChannelProps) {
     profileUrl: channelInfo.profileUrl,
   });
 
+  console.log('updatedChannelInfo', updatedChannelInfo);
+
   // 무한 스크롤 관련 state
   const [videoList, setVideoList] = useState<VideoCardType[] | null>([]);
   const [hasMore, setHasMore] = useState(true);
@@ -51,7 +53,6 @@ export default function ChannelDetailLayout({ channelInfo }: ChannelProps) {
   };
 
   const updateChannelToServer = async (updatedInfo: ChannelUpdateType) => {
-    console.log(updatedChannelInfo.profileUrl);
     try {
       const res = await axios.put(`${BASE_URL}/channel/${cid}`, updatedInfo, { withCredentials: true });
       if (res.status === 200) {
@@ -65,7 +66,7 @@ export default function ChannelDetailLayout({ channelInfo }: ChannelProps) {
 
   const updateChannel = async () => {
     if (profileImageFile) {
-      const { imagePresignedUrl, imageName } = await getPresignedImageUrl(updatedChannelInfo.profileUrl);
+      const { imagePresignedUrl, imageName } = await getPresignedImageUrl(profileImageFile?.name);
       setUpdatedChannelInfo((prev) => ({
         ...prev,
         profileUrl: `https://streamwaves3.s3.ap-northeast-2.amazonaws.com/${imageName}`,
@@ -119,13 +120,12 @@ export default function ChannelDetailLayout({ channelInfo }: ChannelProps) {
         nextUUID: '',
       };
     }
-    // console.log('res.data', res.data);
     setNextId(res.data.nextUUID);
     return res.data;
   };
 
   const fetchMoreData = async () => {
-    if (nextId === '') {
+    if (!nextId) {
       setHasMore(false);
       return;
     }
@@ -151,7 +151,9 @@ export default function ChannelDetailLayout({ channelInfo }: ChannelProps) {
     fetchInitData();
     checkMyChannel();
   }, []);
+
   console.log(videoList);
+
   return (
     <>
       <div className='flex w-full h-60 items-center border-0 border-b-2 border-slate-300  bg-base-100'>

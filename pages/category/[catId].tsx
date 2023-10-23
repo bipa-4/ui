@@ -23,7 +23,7 @@ export default function Category({ catId, categoryVideos }: CategoryProps) {
   const { categoryList } = useCategoryList();
   const router = useRouter();
 
-  // console.log('videoList', videoList);
+  //console.log('categoryVideos', categoryVideos);
   // console.log('nextId', nextId);
   // console.log('hasmore', hasMore);
   // console.log('-------------------------------');
@@ -34,6 +34,13 @@ export default function Category({ catId, categoryVideos }: CategoryProps) {
     setHasMore(true);
   }, [categoryVideos.videos]);
 
+  useEffect(() => {
+    if (categoryVideos.nextUUID === null) {
+      setHasMore(false);
+      return;
+    }
+  }, []);
+
   const fetchVideo = async (nextUUID: string) => {
     const res = await axios.get(`${BASE_URL}/video/category/${catId}?page=${nextUUID}&pageSize=${PAGE_SIZE}`, {
       withCredentials: true,
@@ -43,7 +50,7 @@ export default function Category({ catId, categoryVideos }: CategoryProps) {
   };
 
   const fetchMoreData = async () => {
-    if (nextId === '') {
+    if (nextId === null) {
       setHasMore(false);
       return;
     }

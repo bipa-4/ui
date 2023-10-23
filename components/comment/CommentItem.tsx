@@ -99,15 +99,15 @@ function CommentItem({ videoId, comment, setIsCommentUpdated, setCommentList }: 
           <div>
             <span className='font-bold pr-3'>{comment.channelName}</span>
             <span className='font-light text-sm pr-3'>{comment.createAt}</span>
-            <span>groupIdx: {comment.groupIndex}</span>
+            <span>gIdx: {comment.groupIndex}</span>
           </div>
 
           {!isEdit && (
             <div>
-              <span className='pr-3 text-blue-500 cursor-pointer' onClick={() => setIsEdit(true)}>
+              <span className='pr-3 text-blue-500 cursor-pointer text-sm' onClick={() => setIsEdit(true)}>
                 수정
               </span>
-              <span className='text-red-500 cursor-pointer' onClick={deleteComment}>
+              <span className='text-red-500 cursor-pointer text-sm' onClick={deleteComment}>
                 삭제
               </span>
             </div>

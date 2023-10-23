@@ -11,7 +11,7 @@ export default function channels() {
         <meta property='og:description' content='동영상 공유 플랫폼 StreamWave입니다.' />
         <meta property='og:image' content='/images/streamWave.png' />
       </Head>
-      <div className='min-h-screen px-48 max-lg:mx-auto bg-base-100'>
+      <div className='min-h-screen px-48 max-lg:px-5 bg-base-100'>
         <AllChannelsContainer />
       </div>
     </>

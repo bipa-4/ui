@@ -104,14 +104,14 @@ export default function CommentInput({
         <div className='grow flex items-center'>
           <textarea
             rows={1}
-            placeholder='댓글 입력'
+            placeholder={user ? '댓글을 입력하세요.' : '로그인 후 댓글을 입력할 수 있습니다.'}
             ref={textarea}
             onChange={handleResizeHeight}
             className='input input-bordered input-primary rounded-md w-full resize-none p-2 min-h-12 '
             disabled={!user}
           />
         </div>
-        <button type='button' className='btn mx-3 btn-primary min-h-12' onClick={postCommentHandler}>
+        <button type='button' className='btn mx-3 btn-primary min-h-12' onClick={postCommentHandler} disabled={!user}>
           등록
         </button>
       </div>

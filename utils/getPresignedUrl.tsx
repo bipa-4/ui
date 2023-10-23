@@ -4,6 +4,7 @@ const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 export default async function getPresignedImageUrl(imageName: string) {
   const res = await axios.post(`${BASE_URL}/video/presigned/image?imageName=${imageName}`);
+
   return {
     imageName: res.data.fileName,
     imagePresignedUrl: res.data.fileUrl,
