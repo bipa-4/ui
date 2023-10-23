@@ -11,6 +11,7 @@ import { useRouter } from 'next/router';
 import Link from 'next/link';
 import getPresignedImageUrl, { getPresignedVideoUrl } from '@/utils/getPresignedUrl';
 import { userAtom } from '@/atoms/atoms';
+import LoadingSpinner from '@/components/ui/LoadingSpinner';
 
 type updateVideoType = {
   updateVideo?: VideoType;
@@ -114,6 +115,7 @@ export default function UploadLayout({ updateVideo }: updateVideoType) {
         alert('수정되었습니다.');
         router.push('/');
       }
+      setIsUploading(false);
     } catch (err) {
       console.log('백엔드 업로드 에러 : ', err);
     }
@@ -153,9 +155,6 @@ export default function UploadLayout({ updateVideo }: updateVideoType) {
     } else {
       alert('파일을 선택해주세요.');
     }
-
-    // 업로드가 완료되면 상태를 다시 false로 설정
-    setIsUploading(false);
   };
 
   const update = async () => {
@@ -168,6 +167,8 @@ export default function UploadLayout({ updateVideo }: updateVideoType) {
       alert('설명을 입력해주세요.');
       return;
     }
+
+    setIsUploading(true);
 
     if (thumbnailFile) {
       try {
@@ -227,6 +228,14 @@ export default function UploadLayout({ updateVideo }: updateVideoType) {
   }
 
   console.log(video);
+
+  if (isUploading) {
+    return (
+      <div className='min-h-screen flex justify-center items-center m-auto'>
+        <LoadingSpinner />
+      </div>
+    );
+  }
 
   return (
     <div className='my-14 px-5 flex max-lg:flex-col min-h-screen'>
@@ -351,9 +360,9 @@ export default function UploadLayout({ updateVideo }: updateVideoType) {
             취소
           </Link>
           {isUpdate ? (
-            <div onClick={update} className='btn btn-primary flex-1 h-14'>
-              수정
-            </div>
+            <button onClick={update} className='btn btn-primary flex-1 h-14' type='button' disabled={isUploading}>
+              {isUploading ? '수정 중...' : '수정'}
+            </button>
           ) : (
             <button onClick={upload} className='btn btn-primary flex-1 h-14' type='button' disabled={isUploading}>
               {isUploading ? '업로드 중...' : '업로드'}

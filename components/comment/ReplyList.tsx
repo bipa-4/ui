@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { commentType } from '@/types/commentType';
 import useSWR from 'swr';
 import fetcher from '@/utils/axiosFetcher';
-import Avatar from '../ui/Avatar';
 import LoadingSpinner from '../ui/LoadingSpinner';
 import CommentItem from './CommentItem';
 
@@ -56,17 +55,6 @@ function ReplyList({ videoId, groupIndex, isUpdated, setIsUpdated }: replyType) 
           setIsUpdated={setIsUpdated}
           isParent={false}
         />
-        //<div className='flex mt-8 items-start' key={reply.commentId}>
-        //  <Avatar width={10} marginX={3} imgUrl={reply.channelProfileUrl} />
-        //  <div>
-        //    <div className='mb-2'>
-        //      <span className='font-bold pr-3'>{reply.channelName}</span>
-        //      <span className='font-light'>{reply.createAt}</span>
-        //      <span className='pl-3'>groupIdx: {reply.groupIndex}</span>
-        //    </div>
-        //    <div className='whitespace-pre-line w-full mb-2 '>{reply.content}</div>
-        //  </div>
-        //</div>
       ))}
     </>
   );
