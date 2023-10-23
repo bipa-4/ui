@@ -36,7 +36,7 @@ export default function CommentInput({ videoId, commentType, groupIndex, setIsUp
     setIsPosting(true);
     if (commentType === 'parent') {
       try {
-        const res = await axios.post(
+        await axios.post(
           `${process.env.NEXT_PUBLIC_BASE_URL}/commentParent`,
           {
             'content': commentInput,
@@ -45,12 +45,6 @@ export default function CommentInput({ videoId, commentType, groupIndex, setIsUp
           },
           { withCredentials: true },
         );
-        // if (res.status === 200) {
-        //  alert('댓글이 등록되었습니다.');
-        //  console.log(res);
-        // } else {
-        //  console.log(res.data);
-        // }
         if (textarea.current) {
           textarea.current.value = '';
         }
@@ -63,7 +57,7 @@ export default function CommentInput({ videoId, commentType, groupIndex, setIsUp
     }
     if (commentType === 'child') {
       try {
-        const res = await axios.post(
+        await axios.post(
           `${process.env.NEXT_PUBLIC_BASE_URL}/commentChild?groupIndex=${groupIndex}`,
           {
             'content': commentInput,
@@ -72,8 +66,8 @@ export default function CommentInput({ videoId, commentType, groupIndex, setIsUp
           },
           { withCredentials: true },
         );
-        if (res.status === 200) {
-          alert('댓글이 등록되었습니다.');
+        if (textarea.current) {
+          textarea.current.value = '';
         }
       } catch (error) {
         alert(`댓글 등록에 실패했습니다 : ${error}`);
@@ -97,7 +91,7 @@ export default function CommentInput({ videoId, commentType, groupIndex, setIsUp
             disabled={!user}
           />
         </div>
-        <button type='button' className='btn mx-3 btn-outline btn-primary min-h-12' onClick={postCommentHandler}>
+        <button type='button' className='btn mx-3 btn-primary min-h-12' onClick={postCommentHandler}>
           등록
         </button>
       </div>

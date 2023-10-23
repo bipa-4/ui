@@ -50,7 +50,13 @@ export default function Comments({ video }: commentsPropsType) {
         {!commentList && <LoadingSpinner />}
         {commentList?.length === 0 && <div className='text-center'>댓글이 없습니다.</div>}
         {commentList?.map((c: commentType) => (
-          <CommentItem comment={c} videoId={video.videoId} key={c.commentId} setIsUpdated={setIsUpdated} />
+          <CommentItem
+            comment={c}
+            videoId={video.videoId}
+            key={c.commentId}
+            setIsUpdated={setIsUpdated}
+            isParent={true}
+          />
         ))}
       </div>
     </div>

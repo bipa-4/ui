@@ -93,11 +93,11 @@ export default function VideoDetailInfo({ video, handleUpdatePage }: Props) {
         </div>
 
         <div className='flex items-center py-4 rounded-lg justify-between'>
-          <div className='flex items-center cursor-pointer' onClick={channelClickHandler}>
+          <div className='flex items-center cursor-pointer justify-center' onClick={channelClickHandler}>
             <div>
               <Avatar width={12} imgUrl={video.channelProfileUrl} marginX={3} />
             </div>
-            <div className=''>{video.channelName || '채널명'}</div>
+            <div>{video.channelName || '채널명'}</div>
           </div>
 
           <div className='flex items-center mx-3'>

@@ -33,7 +33,7 @@ export default function Callback() {
   }, [user]);
 
   return (
-    <div className='h-screen flex items-center'>
+    <div className='h-screen flex items-center bg-base-100'>
       <div className='m-auto '>로그인 중..</div>
     </div>
   );
