@@ -19,7 +19,7 @@ export default function Footer() {
         <Link href='https://github.com/bipa-4'>
           <AiFillGithub className='w-10 h-10' />
         </Link>
-        <div className='grid grid-flow-col gap-4'></div>
+        <div className='grid grid-flow-col gap-4' />
       </nav>
     </footer>
   );

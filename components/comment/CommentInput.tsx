@@ -73,19 +73,6 @@ export default function CommentInput({
           },
           { withCredentials: true },
         );
-        // commentList에서 groupIndex가 같은 부모 댓글의 childCount를 1 증가시킴
-        setCommentList((prev) =>
-          [...prev].map((comment) => {
-            if (comment.groupIndex === groupIndex) {
-              return {
-                ...comment,
-                childCount: comment.childCount && comment.childCount + 1,
-              };
-            }
-            return comment;
-          }),
-        );
-
         if (textarea.current) {
           textarea.current.value = '';
         }

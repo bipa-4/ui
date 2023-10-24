@@ -5,12 +5,12 @@ import { useAtomValue } from 'jotai';
 import userAtom from '@/atoms/atoms';
 import axios from 'axios';
 import fetcher from '@/utils/axiosFetcher';
-import CommentInput from './CommentInput';
-import Avatar from '../ui/Avatar';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import 'dayjs/locale/ko';
 import { useRouter } from 'next/router';
+import Avatar from '../ui/Avatar';
+import CommentInput from './CommentInput';
 
 dayjs.extend(relativeTime);
 dayjs.locale('ko');
