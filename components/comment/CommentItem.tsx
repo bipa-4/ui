@@ -7,19 +7,27 @@ import axios from 'axios';
 import fetcher from '@/utils/axiosFetcher';
 import CommentInput from './CommentInput';
 import Avatar from '../ui/Avatar';
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
+import 'dayjs/locale/ko';
+import { useRouter } from 'next/router';
+
+dayjs.extend(relativeTime);
+dayjs.locale('ko');
 
 type commentPropsType = {
   videoId: string;
   comment: commentType;
   setIsCommentUpdated: React.Dispatch<React.SetStateAction<boolean>>;
   setCommentList: React.Dispatch<React.SetStateAction<commentType[]>>;
+  commentLevel: 'parent' | 'child';
 };
 
 /**
  * 댓글 컴포넌트입니다.
  * Todo: 렌더링 최적화
  */
-function CommentItem({ videoId, comment, setIsCommentUpdated, setCommentList }: commentPropsType) {
+function CommentItem({ videoId, comment, setIsCommentUpdated, setCommentList, commentLevel }: commentPropsType) {
   const [isReplyOpen, setIsReplyOpen] = useState(false);
   const [writeChildReply, setWriteChildReply] = useState(false);
   const user = useAtomValue(userAtom);
@@ -28,6 +36,8 @@ function CommentItem({ videoId, comment, setIsCommentUpdated, setCommentList }: 
   const [editedComment, setEditedComment] = useState(comment.content);
   const [isReplyUpdated, setIsReplyUpdated] = useState(false);
   const [replyList, setReplyList] = useState<commentType[]>([]);
+  const [childCount, setChildCount] = useState(comment.childCount);
+  const router = useRouter();
 
   // 댓글 입력창 엔터에 따라 높이 조절
   const handleResizeHeight = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -42,6 +52,7 @@ function CommentItem({ videoId, comment, setIsCommentUpdated, setCommentList }: 
       `${process.env.NEXT_PUBLIC_BASE_URL}/comment/${videoId}/${comment.groupIndex}/comment-child`,
     );
     setReplyList(res);
+    setChildCount(res.length);
   };
 
   // Todo: 채널 클릭시 해당 채널로 이동
@@ -85,24 +96,35 @@ function CommentItem({ videoId, comment, setIsCommentUpdated, setCommentList }: 
   };
 
   useEffect(() => {
-    if (isReplyUpdated) {
-      getReplies();
-      setIsReplyUpdated(false);
-    }
+    const applyUpdatedComment = async () => {
+      if (isReplyUpdated) {
+        await getReplies();
+        setIsReplyUpdated(false);
+      }
+    };
+    applyUpdatedComment();
   }, [isReplyUpdated]);
+
+  const moveToChannel = () => {
+    router.push(`/channel/${comment.channelId}`);
+  };
 
   return (
     <div className='flex mt-8 items-start'>
-      <Avatar width={10} marginX={3} imgUrl={comment.channelProfileUrl} />
+      <div onClick={moveToChannel} className='cursor-pointer'>
+        <Avatar width={10} marginX={3} imgUrl={comment.channelProfileUrl} />
+      </div>
       <div className='grow'>
         <div className='h-10 flex items-center justify-between mr-4'>
           <div>
-            <span className='font-bold pr-3'>{comment.channelName}</span>
-            <span className='font-light text-sm pr-3'>{comment.createAt}</span>
+            <span className='font-bold pr-3 cursor-pointer' onClick={moveToChannel}>
+              {comment.channelName}
+            </span>
+            <span className='font-light text-sm pr-3'>{dayjs(comment.createAt).fromNow()}</span>
             <span>gIdx: {comment.groupIndex}</span>
           </div>
 
-          {!isEdit && (
+          {!isEdit && user?.channelId === comment.channelId && (
             <div>
               <span className='pr-3 text-blue-500 cursor-pointer text-sm' onClick={() => setIsEdit(true)}>
                 수정
@@ -132,14 +154,18 @@ function CommentItem({ videoId, comment, setIsCommentUpdated, setCommentList }: 
           ) : (
             <div className='whitespace-pre-line pb-2 pr-6'>{comment.content}</div>
           )}
-          <span className='btn bg-transparent rounded-md btn-sm mr-4 border-none' onClick={handleWrite}>
-            답글
-          </span>
-          {comment.childCount !== '0' && (
-            <span className='text-sm text-secondary cursor-pointer' onClick={handleReplyOpen}>
-              <IoMdArrowDropdown className='inline-block' />
-              답글 {comment.childCount}개
-            </span>
+          {commentLevel === 'parent' && (
+            <>
+              <span className='btn bg-transparent rounded-md btn-sm mr-4 border-none' onClick={handleWrite}>
+                답글
+              </span>
+              {childCount !== 0 && (
+                <span className='text-sm text-secondary cursor-pointer' onClick={handleReplyOpen}>
+                  <IoMdArrowDropdown className='inline-block' />
+                  답글 {childCount}개
+                </span>
+              )}
+            </>
           )}
 
           {writeChildReply && (
@@ -159,6 +185,7 @@ function CommentItem({ videoId, comment, setIsCommentUpdated, setCommentList }: 
                 setIsCommentUpdated={setIsReplyUpdated}
                 key={reply.commentId}
                 setCommentList={setReplyList}
+                commentLevel='child'
               />
             ))}
         </div>

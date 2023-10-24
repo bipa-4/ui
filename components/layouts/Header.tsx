@@ -83,7 +83,7 @@ export default function Header() {
               <FiMenu className='w-6 h-6 m-2 max-xl:m-1 max-xl:w-5 max-xl:h-5' />
             </label>
           </div>
-          <Link href='/' className='btn btn-ghost normal-case text-xl max-xl:hidden'>
+          <Link href='/' className='btn btn-ghost normal-case text-xl max-md:hidden'>
             StreamWave
           </Link>
         </div>
@@ -96,7 +96,7 @@ export default function Header() {
                 placeholder='영상 검색'
                 className='input input-bordered w-11/12 focus:outline-none pr-10 rounded-r-none' // 오른쪽 패딩 추가
               />
-              <button type='submit' className='btn btn-secondary rounded-l-none px-2'>
+              <button type='submit' className='btn btn-secondary rounded-l-none px-3'>
                 <BiSearch className='w-6 h-6 m-2 max-xl:w-4 max-xl:h-4 max-xl:m-1' />
               </button>
             </div>
@@ -139,7 +139,9 @@ export default function Header() {
                       </Link>
                     </li>
                     <li className='xl:hidden'>
-                      <Link href='/upload'>업로드</Link>
+                      <Link href='/upload' onClick={toggleMenu}>
+                        업로드
+                      </Link>
                     </li>
                     <li>
                       <Link href='/' onClick={handleLogout}>

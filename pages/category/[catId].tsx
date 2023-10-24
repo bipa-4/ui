@@ -37,7 +37,6 @@ export default function Category({ catId, categoryVideos }: CategoryProps) {
   useEffect(() => {
     if (categoryVideos.nextUUID === null) {
       setHasMore(false);
-      
     }
   }, []);
 

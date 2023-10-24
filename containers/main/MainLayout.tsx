@@ -35,7 +35,7 @@ export default function MainLayout() {
 
     if (nextId) {
       const data = await fetchVideo(nextId);
-      console.log('more fetched data', data);
+      //console.log('more fetched data', data);
 
       setNextId(data.nextUUID);
       setVideoList([...videoList, ...data.videos]);
@@ -43,7 +43,7 @@ export default function MainLayout() {
   };
 
   useEffect(() => {
-    console.log('초기렌더링');
+    //console.log('초기렌더링');
     const fetchInitData = async () => {
       const initData = await fetchVideo('');
       setVideoList(initData.videos as VideoCardType[]);

@@ -47,7 +47,7 @@ export default function VideoDetailLayout({ video }: VideoDetailLayoutProps) {
         <VideoDetailInfo video={video} handleUpdatePage={handleUpdatePage} />
         <Comments video={video} />
       </div>
-      <div className='basis-1/4 max-2xl:hidden my-4 shrink-0 mx-2'>
+      <div className='basis-96 w-96 max-2xl:hidden my-4 shrink-0 mx-3'>
         {video.recommendedList?.map((v: VideoCardType) => <VideoSummaryItemRow key={v.videoId} videoSummaryItem={v} />)}
       </div>
     </div>

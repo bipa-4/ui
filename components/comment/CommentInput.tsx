@@ -79,7 +79,7 @@ export default function CommentInput({
             if (comment.groupIndex === groupIndex) {
               return {
                 ...comment,
-                childCount: comment.childCount ? comment.childCount + 1 : '0',
+                childCount: comment.childCount && comment.childCount + 1,
               };
             }
             return comment;

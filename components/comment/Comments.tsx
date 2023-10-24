@@ -34,7 +34,7 @@ export default function Comments({ video }: commentsPropsType) {
 
   return (
     <div className='w-full mx-1 my-5 max-2xl:w-full'>
-      <div className='mx-1 pb-3 border-b-2'>
+      <div className='mx-1 py-3 border-b-2 mb-5'>
         <Title text='댓글' />
       </div>
       <CommentInput
@@ -47,7 +47,7 @@ export default function Comments({ video }: commentsPropsType) {
       <div className='w-full'>
         {!commentList && <LoadingSpinner />}
         {commentList?.length === 0 && (
-          <div className='h-40 flex items-center justify-center m-auto'>댓글이 없습니다.</div>
+          <div className='h-40 flex items-center justify-center m-auto font-light opacity-70'>댓글이 없습니다.</div>
         )}
         {commentList?.map((c: commentType) => (
           <CommentItem
@@ -56,6 +56,7 @@ export default function Comments({ video }: commentsPropsType) {
             key={c.commentId}
             setIsCommentUpdated={setIsCommentUpdated}
             setCommentList={setCommentList}
+            commentLevel='parent'
           />
         ))}
       </div>

@@ -1,6 +1,5 @@
 import Avatar from '@/components/ui/Avatar';
 import Title from '@/components/ui/Title';
-import { BiSearch } from 'react-icons/bi';
 import { ChannelDetailType, ChannelUpdateType } from '@/types/channelType';
 import fetcher from '@/utils/axiosFetcher';
 import { useState, useEffect } from 'react';
@@ -19,6 +18,13 @@ interface ChannelProps {
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 const PAGE_SIZE = 10;
+
+/**
+ * 채널 상세 페이지 레이아웃
+ * Todo : 검색 파라미터 있을 때 무한스크롤에 다른 데이터 적용시키기
+ * @param param0
+ * @returns
+ */
 
 export default function ChannelDetailLayout({ channelInfo }: ChannelProps) {
   const router = useRouter();
