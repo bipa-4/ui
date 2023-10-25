@@ -3,11 +3,11 @@ import { ChannelSummaryType } from '@/types/channelType';
 import { useEffect, useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useRouter } from 'next/router';
+import { useTranslation } from 'next-i18next';
 import Title from '../ui/Title';
 import ChannelSummaryItem from './ChannelSummarylItem';
 import LoadingSpinner from '../ui/LoadingSpinner';
 import SearchInput from '../ui/SearchInput';
-import { useTranslation } from 'next-i18next';
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 const PAGE_SIZE = 10;

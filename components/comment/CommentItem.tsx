@@ -122,7 +122,7 @@ function CommentItem({ videoId, comment, setIsCommentUpdated, setCommentList, co
             </span>
             <span className='font-light text-sm pr-3'>{dayjs(comment.createAt).fromNow()}</span>
             <span className='opacity-60 text-sm font-light'>{comment.isUpdated === 'true' ? '(수정됨)' : ''}</span>
-            {/*<span>gIdx: {comment.groupIndex}</span>*/}
+            {/* <span>gIdx: {comment.groupIndex}</span> */}
           </div>
 
           {!isEdit && user?.channelId === comment.channelId && (

@@ -3,9 +3,9 @@ import Title from '@/components/ui/Title';
 import { ChannelSummaryType } from '@/types/channelType';
 import fetcher from '@/utils/axiosFetcher';
 import useSWR from 'swr';
+import { useTranslation } from 'next-i18next';
 import ChannelItem from './ChannelSummarylItem';
 import ChannelSummarySkeletonRow from '../skeleton/ChannelSummarySkeletonRow';
-import { useTranslation } from 'next-i18next';
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 

@@ -1,9 +1,9 @@
 import React, { ReactNode, useState } from 'react';
 import Link from 'next/link';
 import useCategoryList from '@/hooks/useCategoryList';
+import { useTranslation } from 'next-i18next';
 import Footer from './Footer';
 import Header from './Header';
-import { useTranslation } from 'next-i18next';
 
 type LayoutProps = {
   children: ReactNode;

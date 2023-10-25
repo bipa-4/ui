@@ -4,8 +4,8 @@ import { VideoCardType } from '@/types/videoType';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import InfiniteVideoContainer from '@/components/video/InfiniteVideoContainer';
-import useTop10Data from '../../hooks/useTop10Data';
 import { useTranslation } from 'next-i18next';
+import useTop10Data from '../../hooks/useTop10Data';
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 const PAGE_SIZE = 10;
@@ -24,13 +24,13 @@ export default function MainLayout() {
         withCredentials: true,
       },
     );
-    //console.log('fetchVideo', res.data);
+    // console.log('fetchVideo', res.data);
     setNextId(res.data.nextUUID);
     return res.data;
   };
 
   const fetchMoreData = async () => {
-    //console.log('fetchMoreData', nextId);
+    // console.log('fetchMoreData', nextId);
     if (!nextId) {
       setHasMore(false);
       return;

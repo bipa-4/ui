@@ -5,8 +5,8 @@ import VideoPlayer from '@/components/video/VideoPlayer';
 import LoadingSpinner from '@/components/ui/LoadingSpinner';
 import { useEffect, useState } from 'react';
 import Comments from '@/components/comment/Comments';
-import UploadLayout from '../upload/UploadLayout';
 import axios from 'axios';
+import UploadLayout from '../upload/UploadLayout';
 
 interface VideoDetailLayoutProps {
   video: VideoDetailType;
@@ -25,6 +25,14 @@ export default function VideoDetailLayout({ video }: VideoDetailLayoutProps) {
     },
   };
 
+  const handleUpdateViews = async () => {
+    const res = await axios.put(`${process.env.NEXT_PUBLIC_BASE_URL}/video/updateViews/${video.videoId}`);
+  };
+
+  useEffect(() => {
+    handleUpdateViews();
+  }, []);
+
   const handleUpdatePage = () => {
     setUpdateOpen(true);
   };
@@ -36,15 +44,6 @@ export default function VideoDetailLayout({ video }: VideoDetailLayoutProps) {
   if (updateOpen) {
     return <UploadLayout />;
   }
-
-  const handleUpdateViews = async () => {
-    const res = await axios.put(`${process.env.NEXT_PUBLIC_BASE_URL}/video/updateViews/${video.videoId}`);
-    res.status === 200 && console.log('조회수 up', res);
-  };
-
-  useEffect(() => {
-    handleUpdateViews();
-  }, []);
 
   return (
     <div className='w-full flex'>

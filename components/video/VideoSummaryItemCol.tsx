@@ -4,9 +4,9 @@ import { useRouter } from 'next/router';
 import { PiEyeLight } from 'react-icons/pi';
 import defaultImg from '@/public/images/defaultThumbnailImage.png';
 import React from 'react';
-import Avatar from '../ui/Avatar';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
+import Avatar from '../ui/Avatar';
 import 'dayjs/locale/ko';
 
 dayjs.extend(relativeTime);

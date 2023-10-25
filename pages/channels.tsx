@@ -1,15 +1,13 @@
 import Head from 'next/head';
-import AllChannelsContainer from '../components/channel/AllChannelsContainer';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { GetServerSidePropsContext } from 'next';
+import AllChannelsContainer from '../components/channel/AllChannelsContainer';
 
-export const getServerSideProps = async (context: GetServerSidePropsContext) => {
-  return {
+export const getServerSideProps = async (context: GetServerSidePropsContext) => ({
     props: {
       ...(await serverSideTranslations(context.locale ?? 'ko', ['footer', 'common', 'header'])),
     },
-  };
-};
+  });
 
 export default function channels() {
   return (
