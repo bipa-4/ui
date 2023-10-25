@@ -111,7 +111,7 @@ function CommentItem({ videoId, comment, setIsCommentUpdated, setCommentList, co
 
   return (
     <div className='flex mt-8 items-start'>
-      <div onClick={() => console.log(comment.childCount)} className='cursor-pointer'>
+      <div onClick={() => console.log(comment.isUpdated)} className='cursor-pointer'>
         <Avatar width={10} marginX={3} imgUrl={comment.channelProfileUrl} />
       </div>
       <div className='grow'>
@@ -121,7 +121,8 @@ function CommentItem({ videoId, comment, setIsCommentUpdated, setCommentList, co
               {comment.channelName}
             </span>
             <span className='font-light text-sm pr-3'>{dayjs(comment.createAt).fromNow()}</span>
-            <span>gIdx: {comment.groupIndex}</span>
+            <span className='opacity-60 text-sm font-light'>{comment.isUpdated === 'true' ? '(수정됨)' : ''}</span>
+            {/*<span>gIdx: {comment.groupIndex}</span>*/}
           </div>
 
           {!isEdit && user?.channelId === comment.channelId && (

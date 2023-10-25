@@ -7,4 +7,5 @@ export interface commentType {
   commentId: string;
   channelProfileUrl: string;
   childCount?: number;
+  isUpdated: string;
 }
