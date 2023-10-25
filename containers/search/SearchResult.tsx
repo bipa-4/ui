@@ -8,7 +8,7 @@ import useSWR from 'swr';
 export default function SearchResult() {
   const router = useRouter();
   const { keyword } = router.query;
-
+  console.log(keyword);
   const { data } = useSWR(`${process.env.NEXT_PUBLIC_BASE_URL}/video/search?search_query=${keyword}`, fetcher);
   console.log(data);
 

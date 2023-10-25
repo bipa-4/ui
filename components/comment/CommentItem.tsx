@@ -111,7 +111,7 @@ function CommentItem({ videoId, comment, setIsCommentUpdated, setCommentList, co
 
   return (
     <div className='flex mt-8 items-start'>
-      <div onClick={moveToChannel} className='cursor-pointer'>
+      <div onClick={() => console.log(comment.childCount)} className='cursor-pointer'>
         <Avatar width={10} marginX={3} imgUrl={comment.channelProfileUrl} />
       </div>
       <div className='grow'>

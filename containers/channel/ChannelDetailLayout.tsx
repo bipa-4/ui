@@ -25,7 +25,6 @@ const PAGE_SIZE = 10;
  * @param param0
  * @returns
  */
-
 export default function ChannelDetailLayout({ channelInfo }: ChannelProps) {
   const router = useRouter();
   const { cid } = router.query;
@@ -252,7 +251,7 @@ export default function ChannelDetailLayout({ channelInfo }: ChannelProps) {
       <div className='mt-7'>
         <div className='mx-5 flex justify-between items-center'>
           <Title text='최근 업로드' />
-          <SearchInput />
+          <SearchInput path={`channel/${channelInfo.channelId}`} />
         </div>
         {videoList?.length === 0 ? (
           <div className='mx-5 flex items-center'>

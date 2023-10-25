@@ -1,8 +1,22 @@
+import { useRouter } from 'next/router';
 import { BiSearch } from 'react-icons/bi';
 
-export default function SearchInput() {
+type SearchInputProps = {
+  path: string;
+  setKeyword: React.Dispatch<React.SetStateAction<string>>;
+};
+
+export default function SearchInput({ path, setKeyword }: SearchInputProps) {
+  const router = useRouter();
+  const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault(); // 폼 제출 기본 동작 방지
+    const searchTerm = (e.target as HTMLFormElement).search.value;
+    setKeyword(searchTerm);
+    router.push(`/${path}?keyword=${searchTerm}`);
+  };
+
   return (
-    <form>
+    <form onSubmit={handleSearch}>
       <label className='relative block'>
         <span className='sr-only'>Search</span>
         <span className='absolute inset-y-0 left-0 flex items-center pl-3'>
@@ -10,7 +24,8 @@ export default function SearchInput() {
         </span>
         <input
           type='text'
-          placeholder='검색'
+          name='search'
+          placeholder='채널 검색'
           className='input input-bordered w-full max-w-xs placeholder:text-slate-400 block  py-2 pl-9 pr-3 sm:text-sm '
         />
       </label>
