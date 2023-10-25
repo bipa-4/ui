@@ -5,6 +5,12 @@ import { PiEyeLight } from 'react-icons/pi';
 import defaultImg from '@/public/images/defaultThumbnailImage.png';
 import React from 'react';
 import Avatar from '../ui/Avatar';
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
+import 'dayjs/locale/ko';
+
+dayjs.extend(relativeTime);
+dayjs.locale('ko');
 
 function VideoSummaryItemCol({
   videoId,
@@ -52,8 +58,10 @@ function VideoSummaryItemCol({
         </div>
         <div className='mx-2 text-xs flex items-center justify-start'>
           <PiEyeLight className='w-4 h-4' />
-          <span className='px-2 border-r-2 border-solid'>{readCount}</span>
-          <span className='px-2'>{createAt}</span>
+          <span className='px-2 border-solid border-neutral-content' style={{ 'borderRightWidth': '1px' }}>
+            {readCount}
+          </span>
+          <span className='px-2'>{dayjs(createAt).fromNow()}</span>
         </div>
       </div>
     </div>

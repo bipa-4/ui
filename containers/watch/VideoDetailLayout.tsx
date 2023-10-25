@@ -3,9 +3,10 @@ import VideoSummaryItemRow from '@/components/video/VideoSummaryItemRow';
 import { VideoCardType, VideoDetailType } from '@/types/videoType';
 import VideoPlayer from '@/components/video/VideoPlayer';
 import LoadingSpinner from '@/components/ui/LoadingSpinner';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Comments from '@/components/comment/Comments';
 import UploadLayout from '../upload/UploadLayout';
+import axios from 'axios';
 
 interface VideoDetailLayoutProps {
   video: VideoDetailType;
@@ -35,6 +36,15 @@ export default function VideoDetailLayout({ video }: VideoDetailLayoutProps) {
   if (updateOpen) {
     return <UploadLayout />;
   }
+
+  const handleUpdateViews = async () => {
+    const res = await axios.put(`${process.env.NEXT_PUBLIC_BASE_URL}/video/updateViews/${video.videoId}`);
+    res.status === 200 && console.log('조회수 up', res);
+  };
+
+  useEffect(() => {
+    handleUpdateViews();
+  }, []);
 
   return (
     <div className='w-full flex'>
