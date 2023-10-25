@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import InfiniteVideoContainer from '@/components/video/InfiniteVideoContainer';
 import useTop10Data from '../../hooks/useTop10Data';
+import { useTranslation } from 'next-i18next';
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 const PAGE_SIZE = 10;
@@ -14,6 +15,7 @@ export default function MainLayout() {
   const [videoList, setVideoList] = useState<VideoCardType[]>([]);
   const [hasMore, setHasMore] = useState(true);
   const [nextId, setNextId] = useState<string | null>(null);
+  const { t } = useTranslation('common');
 
   const fetchVideo = async (nextUUID: string) => {
     const res = await axios.get(
@@ -22,12 +24,13 @@ export default function MainLayout() {
         withCredentials: true,
       },
     );
-    console.log('res.data', res.data);
+    //console.log('fetchVideo', res.data);
     setNextId(res.data.nextUUID);
     return res.data;
   };
 
   const fetchMoreData = async () => {
+    //console.log('fetchMoreData', nextId);
     if (!nextId) {
       setHasMore(false);
       return;
@@ -35,7 +38,6 @@ export default function MainLayout() {
 
     if (nextId) {
       const data = await fetchVideo(nextId);
-      // console.log('more fetched data', data);
 
       setNextId(data.nextUUID);
       setVideoList([...videoList, ...data.videos]);
@@ -43,7 +45,6 @@ export default function MainLayout() {
   };
 
   useEffect(() => {
-    // console.log('초기렌더링');
     const fetchInitData = async () => {
       const initData = await fetchVideo('');
       setVideoList(initData.videos as VideoCardType[]);
@@ -55,7 +56,7 @@ export default function MainLayout() {
     <>
       <div className='flex max-xl:w-full max-lg:justify-center border-b border-solid border-gray-300 py-6'>
         <div className='basis-3/4 w-3/4 grow max-xl:m-0 max-xl:w-full'>
-          <VideoSummaryContainer title='조회수 급상승' videoList={top10Data} />
+          <VideoSummaryContainer title={t('popularVideo')} videoList={top10Data} />
         </div>
         <div className='basis-1/4 w-1/4 grow max-xl:hidden'>
           <ChannelContainer />
@@ -64,7 +65,7 @@ export default function MainLayout() {
       <div className='py-5'>
         <div>
           <InfiniteVideoContainer
-            title='최근업로드'
+            title={t('recentVideos')}
             videoList={videoList}
             dataFetcher={fetchMoreData}
             hasMore={hasMore}

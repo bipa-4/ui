@@ -5,12 +5,14 @@ import fetcher from '@/utils/axiosFetcher';
 import useSWR from 'swr';
 import ChannelItem from './ChannelSummarylItem';
 import ChannelSummarySkeletonRow from '../skeleton/ChannelSummarySkeletonRow';
+import { useTranslation } from 'next-i18next';
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 export default function ChannelContainer() {
   const [channelList, setChannelList] = useState<ChannelSummaryType[]>();
   const { data } = useSWR(`${BASE_URL}/channel/top5`, fetcher);
+  const { t } = useTranslation('common');
 
   useEffect(() => {
     setChannelList(data);
@@ -26,7 +28,7 @@ export default function ChannelContainer() {
     return (
       <div>
         <div className=' px-2 py-4'>
-          <Title text='실시간 인기 채널' />
+          <Title text={t('popularChannels')} />
         </div>
         <div>{skeletonRows}</div>
       </div>

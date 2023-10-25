@@ -7,6 +7,7 @@ import Title from '../ui/Title';
 import ChannelSummaryItem from './ChannelSummarylItem';
 import LoadingSpinner from '../ui/LoadingSpinner';
 import SearchInput from '../ui/SearchInput';
+import { useTranslation } from 'next-i18next';
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 const PAGE_SIZE = 10;
@@ -18,6 +19,7 @@ export default function AllChannelsContainer() {
   const router = useRouter();
   const [searchKeyword, setSearchKeyword] = useState<string>('');
   const keyword = router.query?.keyword;
+  const { t } = useTranslation('common');
 
   const fetchChannels = async (nextUUID: string) => {
     const res = await fetcher(
@@ -82,9 +84,9 @@ export default function AllChannelsContainer() {
     <>
       <div className='flex justify-between items-center border-0 border-b border-slate-400 p-6 my-2 pb-3'>
         <div onClick={() => router.push('/channels')} className='cursor-pointer'>
-          <Title text='채널 전체' />
+          <Title text={t('allChannels')} />
         </div>
-        <SearchInput path='channels' setKeyword={setSearchKeyword} />
+        <SearchInput path='channels' setKeyword={setSearchKeyword} searchItem={t('searchChannelPlaceHolder')} />
       </div>
       <InfiniteScroll
         dataLength={channels.length}

@@ -1,3 +1,4 @@
+import { useTranslation } from 'next-i18next';
 import Image from 'next/image';
 
 type Props = {
@@ -6,12 +7,13 @@ type Props = {
 };
 
 export default function Login({ kakaoLogin, googleLogin }: Props) {
+  const { t } = useTranslation('header');
   return (
     <div className='modal  bg-base-100'>
       <div className='modal-box'>
-        <h3 className='text-lg font-bold text-center pt-5'>StreamWave에 오신걸 환영합니다!</h3>
+        <h3 className='text-lg font-bold text-center pt-5'>{t('welcome')}</h3>
         <div className='py-10 text-center'>
-          <div className='py-3'>소셜 계정으로 간편 로그인</div>
+          <div className='py-3'>{t('loginComment')}</div>
           <div className='flex mx-5 my-auto justify-center'>
             <div className='w-2/5'>
               <div className='h-11 w-full p-1 overflow-hidden cursor-pointer' onClick={kakaoLogin}>

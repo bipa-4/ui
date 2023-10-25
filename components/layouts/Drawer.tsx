@@ -3,27 +3,29 @@ import Link from 'next/link';
 import useCategoryList from '@/hooks/useCategoryList';
 import Footer from './Footer';
 import Header from './Header';
+import { useTranslation } from 'next-i18next';
 
 type LayoutProps = {
   children: ReactNode;
 };
 
-const menu = [
-  {
-    id: 1,
-    name: '홈',
-    link: '/',
-  },
-  {
-    id: 2,
-    name: '채널',
-    link: '/channels',
-  },
-];
-
 export default function Drawer({ children }: LayoutProps) {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const { categoryList } = useCategoryList();
+  const { t } = useTranslation('common');
+
+  const menu = [
+    {
+      id: 1,
+      name: t('sidebar.home'),
+      link: '/',
+    },
+    {
+      id: 2,
+      name: t('sidebar.channels'),
+      link: '/channels',
+    },
+  ];
 
   const toggleDrawer = () => {
     setIsDrawerOpen(!isDrawerOpen);
@@ -55,7 +57,7 @@ export default function Drawer({ children }: LayoutProps) {
           ))}
           <li className='collapse bg-base-200 transition-none'>
             <input type='checkbox' />
-            <div className='collapse-title text-xl py-3 w-56'>카테고리</div>
+            <div className='collapse-title text-xl py-3 w-56'>{t('sidebar.categories')}</div>
             <ul className='menu collapse-content bg-base-200 w-56 rounded-box '>
               {categoryList?.map((item, idx) => (
                 <li key={item.categoryNameId || idx}>

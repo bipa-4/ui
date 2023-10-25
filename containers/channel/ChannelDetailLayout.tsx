@@ -11,6 +11,7 @@ import InfiniteVideoContainer from '@/components/video/InfiniteVideoContainer';
 import { VideoCardType } from '@/types/videoType';
 import LoadingSpinner from '@/components/ui/LoadingSpinner';
 import SearchInput from '@/components/ui/SearchInput';
+import { useTranslation } from 'next-i18next';
 
 interface ChannelProps {
   channelInfo: ChannelDetailType;
@@ -28,6 +29,7 @@ const PAGE_SIZE = 10;
 export default function ChannelDetailLayout({ channelInfo }: ChannelProps) {
   const router = useRouter();
   const { cid } = router.query;
+  const { t } = useTranslation('common');
 
   // 채널 수정 관련 state
   const [isMyChannel, setIsMyChannel] = useState(false);
@@ -280,7 +282,11 @@ export default function ChannelDetailLayout({ channelInfo }: ChannelProps) {
           <div onClick={() => router.push(`/channel/${channelInfo.channelId}`)} className='cursor-pointer'>
             <Title text='최근 업로드' />
           </div>
-          <SearchInput path={`channel/${channelInfo.channelId}`} setKeyword={setSearchKeyword} />
+          <SearchInput
+            path={`channel/${channelInfo.channelId}`}
+            setKeyword={setSearchKeyword}
+            searchItem={t('searchVideoPlaceHolder')}
+          />
         </div>
         {videoList?.length === 0 && (
           <div className='mx-5 flex items-center m-auto justify-center h-52'>

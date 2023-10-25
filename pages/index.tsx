@@ -7,7 +7,7 @@ import { GetServerSidePropsContext } from 'next';
 export const getServerSideProps = async (context: GetServerSidePropsContext) => {
   return {
     props: {
-      ...(await serverSideTranslations(context.locale ?? 'ko', ['footer', 'result-page'])),
+      ...(await serverSideTranslations(context.locale ?? 'ko', ['footer', 'common', 'header'])),
     },
   };
 };

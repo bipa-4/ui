@@ -1,0 +1,13 @@
+{
+  "popularVideo": "조회수 급상승",
+  "popularChannels": "실시간 인기 채널",
+  "recentVideos": "최근 업로드",
+  "sidebar": {
+    "home": "홈",
+    "channels": "채널",
+    "categories": "카테고리"
+  },
+  "allChannels": "채널 전체",
+  "searchVideoPlaceHolder": "영상 검색",
+  "searchChannelPlaceHolder": "채널 검색"
+}

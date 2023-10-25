@@ -13,6 +13,7 @@ import { BsSun } from 'react-icons/bs';
 import { LuMoonStar } from 'react-icons/lu';
 import { useTheme } from 'next-themes';
 import defaultUserImage from '@/public/images/user.png';
+import { useTranslation } from 'next-i18next';
 
 export default function Header() {
   const router = useRouter();
@@ -20,6 +21,7 @@ export default function Header() {
   const [user, setUser] = useAtom(userAtom);
   const { userInfo, error } = useMemberData();
   const { theme, setTheme } = useTheme();
+  const { t } = useTranslation('header');
 
   useEffect(() => {
     if (error) {
@@ -93,7 +95,7 @@ export default function Header() {
               <input
                 type='text'
                 name='search'
-                placeholder='영상 검색'
+                placeholder={t('searchVideo')}
                 className='input input-bordered w-11/12 focus:outline-none pr-10 rounded-r-none' // 오른쪽 패딩 추가
               />
               <button type='submit' className='btn btn-secondary rounded-l-none px-3'>
