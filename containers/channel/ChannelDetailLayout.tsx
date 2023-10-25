@@ -41,12 +41,16 @@ export default function ChannelDetailLayout({ channelInfo }: ChannelProps) {
     profileUrl: channelInfo.profileUrl,
   });
 
-  console.log('updatedChannelInfo', updatedChannelInfo);
+  // console.log('updatedChannelInfo', updatedChannelInfo);
 
   // 무한 스크롤 관련 state
-  const [videoList, setVideoList] = useState<VideoCardType[] | null>([]);
+  const [videoList, setVideoList] = useState<VideoCardType[] | null>();
   const [hasMore, setHasMore] = useState(true);
   const [nextId, setNextId] = useState<string | null>(null);
+
+  // 검색
+  const [searchKeyword, setSearchKeyword] = useState<string>('');
+  const keyword = router.query?.keyword;
 
   const checkMyChannel = async () => {
     const flag = await fetcher(`${BASE_URL}/channel/flag/${cid}`);
@@ -129,6 +133,16 @@ export default function ChannelDetailLayout({ channelInfo }: ChannelProps) {
     return res.data;
   };
 
+  const fetchSearchVideos = async (nextUUID: string) => {
+    const res = await fetcher(
+      `${BASE_URL}/channel/${channelInfo.channelId}/video?${nextUUID ? 'page=' : ''}${nextUUID}${
+        nextUUID ? '&' : ''
+      }page_size=${PAGE_SIZE}&search_query=${searchKeyword}`,
+    );
+    setNextId(res.page);
+    return res;
+  };
+
   const fetchMoreData = async () => {
     if (!nextId) {
       setHasMore(false);
@@ -136,9 +150,8 @@ export default function ChannelDetailLayout({ channelInfo }: ChannelProps) {
     }
 
     if (nextId) {
-      const data = await fetchVideo(nextId);
-
-      setNextId(data.nextUUID);
+      const data = searchKeyword ? await fetchSearchVideos(nextId) : await fetchVideo(nextId);
+      setNextId(searchKeyword ? data.page : data.nextUUID);
       setVideoList((prevVideoList) => {
         if (prevVideoList) {
           return [...prevVideoList, ...data.videos];
@@ -148,16 +161,30 @@ export default function ChannelDetailLayout({ channelInfo }: ChannelProps) {
     }
   };
 
+  const fetchInitData = async () => {
+    console.log('fetchInitData', searchKeyword);
+    const initData = searchKeyword ? await fetchSearchVideos('') : await fetchVideo('');
+    setVideoList(initData.videos as VideoCardType[]);
+  };
+
   useEffect(() => {
-    const fetchInitData = async () => {
-      const initData = await fetchVideo('');
-      setVideoList(initData.videos as VideoCardType[]);
-    };
+    fetchInitData();
+  }, [searchKeyword]);
+
+  useEffect(() => {
+    setSearchKeyword(keyword as string);
+  }, [keyword]);
+
+  useEffect(() => {
+    setSearchKeyword(keyword as string);
     fetchInitData();
     checkMyChannel();
   }, []);
 
-  console.log(videoList);
+  console.log('videoList', videoList);
+  console.log('keyword', keyword);
+  console.log('searchKeyword', searchKeyword);
+  console.log('================================================');
 
   return (
     <>
@@ -250,18 +277,22 @@ export default function ChannelDetailLayout({ channelInfo }: ChannelProps) {
       </div>
       <div className='mt-7'>
         <div className='mx-5 flex justify-between items-center'>
-          <Title text='최근 업로드' />
-          <SearchInput path={`channel/${channelInfo.channelId}`} />
+          <div onClick={() => router.push(`/channel/${channelInfo.channelId}`)} className='cursor-pointer'>
+            <Title text='최근 업로드' />
+          </div>
+          <SearchInput path={`channel/${channelInfo.channelId}`} setKeyword={setSearchKeyword} />
         </div>
-        {videoList?.length === 0 ? (
-          <div className='mx-5 flex items-center'>
+        {videoList?.length === 0 && (
+          <div className='mx-5 flex items-center m-auto justify-center h-52'>
+            <div>{searchKeyword ? '검색 결과가 없습니다.' : '업로드한 영상이 없습니다.'}</div>
+          </div>
+        )}
+        {!videoList && (
+          <div className='mx-5 flex items-center m-auto justify-center h-52'>
             <LoadingSpinner />
           </div>
-        ) : videoList === null ? (
-          <div className='mx-5 flex items-center m-auto justify-center h-52'>업로드한 영상이 없습니다.</div>
-        ) : (
-          <InfiniteVideoContainer videoList={videoList} dataFetcher={fetchMoreData} hasMore={hasMore} />
         )}
+        {videoList && <InfiniteVideoContainer videoList={videoList} dataFetcher={fetchMoreData} hasMore={hasMore} />}
       </div>
     </>
   );

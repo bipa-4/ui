@@ -2,12 +2,11 @@ import fetcher from '@/utils/axiosFetcher';
 import { ChannelSummaryType } from '@/types/channelType';
 import { useEffect, useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
+import { useRouter } from 'next/router';
 import Title from '../ui/Title';
 import ChannelSummaryItem from './ChannelSummarylItem';
 import LoadingSpinner from '../ui/LoadingSpinner';
 import SearchInput from '../ui/SearchInput';
-import { useRouter } from 'next/router';
-import search from './../../pages/search';
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 const PAGE_SIZE = 10;
@@ -19,8 +18,6 @@ export default function AllChannelsContainer() {
   const router = useRouter();
   const [searchKeyword, setSearchKeyword] = useState<string>('');
   const keyword = router.query?.keyword;
-  console.log('keyword', keyword);
-  console.log('searchKeyword', searchKeyword);
 
   const fetchChannels = async (nextUUID: string) => {
     const res = await fetcher(
@@ -61,21 +58,17 @@ export default function AllChannelsContainer() {
   };
 
   useEffect(() => {
-    console.log('초기렌더링');
-    console.log(keyword);
     setSearchKeyword(keyword as string);
     fetchInitData();
   }, []);
 
   useEffect(() => {
-    console.log('검색어 변경');
     if (searchKeyword) {
       fetchInitData();
     }
   }, [searchKeyword]);
 
   useEffect(() => {
-    console.log('키워드 변경');
     if (keyword) {
       setSearchKeyword(keyword as string);
     }
