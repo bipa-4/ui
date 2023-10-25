@@ -4,10 +4,10 @@ import { GetServerSidePropsContext } from 'next';
 import AllChannelsContainer from '../components/channel/AllChannelsContainer';
 
 export const getServerSideProps = async (context: GetServerSidePropsContext) => ({
-    props: {
-      ...(await serverSideTranslations(context.locale ?? 'ko', ['footer', 'common', 'header'])),
-    },
-  });
+  props: {
+    ...(await serverSideTranslations(context.locale ?? 'ko', ['footer', 'common', 'header'])),
+  },
+});
 
 export default function channels() {
   return (

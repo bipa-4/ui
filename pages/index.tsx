@@ -5,10 +5,10 @@ import { GetServerSidePropsContext } from 'next';
 import MainLayout from '../containers/main/MainLayout';
 
 export const getServerSideProps = async (context: GetServerSidePropsContext) => ({
-    props: {
-      ...(await serverSideTranslations(context.locale ?? 'ko', ['footer', 'common', 'header'])),
-    },
-  });
+  props: {
+    ...(await serverSideTranslations(context.locale ?? 'ko', ['footer', 'common', 'header'])),
+  },
+});
 
 export default function Home() {
   return (
