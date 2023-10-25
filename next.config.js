@@ -1,5 +1,18 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  async headers() {
+    return [
+      {
+        source: '/:path*',
+        headers: [
+          {
+            key: 'server',
+            value: '-',
+          },
+        ],
+      },
+    ];
+  },
   reactStrictMode: false,
   images: {
     domains: [
