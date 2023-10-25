@@ -1,6 +1,17 @@
 import Head from 'next/head';
 import MainLayout from '../containers/main/MainLayout';
 
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { GetServerSidePropsContext } from 'next';
+
+export const getServerSideProps = async (context: GetServerSidePropsContext) => {
+  return {
+    props: {
+      ...(await serverSideTranslations(context.locale ?? 'ko', ['footer', 'result-page'])),
+    },
+  };
+};
+
 export default function Home() {
   return (
     <>

@@ -2,16 +2,19 @@ import Link from 'next/link';
 import React from 'react';
 import Image from 'next/image';
 import { AiFillGithub } from 'react-icons/ai';
+import { useTranslation } from 'next-i18next';
 
 export default function Footer() {
+  const { t } = useTranslation('footer');
+
   return (
     <footer className='footer p-10 bg-base-300 text-neutral-content px-36'>
       <aside>
         <Image src='/images/favicon-removebg-preview.png' alt='streamWave' width={100} height={100} />
         <p>
-          (주)더존비즈온 채용형 교육
+          {t('organization')}
           <br />
-          비트교육센터 3기 - 4조 SurfWave
+          {t('team')}
         </p>
       </aside>
       <nav>

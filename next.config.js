@@ -1,18 +1,9 @@
 /** @type {import('next').NextConfig} */
+
+const { i18n } = require('./next-i18next.config');
+
 const nextConfig = {
-  async headers() {
-    return [
-      {
-        source: '/:path*',
-        headers: [
-          {
-            key: 'server',
-            value: '-',
-          },
-        ],
-      },
-    ];
-  },
+  i18n,
   reactStrictMode: false,
   images: {
     domains: [

@@ -7,6 +7,7 @@ import { Provider } from 'jotai';
 import nProgress from 'nprogress';
 import Router from 'next/router';
 import { ThemeProvider } from 'next-themes';
+import { appWithTranslation } from 'next-i18next';
 
 const inter = notoSansKr({
   subsets: ['latin'],
@@ -17,7 +18,7 @@ Router.events.on('routeChangeStart', () => nProgress.start());
 Router.events.on('routeChangeComplete', () => nProgress.done());
 Router.events.on('routeChangeError', () => nProgress.done());
 
-export default function MyApp({ Component, pageProps }: AppProps) {
+function MyApp({ Component, pageProps }: AppProps) {
   return (
     <Provider>
       <ThemeProvider defaultTheme='system'>
@@ -30,3 +31,5 @@ export default function MyApp({ Component, pageProps }: AppProps) {
     </Provider>
   );
 }
+
+export default appWithTranslation(MyApp);
