@@ -22,8 +22,16 @@ export default function Login({ kakaoLogin, googleLogin }: Props) {
               width={200}
               height={100}
               className='w-full pb-2'
+              onClick={kakaoLogin}
             />
-            <Image src='/images/google_login.png' alt='google' width={200} height={100} className='w-full' />
+            <Image
+              src='/images/google_login.png'
+              alt='google'
+              width={200}
+              height={100}
+              className='w-full'
+              onClick={googleLogin}
+            />
           </div>
         </div>
       </div>

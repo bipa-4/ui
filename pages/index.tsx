@@ -1,5 +1,4 @@
 import Head from 'next/head';
-
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { GetServerSidePropsContext } from 'next';
 import MainLayout from '../containers/main/MainLayout';

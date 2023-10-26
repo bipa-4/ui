@@ -5,6 +5,7 @@ import { CategoryNameType, CategoryType } from '@/types/categoryType';
 import { VideoCardType } from '@/types/videoType';
 import axios from 'axios';
 import { GetStaticPropsContext } from 'next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
 
@@ -115,6 +116,7 @@ export const getStaticProps = async (context: GetStaticPropsContext) => {
     props: {
       catId,
       categoryVideos,
+      ...(await serverSideTranslations(context.locale ?? 'ko', ['footer', 'common', 'header'])),
     },
     revalidate: 10,
   };

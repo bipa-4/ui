@@ -15,7 +15,7 @@ const PAGE_SIZE = 10;
 export default function AllChannelsContainer() {
   const [channels, setChannels] = useState<ChannelSummaryType[]>([]);
   const [hasMore, setHasMore] = useState(true);
-  const [nextId, setNextId] = useState<string | null>(null);
+  const [nextId, setNextId] = useState<string | null>('');
   const router = useRouter();
   const [searchKeyword, setSearchKeyword] = useState<string>('');
   const keyword = router.query?.keyword;
@@ -41,7 +41,11 @@ export default function AllChannelsContainer() {
   };
 
   const fetchMoreData = async () => {
-    if (!nextId) {
+    if (nextId === '') {
+      return;
+    }
+
+    if (channels && !nextId) {
       setHasMore(false);
       return;
     }

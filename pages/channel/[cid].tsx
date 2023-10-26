@@ -3,6 +3,7 @@ import Head from 'next/head';
 import { GetServerSidePropsContext } from 'next/types';
 import { ChannelDetailType } from '@/types/channelType';
 import fetcher from '@/utils/axiosFetcher';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 interface ChannelProps {
   channel: ChannelDetailType;
@@ -18,6 +19,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   return {
     props: {
       channel,
+      ...(await serverSideTranslations(context.locale ?? 'ko', ['footer', 'common', 'header'])),
     },
   };
 }

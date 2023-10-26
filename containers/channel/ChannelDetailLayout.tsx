@@ -46,9 +46,9 @@ export default function ChannelDetailLayout({ channelInfo }: ChannelProps) {
   // console.log('updatedChannelInfo', updatedChannelInfo);
 
   // 무한 스크롤 관련 state
-  const [videoList, setVideoList] = useState<VideoCardType[] | null>();
+  const [videoList, setVideoList] = useState<VideoCardType[]>();
   const [hasMore, setHasMore] = useState(true);
-  const [nextId, setNextId] = useState<string | null>(null);
+  const [nextId, setNextId] = useState<string | null>('');
 
   // 검색
   const [searchKeyword, setSearchKeyword] = useState<string>('');
@@ -125,12 +125,6 @@ export default function ChannelDetailLayout({ channelInfo }: ChannelProps) {
         withCredentials: true,
       },
     );
-    if (res.status !== 200) {
-      return {
-        videos: null,
-        nextUUID: '',
-      };
-    }
     setNextId(res.data.nextUUID);
     return res.data;
   };
@@ -146,7 +140,11 @@ export default function ChannelDetailLayout({ channelInfo }: ChannelProps) {
   };
 
   const fetchMoreData = async () => {
-    if (!nextId) {
+    if (nextId === '') {
+      return;
+    }
+
+    if (videoList && !nextId) {
       setHasMore(false);
       return;
     }
@@ -298,7 +296,9 @@ export default function ChannelDetailLayout({ channelInfo }: ChannelProps) {
             <LoadingSpinner />
           </div>
         )}
-        {videoList && <InfiniteVideoContainer videoList={videoList} dataFetcher={fetchMoreData} hasMore={hasMore} />}
+        {videoList && videoList?.length !== 0 && (
+          <InfiniteVideoContainer videoList={videoList} dataFetcher={fetchMoreData} hasMore={hasMore} />
+        )}
       </div>
     </>
   );

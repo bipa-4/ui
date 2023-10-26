@@ -14,7 +14,7 @@ export default function MainLayout() {
   const { top10Data } = useTop10Data();
   const [videoList, setVideoList] = useState<VideoCardType[]>([]);
   const [hasMore, setHasMore] = useState(true);
-  const [nextId, setNextId] = useState<string | null>(null);
+  const [nextId, setNextId] = useState<string | null>('');
   const { t } = useTranslation('common');
 
   const fetchVideo = async (nextUUID: string) => {
@@ -24,14 +24,19 @@ export default function MainLayout() {
         withCredentials: true,
       },
     );
-    // console.log('fetchVideo', res.data);
+    console.log('fetchVideo', res.data);
     setNextId(res.data.nextUUID);
     return res.data;
   };
 
   const fetchMoreData = async () => {
-    // console.log('fetchMoreData', nextId);
-    if (!nextId) {
+    console.log('fetchMoreData', nextId);
+
+    if (nextId === '') {
+      return;
+    }
+
+    if (videoList && !nextId) {
       setHasMore(false);
       return;
     }
