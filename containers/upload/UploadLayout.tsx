@@ -10,8 +10,8 @@ import { useAtomValue } from 'jotai';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import getPresignedImageUrl, { getPresignedVideoUrl } from '@/utils/getPresignedUrl';
-import userAtom from '@/atoms/atoms';
 import LoadingSpinner from '@/components/ui/LoadingSpinner';
+import { userAtom } from '@/pages/_app';
 
 type updateVideoType = {
   updateVideo?: VideoType;

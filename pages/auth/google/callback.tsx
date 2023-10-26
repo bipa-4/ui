@@ -1,4 +1,4 @@
-import userAtom from '@/atoms/atoms';
+import { userAtom } from '@/pages/_app';
 import fetcher from '@/utils/axiosFetcher';
 import { useAtom } from 'jotai';
 import { useRouter } from 'next/router';

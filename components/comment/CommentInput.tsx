@@ -1,10 +1,10 @@
 import { useRef, useState } from 'react';
 import { useAtomValue } from 'jotai';
-import userAtom from '@/atoms/atoms';
 import axios from 'axios';
 import { useTranslation } from 'next-i18next';
 import Avatar from '../ui/Avatar';
 import LoadingSpinner from '../ui/LoadingSpinner';
+import { userAtom } from '@/pages/_app';
 
 type commentPropsType = {
   videoId: string;

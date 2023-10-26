@@ -1,4 +1,4 @@
-import userAtom from '@/atoms/atoms';
+import { userAtom } from '@/pages/_app';
 import fetcher from '@/utils/axiosFetcher';
 import { useAtom } from 'jotai';
 import { useRouter } from 'next/router';
@@ -24,9 +24,7 @@ export default function Callback() {
     };
     auth();
   }, []);
-
-  // const { userInfo, error } = useMemberData();
-
+  
   useEffect(() => {
     if (user !== null && user !== undefined) {
       console.log('콜백페이지 user 바꼈다!', user);

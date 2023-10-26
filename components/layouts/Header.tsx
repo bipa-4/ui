@@ -7,15 +7,14 @@ import { useRouter } from 'next/router';
 import axios from 'axios';
 import { BiSearch } from 'react-icons/bi';
 import { useAtom } from 'jotai';
-import useMemberData from '@/hooks/useMemberData';
-import userAtom from '@/atoms/atoms';
 import { BsSun } from 'react-icons/bs';
 import { LuMoonStar } from 'react-icons/lu';
 import { useTheme } from 'next-themes';
 import defaultUserImage from '@/public/images/user.png';
 import { useTranslation } from 'next-i18next';
-import fetcher from '@/utils/axiosFetcher';
-import LoadingSpinner from '../ui/LoadingSpinner';
+import { userAtom } from '@/pages/_app';
+
+//export const userAtom = atom<userInfoType | null>(null);
 
 export default function Header() {
   const router = useRouter();
@@ -26,6 +25,7 @@ export default function Header() {
   const { t } = useTranslation('header');
   const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
+  //console.log('setUser', setUser);
   const auth = async () => {
     try {
       const res = await axios.get(`${BASE_URL}/account/check`, {

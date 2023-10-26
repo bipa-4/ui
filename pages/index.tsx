@@ -5,6 +5,7 @@ import MainLayout from '../containers/main/MainLayout';
 
 export const getServerSideProps = async (context: GetServerSidePropsContext) => ({
   props: {
+    initialState: null,
     ...(await serverSideTranslations(context.locale ?? 'ko', ['footer', 'common', 'header'])),
   },
 });

@@ -1912,6 +1912,11 @@ jiti@^1.18.2:
   resolved "https://registry.npmjs.org/jiti/-/jiti-1.20.0.tgz"
   integrity sha512-3TV69ZbrvV6U5DfQimop50jE9Dl6J8O1ja1dvBbMba/sZ3YBEQqJ2VZRoQPVnhlzjNtU1vaXRZVrVjU4qtm8yA==
 
+jotai-location@^0.5.2:
+  version "0.5.2"
+  resolved "https://registry.yarnpkg.com/jotai-location/-/jotai-location-0.5.2.tgz#9d8ccbaea0cc2ed199c7e15adb7a3b8a3060fa6d"
+  integrity sha512-4S9hDh1wYp4SG4Laq3+Xd0GdW7jwnWlbEuL8U22kv3wUZW892n6gXlNhwU0LaoXnWoGG0gtjSLBuFm5iodFKLg==
+
 jotai@^2.4.2:
   version "2.4.2"
   resolved "https://registry.npmjs.org/jotai/-/jotai-2.4.2.tgz"
