@@ -38,10 +38,10 @@ export default function ChannelContainer() {
   return (
     <div>
       <div className=' px-2 py-4'>
-        <Title text='실시간 인기 채널' />
+        <Title text={t('popularChannels')} />
       </div>
       <div>
-        {channelList.map((item, index) => (
+        {channelList.map((item) => (
           <ChannelItem key={item.channelId} channelItem={item} rank={item.ranking} />
         ))}
       </div>

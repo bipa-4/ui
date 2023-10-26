@@ -3,6 +3,11 @@ import { VideoCardType } from '@/types/videoType';
 import defaultImg from '@/public/images/defaultThumbnailImage.png';
 import { useRouter } from 'next/router';
 import React from 'react';
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
+import 'dayjs/locale/ko';
+import 'dayjs/locale/en';
+import { useTranslation } from 'next-i18next';
 
 interface VideoSummaryItemRowProps {
   videoSummaryItem: VideoCardType;
@@ -11,6 +16,9 @@ interface VideoSummaryItemRowProps {
 function VideoSummaryItemRow({ videoSummaryItem }: VideoSummaryItemRowProps) {
   const router = useRouter();
   const { videoId, videoTitle, channelName, thumbnail, readCount, createAt } = videoSummaryItem;
+  const { t, i18n } = useTranslation('videoDetail');
+  dayjs.extend(relativeTime);
+  dayjs.locale(i18n.language);
 
   const handleItemClick = () => {
     router.push(`/video/watch/${videoId}`);
@@ -36,8 +44,10 @@ function VideoSummaryItemRow({ videoSummaryItem }: VideoSummaryItemRowProps) {
         </div>
         <div className='flex'>
           <div className='mr-2 font-light text-xs'>
-            <div>조회수 {readCount}회</div>
-            <div>{createAt}</div>
+            <div>
+              {t('details.views')} {readCount}
+            </div>
+            <div>{dayjs(createAt).fromNow()}</div>
           </div>
         </div>
       </div>

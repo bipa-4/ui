@@ -8,9 +8,8 @@ import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import Avatar from '../ui/Avatar';
 import 'dayjs/locale/ko';
-
-dayjs.extend(relativeTime);
-dayjs.locale('ko');
+import 'dayjs/locale/en';
+import { useTranslation } from 'next-i18next';
 
 function VideoSummaryItemCol({
   videoId,
@@ -22,6 +21,9 @@ function VideoSummaryItemCol({
   createAt,
 }: VideoCardType) {
   const router = useRouter();
+  const { i18n } = useTranslation();
+  dayjs.extend(relativeTime);
+  dayjs.locale(i18n.language);
 
   const handleItemClick = () => {
     if (!videoId) return;

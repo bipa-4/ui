@@ -5,6 +5,7 @@ import axios from 'axios';
 import { commentType } from '@/types/commentType';
 import Avatar from '../ui/Avatar';
 import LoadingSpinner from '../ui/LoadingSpinner';
+import { useTranslation } from 'next-i18next';
 
 type commentPropsType = {
   videoId: string;
@@ -29,7 +30,7 @@ export default function CommentInput({
   const textarea = useRef<HTMLTextAreaElement>(null);
   const [commentInput, setCommentInput] = useState('');
   const [isPosting, setIsPosting] = useState(false);
-  // const router = useRouter();
+  const { t } = useTranslation('videoDetail');
 
   // 댓글 입력창 엔터에 따라 높이 조절
   const handleResizeHeight = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -91,7 +92,7 @@ export default function CommentInput({
         <div className='grow flex items-center'>
           <textarea
             rows={1}
-            placeholder={user ? '댓글을 입력하세요.' : '로그인 후 댓글을 입력할 수 있습니다.'}
+            placeholder={user ? t('comment.placeholder.user') : t('comment.placeholder.guest')}
             ref={textarea}
             onChange={handleResizeHeight}
             className='input input-bordered input-primary rounded-md w-full resize-none p-2 min-h-12 '
@@ -99,7 +100,7 @@ export default function CommentInput({
           />
         </div>
         <button type='button' className='btn mx-3 btn-primary min-h-12' onClick={postCommentHandler} disabled={!user}>
-          등록
+          {t('comment.submitButton')}
         </button>
       </div>
       {isPosting && (

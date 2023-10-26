@@ -7,13 +7,12 @@ import axios from 'axios';
 import fetcher from '@/utils/axiosFetcher';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
-import 'dayjs/locale/ko';
 import { useRouter } from 'next/router';
 import Avatar from '../ui/Avatar';
 import CommentInput from './CommentInput';
-
-dayjs.extend(relativeTime);
-dayjs.locale('ko');
+import { useTranslation } from 'next-i18next';
+import 'dayjs/locale/ko';
+import 'dayjs/locale/en';
 
 type commentPropsType = {
   videoId: string;
@@ -38,6 +37,10 @@ function CommentItem({ videoId, comment, setIsCommentUpdated, setCommentList, co
   const [replyList, setReplyList] = useState<commentType[]>([]);
   const [childCount, setChildCount] = useState(comment.childCount);
   const router = useRouter();
+  const { t, i18n } = useTranslation('videoDetail');
+  const isUpdated = t('comment.isUpdated');
+  dayjs.extend(relativeTime);
+  dayjs.locale(i18n.language);
 
   // 댓글 입력창 엔터에 따라 높이 조절
   const handleResizeHeight = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -121,17 +124,17 @@ function CommentItem({ videoId, comment, setIsCommentUpdated, setCommentList, co
               {comment.channelName}
             </span>
             <span className='font-light text-sm pr-3'>{dayjs(comment.createAt).fromNow()}</span>
-            <span className='opacity-60 text-sm font-light'>{comment.isUpdated === 'true' ? '(수정됨)' : ''}</span>
+            <span className='opacity-60 text-sm font-light'>{comment.isUpdated === 'true' ? isUpdated : ''}</span>
             {/* <span>gIdx: {comment.groupIndex}</span> */}
           </div>
 
           {!isEdit && user?.channelId === comment.channelId && (
             <div>
               <span className='pr-3 text-blue-500 cursor-pointer text-sm' onClick={() => setIsEdit(true)}>
-                수정
+                {t('modify')}
               </span>
               <span className='text-red-500 cursor-pointer text-sm' onClick={deleteComment}>
-                삭제
+                {t('delete')}
               </span>
             </div>
           )}
@@ -146,10 +149,10 @@ function CommentItem({ videoId, comment, setIsCommentUpdated, setCommentList, co
                 onChange={handleResizeHeight}
               />
               <div className='btn mx-3 btn-outline btn-primary min-h-12' onClick={editComment}>
-                수정
+                {t('modify')}
               </div>
               <div className='btn btn-ghost min-h-12 border-neutral-content' onClick={() => setIsEdit(false)}>
-                취소
+                {t('delete')}
               </div>
             </div>
           ) : (
@@ -158,7 +161,7 @@ function CommentItem({ videoId, comment, setIsCommentUpdated, setCommentList, co
           {commentLevel === 'parent' && (
             <>
               <span className='btn bg-transparent rounded-md btn-sm mr-4 border-none' onClick={handleWrite}>
-                답글
+                {t('comment.reply')}
               </span>
               {childCount !== 0 && (
                 <span className='text-sm text-secondary cursor-pointer' onClick={handleReplyOpen}>
