@@ -24,17 +24,26 @@ export default function Header() {
   const { theme, setTheme } = useTheme();
   const { t } = useTranslation('header');
 
-  useEffect(() => {
-    if (error) {
-      console.log('유저 정보 불러오기 실패', error);
-    }
-    if (!userInfo) {
-      console.log('유저정보 없음');
-      setUser(null);
-    }
+  if (error) {
+    console.log('유저 정보 불러오기 실패', error);
+  }
+
+  if (!user && userInfo) {
     setUser(userInfo);
-    console.log('헤더에서 조회 - 유저정보', userInfo);
-  }, [userInfo]);
+  }
+
+  //useEffect(() => {
+  //  if (error) {
+  //    console.log('유저 정보 불러오기 실패', error);
+  //  }
+  //  if (!userInfo) {
+  //    console.log('유저정보 없음');
+  //    setUser(null);
+  //  }
+
+  //  setUser(userInfo);
+  //  console.log('헤더에서 조회 - 유저정보', userInfo);
+  //}, [userInfo]);
 
   console.log('=================================');
   console.log('user', user);
