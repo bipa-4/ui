@@ -15,31 +15,46 @@ import { useTheme } from 'next-themes';
 import defaultUserImage from '@/public/images/user.png';
 import { useTranslation } from 'next-i18next';
 import LoadingSpinner from '../ui/LoadingSpinner';
+import fetcher from '@/utils/axiosFetcher';
 
 export default function Header() {
   const router = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [user, setUser] = useAtom(userAtom);
-  const { userInfo, isLoading, error } = useMemberData(); // account.check
+  //const { userInfo, isLoading, error } = useMemberData(); // account.check
   const { theme, setTheme } = useTheme();
   const { t } = useTranslation('header');
+  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+
+  const auth = async () => {
+    try {
+      const userRes = await fetcher(`${BASE_URL}/account/check`);
+      setUser(userRes);
+      console.log('헤더 - userRes !', userRes);
+    } catch (e) {
+      console.log('error !', e);
+    }
+  };
 
   useEffect(() => {
     console.log('초기 렌더링요');
+    if (!user) {
+      console.log('auth 실행');
+      auth();
+    }
   }, []);
 
-  useEffect(() => {
-    if (error) {
-      console.log('유저 정보 불러오기 실패', error);
-    }
-    if (!user && userInfo) {
-      setUser(userInfo);
-    }
-  }, [userInfo]);
+  //useEffect(() => {
+  //  if (error) {
+  //    console.log('유저 정보 불러오기 실패', error);
+  //  }
+  //  if (!user && userInfo) {
+  //    setUser(userInfo);
+  //  }
+  //}, [userInfo]);
 
-  console.log('=================================');
+  console.log('===============헤더 렌더링==================');
   console.log('user', user);
-  console.log('userInfo', userInfo);
 
   const toggleMenu = () => {
     setIsMenuOpen((prev) => !prev);
@@ -112,9 +127,7 @@ export default function Header() {
         </div>
 
         <div className='flex justify-center'>
-          {isLoading ? (
-            <LoadingSpinner />
-          ) : user ? (
+          {user ? (
             <>
               <label className='swap swap-rotate rounded-full hover:bg-base-300 w-8 h-8 max-xl:mx-1 max-md:w-6 max-md:h-6'>
                 <input type='checkbox' onChange={handleTheme} />
