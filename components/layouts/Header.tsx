@@ -14,14 +14,14 @@ import { LuMoonStar } from 'react-icons/lu';
 import { useTheme } from 'next-themes';
 import defaultUserImage from '@/public/images/user.png';
 import { useTranslation } from 'next-i18next';
-import LoadingSpinner from '../ui/LoadingSpinner';
 import fetcher from '@/utils/axiosFetcher';
+import LoadingSpinner from '../ui/LoadingSpinner';
 
 export default function Header() {
   const router = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [user, setUser] = useAtom(userAtom);
-  //const { userInfo, isLoading, error } = useMemberData(); // account.check
+  // const { userInfo, isLoading, error } = useMemberData(); // account.check
   const { theme, setTheme } = useTheme();
   const { t } = useTranslation('header');
   const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
@@ -44,14 +44,14 @@ export default function Header() {
     }
   }, []);
 
-  //useEffect(() => {
+  // useEffect(() => {
   //  if (error) {
   //    console.log('유저 정보 불러오기 실패', error);
   //  }
   //  if (!user && userInfo) {
   //    setUser(userInfo);
   //  }
-  //}, [userInfo]);
+  // }, [userInfo]);
 
   console.log('===============헤더 렌더링==================');
   console.log('user', user);
