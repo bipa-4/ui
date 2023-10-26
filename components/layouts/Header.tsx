@@ -28,16 +28,22 @@ export default function Header() {
 
   const auth = async () => {
     try {
-      const userRes = await fetcher(`${BASE_URL}/account/check`);
-      setUser(userRes);
-      console.log('헤더 - userRes !', userRes);
+      const res = await axios.get(`${BASE_URL}/account/check`, {
+        withCredentials: true,
+      });
+      if (res.status === 200) {
+        setUser(res.data);
+        console.log('헤더 200 - userRes !', res);
+        return;
+      }
+      console.log('비회원 - userRes !', res);
     } catch (e) {
       console.log('error !', e);
     }
   };
 
   useEffect(() => {
-    console.log('초기 렌더링요');
+    console.log('초기 렌더링 user:', user);
     if (!user) {
       console.log('auth 실행');
       auth();
