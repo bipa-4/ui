@@ -6,10 +6,10 @@ import defaultImg from '@/public/images/defaultThumbnailImage.png';
 import React from 'react';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
+import { useTranslation } from 'next-i18next';
 import Avatar from '../ui/Avatar';
 import 'dayjs/locale/ko';
 import 'dayjs/locale/en';
-import { useTranslation } from 'next-i18next';
 
 function VideoSummaryItemCol({
   videoId,

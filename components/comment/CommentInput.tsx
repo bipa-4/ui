@@ -3,9 +3,9 @@ import { useAtomValue } from 'jotai';
 import userAtom from '@/atoms/atoms';
 import axios from 'axios';
 import { commentType } from '@/types/commentType';
+import { useTranslation } from 'next-i18next';
 import Avatar from '../ui/Avatar';
 import LoadingSpinner from '../ui/LoadingSpinner';
-import { useTranslation } from 'next-i18next';
 
 type commentPropsType = {
   videoId: string;

@@ -2,11 +2,11 @@ import { VideoDetailType } from '@/types/videoType';
 import { commentType } from '@/types/commentType';
 import { useEffect, useState } from 'react';
 import fetcher from '@/utils/axiosFetcher';
+import { useTranslation } from 'next-i18next';
 import Title from '../ui/Title';
 import CommentInput from './CommentInput';
 import LoadingSpinner from '../ui/LoadingSpinner';
 import CommentItem from './CommentItem';
-import { useTranslation } from 'next-i18next';
 
 type commentsPropsType = {
   video: VideoDetailType;

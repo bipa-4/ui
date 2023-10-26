@@ -8,9 +8,9 @@ import fetcher from '@/utils/axiosFetcher';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import { useRouter } from 'next/router';
+import { useTranslation } from 'next-i18next';
 import Avatar from '../ui/Avatar';
 import CommentInput from './CommentInput';
-import { useTranslation } from 'next-i18next';
 import 'dayjs/locale/ko';
 import 'dayjs/locale/en';
 
