@@ -24,10 +24,16 @@ export default function Header() {
   const { theme, setTheme } = useTheme();
   const { t } = useTranslation('header');
 
+  useEffect(() => {
+    console.log('초기 렌더링요');
+  }, []);
+
   if (error) {
     console.log('유저 정보 불러오기 실패', error);
   }
-
+  if (isLoading) {
+    return <LoadingSpinner />;
+  }
   if (!user && userInfo) {
     setUser(userInfo);
   }
