@@ -14,28 +14,40 @@ import { LuMoonStar } from 'react-icons/lu';
 import { useTheme } from 'next-themes';
 import defaultUserImage from '@/public/images/user.png';
 import { useTranslation } from 'next-i18next';
+import LoadingSpinner from '../ui/LoadingSpinner';
 
 export default function Header() {
   const router = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [user, setUser] = useAtom(userAtom);
-  const { userInfo, error } = useMemberData(); // account.check
+  const { userInfo, isLoading, error } = useMemberData(); // account.check
   const { theme, setTheme } = useTheme();
   const { t } = useTranslation('header');
 
   // 새로고침 시 로그인 유지
-  useEffect(() => {
-    if (userInfo && !user) {
-      setUser(userInfo);
-    }
-  }, [userInfo]);
+  if (error) {
+    console.log('error', error);
+  }
+
+  if (isLoading) {
+    console.log('유저 정보 로딩중');
+  }
+
+  if (userInfo === '') {
+    console.log('비회원');
+  }
+
+  if (userInfo && !user) {
+    console.log('헤더-유저정보', userInfo);
+    setUser(userInfo);
+  }
 
   console.log('user', user);
   console.log('userInfo', userInfo);
   console.log('=================================');
 
   // useEffect(() => {
-  //  console.log('초기렌더링');
+  //  console.log('초기렌더링 user', user);
   //  if (userInfo && !user) {
   //    setUser(userInfo);
   //  }
@@ -112,7 +124,9 @@ export default function Header() {
         </div>
 
         <div className='flex justify-center'>
-          {user ? (
+          {isLoading ? (
+            <LoadingSpinner />
+          ) : user ? (
             <>
               <label className='swap swap-rotate rounded-full hover:bg-base-300 w-8 h-8 max-xl:mx-1 max-md:w-6 max-md:h-6'>
                 <input type='checkbox' onChange={handleTheme} />
