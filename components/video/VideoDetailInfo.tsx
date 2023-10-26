@@ -8,9 +8,9 @@ import { FiMoreHorizontal } from 'react-icons/fi';
 import Link from 'next/link';
 import { PiHeart, PiHeartFill } from 'react-icons/pi';
 import { useTranslation } from 'next-i18next';
+import userAtom from '@/atoms/user';
 import ShareModal from './ShareModal';
 import Avatar from '../ui/Avatar';
-import { userAtom } from '@/pages/_app';
 
 type Props = {
   video: VideoDetailType;

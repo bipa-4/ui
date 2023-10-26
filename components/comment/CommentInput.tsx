@@ -2,9 +2,9 @@ import { useRef, useState } from 'react';
 import { useAtomValue } from 'jotai';
 import axios from 'axios';
 import { useTranslation } from 'next-i18next';
+import userAtom from '@/atoms/user';
 import Avatar from '../ui/Avatar';
 import LoadingSpinner from '../ui/LoadingSpinner';
-import { userAtom } from '@/pages/_app';
 
 type commentPropsType = {
   videoId: string;

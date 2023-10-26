@@ -12,9 +12,9 @@ import { LuMoonStar } from 'react-icons/lu';
 import { useTheme } from 'next-themes';
 import defaultUserImage from '@/public/images/user.png';
 import { useTranslation } from 'next-i18next';
-import { userAtom } from '@/pages/_app';
+import userAtom from '@/atoms/user';
 
-//export const userAtom = atom<userInfoType | null>(null);
+// export const userAtom = atom<userInfoType | null>(null);
 
 export default function Header() {
   const router = useRouter();
@@ -25,7 +25,7 @@ export default function Header() {
   const { t } = useTranslation('header');
   const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
-  //console.log('setUser', setUser);
+  // console.log('setUser', setUser);
   const auth = async () => {
     try {
       const res = await axios.get(`${BASE_URL}/account/check`, {

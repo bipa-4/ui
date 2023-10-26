@@ -1,5 +1,13 @@
 import UploadLayout from '@/containers/upload/UploadLayout';
 import Head from 'next/head';
+import { GetServerSidePropsContext } from 'next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+
+export const getServerSideProps = async (context: GetServerSidePropsContext) => ({
+  props: {
+    ...(await serverSideTranslations(context.locale ?? 'ko', ['footer', 'common', 'header'])),
+  },
+});
 
 export default function upload() {
   return (

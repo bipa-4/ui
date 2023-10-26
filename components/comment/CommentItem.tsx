@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+import userAtom from '@/atoms/user';
 import { IoMdArrowDropdown } from 'react-icons/io';
 import { commentType } from '@/types/commentType';
 import { useAtomValue } from 'jotai';
@@ -12,7 +13,6 @@ import Avatar from '../ui/Avatar';
 import CommentInput from './CommentInput';
 import 'dayjs/locale/ko';
 import 'dayjs/locale/en';
-import { userAtom } from '@/pages/_app';
 
 type commentPropsType = {
   videoId: string;

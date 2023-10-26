@@ -11,7 +11,7 @@ import { useRouter } from 'next/router';
 import Link from 'next/link';
 import getPresignedImageUrl, { getPresignedVideoUrl } from '@/utils/getPresignedUrl';
 import LoadingSpinner from '@/components/ui/LoadingSpinner';
-import { userAtom } from '@/pages/_app';
+import userAtom from '@/atoms/user';
 
 type updateVideoType = {
   updateVideo?: VideoType;

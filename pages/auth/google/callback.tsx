@@ -1,8 +1,16 @@
-import { userAtom } from '@/pages/_app';
+import userAtom from '@/atoms/user';
 import fetcher from '@/utils/axiosFetcher';
 import { useAtom } from 'jotai';
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
+import { GetServerSidePropsContext } from 'next';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+
+export const getServerSideProps = async (context: GetServerSidePropsContext) => ({
+  props: {
+    ...(await serverSideTranslations(context.locale ?? 'ko', ['footer', 'common', 'header'])),
+  },
+});
 
 export default function Callback() {
   const router = useRouter();
