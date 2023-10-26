@@ -26,8 +26,9 @@ export default function Callback() {
   }, []);
 
   useEffect(() => {
-    if (user !== null && user !== undefined) {
+    if (user) {
       console.log('콜백페이지 전역 user 바꼈다!', user);
+      console.log('메인으로');
       router.push('/');
     }
   }, [user]);
