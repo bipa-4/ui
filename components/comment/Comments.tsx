@@ -44,7 +44,6 @@ export default function Comments({ video }: commentsPropsType) {
         commentLevel='parent'
         groupIndex={null}
         setIsUpdated={setIsCommentUpdated}
-        setCommentList={setCommentList}
       />
       <div className='w-full'>
         {!commentList && <LoadingSpinner />}
@@ -59,7 +58,6 @@ export default function Comments({ video }: commentsPropsType) {
             videoId={video.videoId}
             key={c.commentId}
             setIsCommentUpdated={setIsCommentUpdated}
-            setCommentList={setCommentList}
             commentLevel='parent'
           />
         ))}
