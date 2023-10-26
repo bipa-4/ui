@@ -8,9 +8,9 @@ import { FiMoreHorizontal } from 'react-icons/fi';
 import Link from 'next/link';
 import userAtom from '@/atoms/atoms';
 import { PiHeart, PiHeartFill } from 'react-icons/pi';
+import { useTranslation } from 'next-i18next';
 import ShareModal from './ShareModal';
 import Avatar from '../ui/Avatar';
-import { useTranslation } from 'next-i18next';
 
 type Props = {
   video: VideoDetailType;
@@ -51,7 +51,7 @@ export default function VideoDetailInfo({ video, handleUpdatePage }: Props) {
   };
 
   const handleLike = async () => {
-    //console.log('video: ', video);
+    // console.log('video: ', video);
 
     if (!user) {
       alert('로그인이 필요합니다.');

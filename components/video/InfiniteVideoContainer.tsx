@@ -12,9 +12,9 @@ type VideoListType = {
 };
 
 export default function InfiniteVideoContainer({ title, videoList, dataFetcher, hasMore }: VideoListType) {
-  //console.log('=================Container==================');
-  //console.log('hasMore', hasMore);
-  //console.log('videoList', videoList);
+  // console.log('=================Container==================');
+  // console.log('hasMore', hasMore);
+  // console.log('videoList', videoList);
 
   return (
     <div>
