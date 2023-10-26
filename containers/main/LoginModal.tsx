@@ -21,7 +21,7 @@ export default function Login({ kakaoLogin, googleLogin }: Props) {
               alt='kakao'
               width={200}
               height={100}
-              className='w-full pb-2'
+              className='w-full pb-2 cursor-pointer'
               onClick={kakaoLogin}
             />
             <Image
@@ -29,7 +29,7 @@ export default function Login({ kakaoLogin, googleLogin }: Props) {
               alt='google'
               width={200}
               height={100}
-              className='w-full'
+              className='w-full cursor-pointer'
               onClick={googleLogin}
             />
           </div>

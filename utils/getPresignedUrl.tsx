@@ -2,8 +2,8 @@ import axios from 'axios';
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
-export default async function getPresignedImageUrl(imageName: string) {
-  const res = await axios.post(`${BASE_URL}/video/presigned/image?imageName=${imageName}`);
+export default async function getPresignedImageUrl(imageName: string, folderName: 'thumbnail' | 'channelProfile') {
+  const res = await axios.post(`${BASE_URL}/video/presigned/image?imageName=${imageName}&folderName=${folderName}`);
   console.log('getPresignedImageUrl', res);
   return {
     imageName: res.data.fileName,
@@ -12,7 +12,7 @@ export default async function getPresignedImageUrl(imageName: string) {
 }
 
 export async function getPresignedVideoUrl(videoName: string) {
-  const res = await axios.post(`${BASE_URL}/video/presigned/video?videoName=${videoName}`);
+  const res = await axios.post(`${BASE_URL}/video/presigned/video?videoName=${videoName}&folderName=video`);
   console.log('getPresignedVideoUrl', res);
 
   return {

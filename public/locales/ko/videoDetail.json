@@ -1,0 +1,11 @@
+{
+  "details": {
+    "views": "조회수",
+    "readMore": "더보기",
+    "showLess": "간략히",
+    "createdAt": "업로드"
+  },
+  "deleteConfirmMessage": "정말 삭제하시겠습니까?",
+  "modify": "수정",
+  "delete": "삭제"
+}

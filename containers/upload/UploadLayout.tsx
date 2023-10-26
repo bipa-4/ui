@@ -136,7 +136,7 @@ export default function UploadLayout({ updateVideo }: updateVideoType) {
 
     if (videoFile && thumbnailFile) {
       try {
-        const { imagePresignedUrl, imageName } = await getPresignedImageUrl(thumbnailFile?.name);
+        const { imagePresignedUrl, imageName } = await getPresignedImageUrl(thumbnailFile?.name, 'thumbnail');
         const { videoPresignedUrl, videoName } = await getPresignedVideoUrl(videoFile?.name);
         console.log('==================== presigned 받아옴 ==========================');
         console.log('imagePresignedUrl', imagePresignedUrl);
@@ -172,7 +172,7 @@ export default function UploadLayout({ updateVideo }: updateVideoType) {
 
     if (thumbnailFile) {
       try {
-        const { imagePresignedUrl, imageName } = await getPresignedImageUrl(thumbnailFile?.name);
+        const { imagePresignedUrl, imageName } = await getPresignedImageUrl(thumbnailFile?.name, 'thumbnail');
         console.log('==================== image presigned 받아옴 ==========================');
         console.log('imagePresignedUrl', imagePresignedUrl);
         await S3upload(imagePresignedUrl, thumbnailFile);

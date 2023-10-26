@@ -1,0 +1,11 @@
+{
+  "details": {
+    "views": "views",
+    "readMore": "...more",
+    "readLess": "Show less",
+    "createdAt": "uploaded on"
+  },
+  "deleteConfirmMessage": "Are you sure you want to delete it?",
+  "modify": "Modify",
+  "delete": "Delete"
+}

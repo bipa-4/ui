@@ -10,6 +10,7 @@ import userAtom from '@/atoms/atoms';
 import { PiHeart, PiHeartFill } from 'react-icons/pi';
 import ShareModal from './ShareModal';
 import Avatar from '../ui/Avatar';
+import { useTranslation } from 'next-i18next';
 
 type Props = {
   video: VideoDetailType;
@@ -24,6 +25,7 @@ export default function VideoDetailInfo({ video, handleUpdatePage }: Props) {
   const [isMyVideo, setIsMyVideo] = useState<boolean>(false);
   const [readMore, setReadMore] = useState(false);
   const router = useRouter();
+  const { t } = useTranslation('videoDetail');
 
   useEffect(() => {
     const checkLiked = async () => {
@@ -49,7 +51,7 @@ export default function VideoDetailInfo({ video, handleUpdatePage }: Props) {
   };
 
   const handleLike = async () => {
-    console.log('video: ', video);
+    //console.log('video: ', video);
 
     if (!user) {
       alert('로그인이 필요합니다.');
@@ -75,7 +77,7 @@ export default function VideoDetailInfo({ video, handleUpdatePage }: Props) {
   };
 
   const deleteVideo = async () => {
-    const confirm = window.confirm('정말 삭제하시겠습니까?');
+    const confirm = window.confirm(`${t('deleteConfirmMessage')}`);
     if (confirm) {
       try {
         await axios.delete(`${BASE_URL}/video/${video.videoId}`, { withCredentials: true });
@@ -118,12 +120,12 @@ export default function VideoDetailInfo({ video, handleUpdatePage }: Props) {
                       className='text-blue-600 font-bold'
                       onClick={handleUpdatePage}
                     >
-                      수정
+                      {t('modify')}
                     </Link>
                   </li>
                   <li>
                     <div className='text-red-600 font-bold' onClick={deleteVideo}>
-                      삭제
+                      {t('delete')}
                     </div>
                   </li>
                 </ul>
@@ -134,7 +136,7 @@ export default function VideoDetailInfo({ video, handleUpdatePage }: Props) {
 
         <div className='mx-3 p-5 bg-base-200 rounded-md'>
           <div className='text-sm pb-3'>
-            조회수 {video.readCount}회 · 업로드 {video.createAt}
+            {t('details.views')} {video.readCount} · {t('details.createdAt')} {video.createAt}
           </div>
           {readMore ? (
             <div className='whitespace-pre-line'>{video.content}</div>
@@ -142,7 +144,7 @@ export default function VideoDetailInfo({ video, handleUpdatePage }: Props) {
             <div className='whitespace-pre-line line-clamp-1'>{video.content}</div>
           )}
           <div className='text-sm text-blue-500 cursor-pointer mt-4' onClick={() => setReadMore(!readMore)}>
-            {readMore ? '간략히' : '더보기'}
+            {readMore ? t('details.readLess') : t('details.readMore')}
           </div>
         </div>
       </div>

@@ -1,6 +1,7 @@
 import VideoDetailLayout from '@/containers/watch/VideoDetailLayout';
 import Head from 'next/head';
 import { GetServerSidePropsContext } from 'next/types';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import fetcher from '@/utils/axiosFetcher';
 import { VideoDetailType } from '@/types/videoType';
 import { SWRConfig } from 'swr';
@@ -19,6 +20,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   return {
     props: {
       video,
+      ...(await serverSideTranslations(context.locale ?? 'ko', ['footer', 'common', 'header', 'videoDetail'])),
     },
   };
 }

@@ -17,7 +17,7 @@ export default function Callback() {
         const userRes = await fetcher(`${BASE_URL}/account/check`);
         setUser(userRes);
         console.log('authRes !', authRes);
-        console.log('user !', userRes);
+        console.log('userRes !', userRes);
       } catch (error) {
         console.log('error !', error);
       }

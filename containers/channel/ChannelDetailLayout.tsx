@@ -77,7 +77,7 @@ export default function ChannelDetailLayout({ channelInfo }: ChannelProps) {
 
   const updateChannel = async () => {
     if (profileImageFile) {
-      const { imagePresignedUrl, imageName } = await getPresignedImageUrl(profileImageFile?.name);
+      const { imagePresignedUrl, imageName } = await getPresignedImageUrl(profileImageFile?.name, 'channelProfile');
       setUpdatedChannelInfo((prev) => ({
         ...prev,
         profileUrl: `https://streamwaves3.s3.ap-northeast-2.amazonaws.com/${imageName}`,
