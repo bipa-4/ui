@@ -17,7 +17,7 @@ export default function InfiniteVideoContainer({ title, videoList, dataFetcher, 
   // console.log('videoList', videoList);
 
   return (
-    <div>
+    <div className='mb-40'>
       {title && (
         <div className='m-5'>
           <Title text={`${title}`} />

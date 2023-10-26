@@ -27,12 +27,16 @@ export default function Header() {
     if (error) {
       console.log('유저 정보 불러오기 실패', error);
     }
-    if (!userInfo) {
-      console.log('유저정보 없음');
+
+    if (userInfo === '') {
+      console.log('비회원', userInfo);
       setUser(null);
     }
-    setUser(userInfo);
-    console.log('헤더에서 조회 - 유저정보', userInfo);
+
+    if (userInfo) {
+      console.log('헤더 - 유저정보', userInfo);
+      setUser(userInfo);
+    }
   }, [userInfo]);
 
   const toggleMenu = () => {

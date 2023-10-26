@@ -27,8 +27,7 @@ export default function Callback() {
 
   useEffect(() => {
     if (user !== null && user !== undefined) {
-      console.log('user !', user);
-      router.push('/');
+      console.log('use콜백페이지 user 바꼈다!', user);
     }
   }, [user]);
 

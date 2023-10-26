@@ -8,7 +8,7 @@ import { useTranslation } from 'next-i18next';
 import useTop10Data from '../../hooks/useTop10Data';
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
-const PAGE_SIZE = 10;
+const PAGE_SIZE = 15;
 
 export default function MainLayout() {
   const { top10Data } = useTop10Data();
