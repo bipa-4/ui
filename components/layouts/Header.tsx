@@ -32,7 +32,7 @@ export default function Header() {
     setUser(userInfo);
   }
 
-  //useEffect(() => {
+  // useEffect(() => {
   //  if (error) {
   //    console.log('유저 정보 불러오기 실패', error);
   //  }
@@ -43,7 +43,7 @@ export default function Header() {
 
   //  setUser(userInfo);
   //  console.log('헤더에서 조회 - 유저정보', userInfo);
-  //}, [userInfo]);
+  // }, [userInfo]);
 
   console.log('=================================');
   console.log('user', user);
