@@ -18,7 +18,6 @@ type commentPropsType = {
   videoId: string;
   comment: commentType;
   setIsCommentUpdated: React.Dispatch<React.SetStateAction<boolean>>;
-  setCommentList: React.Dispatch<React.SetStateAction<commentType[]>>;
   commentLevel: 'parent' | 'child';
 };
 
@@ -26,7 +25,7 @@ type commentPropsType = {
  * 댓글 컴포넌트입니다.
  * Todo: 렌더링 최적화
  */
-function CommentItem({ videoId, comment, setIsCommentUpdated, setCommentList, commentLevel }: commentPropsType) {
+function CommentItem({ videoId, comment, setIsCommentUpdated, commentLevel }: commentPropsType) {
   const [isReplyOpen, setIsReplyOpen] = useState(false);
   const [writeChildReply, setWriteChildReply] = useState(false);
   const user = useAtomValue(userAtom);
@@ -71,12 +70,37 @@ function CommentItem({ videoId, comment, setIsCommentUpdated, setCommentList, co
   const deleteComment = async () => {
     const confirm = window.confirm('정말 삭제하시겠습니까?');
     if (!confirm) return;
-    const res = await axios.delete(`${process.env.NEXT_PUBLIC_BASE_URL}/${videoId}/comment/${comment.commentId}`, {
-      withCredentials: true,
-    });
-    if (res.status === 200) {
-      alert('삭제되었습니다.');
-      setIsCommentUpdated(true);
+    if (commentLevel === 'parent') {
+      try {
+        const res = await axios.delete(
+          `${process.env.NEXT_PUBLIC_BASE_URL}/${videoId}/commentParent/${comment.commentId}`,
+          {
+            withCredentials: true,
+          },
+        );
+        if (res.status === 200) {
+          alert('삭제되었습니다.');
+          setIsCommentUpdated(true);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+    if (commentLevel === 'child') {
+      try {
+        const res = await axios.delete(
+          `${process.env.NEXT_PUBLIC_BASE_URL}/${videoId}/commentChild/${comment.commentId}`,
+          {
+            withCredentials: true,
+          },
+        );
+        if (res.status === 200) {
+          alert('삭제되었습니다.');
+          setIsCommentUpdated(true);
+        }
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
 
@@ -178,7 +202,7 @@ function CommentItem({ videoId, comment, setIsCommentUpdated, setCommentList, co
               commentLevel='child'
               groupIndex={comment.groupIndex}
               setIsUpdated={setIsReplyUpdated}
-              setCommentList={setCommentList}
+              setWriteChildReply={setWriteChildReply}
             />
           )}
           {isReplyOpen &&
@@ -188,7 +212,6 @@ function CommentItem({ videoId, comment, setIsCommentUpdated, setCommentList, co
                 comment={reply}
                 setIsCommentUpdated={setIsReplyUpdated}
                 key={reply.commentId}
-                setCommentList={setReplyList}
                 commentLevel='child'
               />
             ))}

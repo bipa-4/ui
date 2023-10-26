@@ -2,7 +2,6 @@ import { useRef, useState } from 'react';
 import { useAtomValue } from 'jotai';
 import userAtom from '@/atoms/atoms';
 import axios from 'axios';
-import { commentType } from '@/types/commentType';
 import { useTranslation } from 'next-i18next';
 import Avatar from '../ui/Avatar';
 import LoadingSpinner from '../ui/LoadingSpinner';
@@ -12,7 +11,7 @@ type commentPropsType = {
   commentLevel: 'parent' | 'child';
   groupIndex: string | null;
   setIsUpdated: React.Dispatch<React.SetStateAction<boolean>>;
-  setCommentList: React.Dispatch<React.SetStateAction<commentType[]>>;
+  setWriteChildReply?: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 /**
@@ -24,7 +23,7 @@ export default function CommentInput({
   commentLevel,
   groupIndex,
   setIsUpdated,
-  setCommentList,
+  setWriteChildReply,
 }: commentPropsType) {
   const user = useAtomValue(userAtom);
   const textarea = useRef<HTMLTextAreaElement>(null);
@@ -77,6 +76,9 @@ export default function CommentInput({
         if (textarea.current) {
           textarea.current.value = '';
         }
+        if (setWriteChildReply) {
+          setWriteChildReply(false);
+        }
       } catch (error) {
         alert(`댓글 등록에 실패했습니다 : ${error}`);
       }
@@ -111,3 +113,7 @@ export default function CommentInput({
     </>
   );
 }
+
+CommentInput.defaultProps = {
+  setWriteChildReply: undefined,
+};

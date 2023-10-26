@@ -19,25 +19,27 @@ export default function Header() {
   const router = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [user, setUser] = useAtom(userAtom);
-  const { userInfo, error } = useMemberData();
+  const { userInfo, error } = useMemberData(); // account.check
   const { theme, setTheme } = useTheme();
   const { t } = useTranslation('header');
 
+  // 새로고침 시 로그인 유지
   useEffect(() => {
-    if (error) {
-      console.log('유저 정보 불러오기 실패', error);
-    }
-
-    if (userInfo === '') {
-      console.log('비회원', userInfo);
-      setUser(null);
-    }
-
-    if (userInfo) {
-      console.log('헤더 - 유저정보', userInfo);
+    if (userInfo && !user) {
       setUser(userInfo);
     }
   }, [userInfo]);
+
+  console.log('user', user);
+  console.log('userInfo', userInfo);
+  console.log('=================================');
+
+  // useEffect(() => {
+  //  console.log('초기렌더링');
+  //  if (userInfo && !user) {
+  //    setUser(userInfo);
+  //  }
+  // }, []);
 
   const toggleMenu = () => {
     setIsMenuOpen((prev) => !prev);
