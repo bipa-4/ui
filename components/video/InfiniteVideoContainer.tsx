@@ -19,7 +19,7 @@ export default function InfiniteVideoContainer({ title, videoList, dataFetcher, 
   return (
     <div className='mb-40'>
       {title && (
-        <div className='m-5'>
+        <div className='p-5'>
           <Title text={`${title}`} />
         </div>
       )}
@@ -29,7 +29,7 @@ export default function InfiniteVideoContainer({ title, videoList, dataFetcher, 
         hasMore={hasMore}
         loader={<LoadingSpinner />}
         endMessage=''
-        className='m-3 py-5 px-2 grid grid-cols-5 gap-3 max-xl:grid-cols-3 max-md:grid-cols-2 max-sm:grid-cols-1'
+        className='m-3 py-5 px-2 grid grid-cols-5 gap-3 max-xl:grid-cols-3 max-md:grid-cols-2 max-sm:grid-cols-1 max-xl:mx-auto'
       >
         {videoList.map((item) => (
           <VideoSummaryItemCol

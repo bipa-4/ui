@@ -5,7 +5,7 @@ import LoginModal from '@/containers/main/LoginModal';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import axios from 'axios';
-import { BiSearch } from 'react-icons/bi';
+import { BiLogIn, BiSearch } from 'react-icons/bi';
 import { useAtom } from 'jotai';
 import { BsSun } from 'react-icons/bs';
 import { LuMoonStar } from 'react-icons/lu';
@@ -14,18 +14,14 @@ import defaultUserImage from '@/public/images/user.png';
 import { useTranslation } from 'next-i18next';
 import userAtom from '@/atoms/user';
 
-// export const userAtom = atom<userInfoType | null>(null);
-
 export default function Header() {
   const router = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [user, setUser] = useAtom(userAtom);
-  // const { userInfo, isLoading, error } = useMemberData(); // account.check
   const { theme, setTheme } = useTheme();
   const { t } = useTranslation('header');
   const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
-  // console.log('setUser', setUser);
   const auth = async () => {
     try {
       const res = await axios.get(`${BASE_URL}/account/check`, {
@@ -50,17 +46,8 @@ export default function Header() {
     }
   }, []);
 
-  // useEffect(() => {
-  //  if (error) {
-  //    console.log('유저 정보 불러오기 실패', error);
-  //  }
-  //  if (!user && userInfo) {
-  //    setUser(userInfo);
-  //  }
-  // }, [userInfo]);
-
-  console.log('===============헤더 렌더링==================');
-  console.log('user', user);
+  //console.log('===============헤더 렌더링==================');
+  //console.log('user', user);
 
   const toggleMenu = () => {
     setIsMenuOpen((prev) => !prev);
@@ -82,7 +69,7 @@ export default function Header() {
 
   const handleLogout = async () => {
     const res = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/account/logout`, {}, { withCredentials: true });
-    if (res.data) {
+    if (res.status === 200) {
       setUser(null);
       alert('로그아웃되었습니다.');
     }
@@ -102,6 +89,10 @@ export default function Header() {
     setTheme('dark');
   };
 
+  const handleLocaleChange = async (locale: string) => {
+    await router.push(router.pathname, router.asPath, { locale });
+  };
+
   return (
     <div className='w-full'>
       <div className='navbar bg-base-100 justify-between shadow-md px-32 max-xl:px-2'>
@@ -116,7 +107,7 @@ export default function Header() {
             StreamWave
           </Link>
         </div>
-        <div className='grow justify-center mx-3 max-xl:mx-1 '>
+        <div className='grow justify-center mx-3 max-lg:mx-1 '>
           <form className='w-4/5 max-lg:w-full flex' onSubmit={handleSearch}>
             <div className='grow relative flex items-center justify-center w-full'>
               <input
@@ -126,29 +117,37 @@ export default function Header() {
                 className='input input-bordered w-11/12 focus:outline-none pr-10 rounded-r-none' // 오른쪽 패딩 추가
               />
               <button type='submit' className='btn btn-secondary rounded-l-none px-3'>
-                <BiSearch className='w-6 h-6 m-2 max-xl:w-4 max-xl:h-4 max-xl:m-1' />
+                <BiSearch className='w-6 h-6 m-2 max-xl:w-4 max-xl:h-4 max-md:m-1' />
               </button>
             </div>
           </form>
         </div>
 
         <div className='flex justify-center'>
+          <select
+            className={'select w-full max-w-xs focus:outline-none px-5 max-lg:hidden'}
+            defaultValue={router.locale}
+            onChange={(e) => handleLocaleChange(e.target.value)}
+          >
+            <option value='en'>English</option>
+            <option value='ko'>한국어</option>
+          </select>
+          <label className='swap swap-rotate rounded-full hover:bg-base-300 w-8 h-8 max-xl:mx-1 max-md:w-6 max-md:h-6 mx-2'>
+            <input type='checkbox' onChange={handleTheme} />
+            <BsSun className='swap-on w-6 h-6 max-xl:w-5 max-md:h-5 ' />
+            <LuMoonStar className='swap-off w-6 h-6  max-xl:w-5 max-md:h-5' />
+          </label>
           {user ? (
             <>
-              <label className='swap swap-rotate rounded-full hover:bg-base-300 w-8 h-8 max-xl:mx-1 max-md:w-6 max-md:h-6'>
-                <input type='checkbox' onChange={handleTheme} />
-                <BsSun className='swap-off w-6 h-6 max-xl:w-5 max-md:h-5 ' />
-                <LuMoonStar className='swap-on w-6 h-6  max-xl:w-5 max-md:h-5' />
-              </label>
               <Link href='/upload'>
-                <div className='btn bg-base-100 px-5 mx-5 max-xl:hidden'>upload</div>
+                <div className='btn bg-base-100 px-5 mx-2 max-xl:hidden'>upload</div>
               </Link>
 
               <div className='dropdown dropdown-end'>
                 <button
                   type='button'
                   tabIndex={0}
-                  className='btn btn-ghost btn-circle avatar border-none  max-md:w-7 mx-1'
+                  className='btn btn-ghost btn-circle avatar border-none max-md:w-7 mx-1'
                 >
                   <div className='w-10 rounded-full max-md:w-6'>
                     <Image
@@ -182,13 +181,18 @@ export default function Header() {
               </div>
             </>
           ) : (
-            <div>
-              <label htmlFor='my_modal_7' className='btn btn-outline btn-primary'>
-                Login
-              </label>
-              <input type='checkbox' id='my_modal_7' className='modal-toggle' />
-              <LoginModal kakaoLogin={handleKakaoLogin} googleLogin={handleGoogleLogin} />
-            </div>
+            <>
+              <div className='mx-3 cursor-pointer max-lg:mx-1'>
+                <label htmlFor='my_modal_7' className='btn btn-outline btn-primary max-lg:hidden'>
+                  Login
+                </label>
+                <label htmlFor='my_modal_7' className='rounded-full hover:bg-base-300 w-8 h-8 lg:hidden'>
+                  <BiLogIn className='w-6 h-6' />
+                </label>
+                <input type='checkbox' id='my_modal_7' className='modal-toggle' />
+                <LoginModal kakaoLogin={handleKakaoLogin} googleLogin={handleGoogleLogin} />
+              </div>
+            </>
           )}
         </div>
       </div>

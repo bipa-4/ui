@@ -43,10 +43,10 @@ export default function ChannelSummaryItem({ channelItem, rank, size }: props) {
         )}
         {size === 'large' && (
           <>
-            <Avatar width={20} marginX={5} imgUrl={channelItem.profileUrl} />
-            <div className='grow overflow-hidden'>
-              <div className='font-bold text-base'>{channelItem.channelName}</div>
-              <div className='flex-wrap text-sm'>{channelItem.content}</div>
+            <Avatar width={20} marginX={3} imgUrl={channelItem.profileUrl} />
+            <div className='grow overflow-hidden px-3'>
+              <div className='font-bold text-base line-clamp-1'>{channelItem.channelName}</div>
+              <div className='flex-wrap text-sm line-clamp-3'>{channelItem.content}</div>
             </div>
           </>
         )}

@@ -1,6 +1,6 @@
 import fetcher from '@/utils/axiosFetcher';
 import { ChannelSummaryType } from '@/types/channelType';
-import { useEffect, useState } from 'react';
+import { CSSProperties, useEffect, useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
@@ -86,8 +86,8 @@ export default function AllChannelsContainer() {
 
   return (
     <>
-      <div className='flex justify-between items-center border-0 border-b border-slate-400 p-6 my-2 pb-3'>
-        <div onClick={() => router.push('/channels')} className='cursor-pointer'>
+      <div className='flex justify-between items-center border-0 border-b border-slate-400 p-6 my-2 pb-3 max-xl:px-3'>
+        <div onClick={() => router.push('/channels')} className='cursor-pointer basis-1/2 w-1/2'>
           <Title text={t('allChannels')} />
         </div>
         <SearchInput path='channels' setKeyword={setSearchKeyword} searchItem={t('searchChannelPlaceHolder')} />
