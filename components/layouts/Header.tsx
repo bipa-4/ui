@@ -125,7 +125,7 @@ export default function Header() {
 
         <div className='flex justify-center'>
           <select
-            className="select w-full max-w-xs focus:outline-none px-5 max-lg:hidden"
+            className='select w-full max-w-xs focus:outline-none px-5 max-lg:hidden'
             defaultValue={router.locale}
             onChange={(e) => handleLocaleChange(e.target.value)}
           >
@@ -182,15 +182,15 @@ export default function Header() {
             </>
           ) : (
             <div className='mx-3 cursor-pointer max-lg:mx-1'>
-                <label htmlFor='my_modal_7' className='btn btn-outline btn-primary max-lg:hidden'>
-                  Login
-                </label>
-                <label htmlFor='my_modal_7' className='rounded-full hover:bg-base-300 w-8 h-8 lg:hidden'>
-                  <BiLogIn className='w-6 h-6' />
-                </label>
-                <input type='checkbox' id='my_modal_7' className='modal-toggle' />
-                <LoginModal kakaoLogin={handleKakaoLogin} googleLogin={handleGoogleLogin} />
-              </div>
+              <label htmlFor='my_modal_7' className='btn btn-outline btn-primary max-lg:hidden'>
+                Login
+              </label>
+              <label htmlFor='my_modal_7' className='rounded-full hover:bg-base-300 w-8 h-8 lg:hidden'>
+                <BiLogIn className='w-6 h-6' />
+              </label>
+              <input type='checkbox' id='my_modal_7' className='modal-toggle' />
+              <LoginModal kakaoLogin={handleKakaoLogin} googleLogin={handleGoogleLogin} />
+            </div>
           )}
         </div>
       </div>
