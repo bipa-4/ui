@@ -46,8 +46,8 @@ export default function Header() {
     }
   }, []);
 
-  //console.log('===============헤더 렌더링==================');
-  //console.log('user', user);
+  // console.log('===============헤더 렌더링==================');
+  // console.log('user', user);
 
   const toggleMenu = () => {
     setIsMenuOpen((prev) => !prev);
@@ -125,7 +125,7 @@ export default function Header() {
 
         <div className='flex justify-center'>
           <select
-            className={'select w-full max-w-xs focus:outline-none px-5 max-lg:hidden'}
+            className="select w-full max-w-xs focus:outline-none px-5 max-lg:hidden"
             defaultValue={router.locale}
             onChange={(e) => handleLocaleChange(e.target.value)}
           >
@@ -181,8 +181,7 @@ export default function Header() {
               </div>
             </>
           ) : (
-            <>
-              <div className='mx-3 cursor-pointer max-lg:mx-1'>
+            <div className='mx-3 cursor-pointer max-lg:mx-1'>
                 <label htmlFor='my_modal_7' className='btn btn-outline btn-primary max-lg:hidden'>
                   Login
                 </label>
@@ -192,7 +191,6 @@ export default function Header() {
                 <input type='checkbox' id='my_modal_7' className='modal-toggle' />
                 <LoginModal kakaoLogin={handleKakaoLogin} googleLogin={handleGoogleLogin} />
               </div>
-            </>
           )}
         </div>
       </div>
