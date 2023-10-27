@@ -19,15 +19,24 @@ function VideoSummaryItemCol({
   channelName,
   readCount,
   createAt,
+  privateType,
+  channelId,
 }: VideoCardType) {
   const router = useRouter();
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation('common');
   dayjs.extend(relativeTime);
   dayjs.locale(i18n.language);
 
   const handleItemClick = () => {
     if (!videoId) return;
     router.push(`/video/watch/${videoId}`);
+  };
+
+  const handleChannelClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!channelId) return;
+    console.log(channelId);
+    e.stopPropagation();
+    router.push(`/channel/${channelId}`);
   };
 
   return (
@@ -54,16 +63,21 @@ function VideoSummaryItemCol({
         ) : (
           <p className='font-bold mx-1 text-gray-400 italic'>제목을 입력하세요.</p>
         )}
-        <div className='flex items-center'>
+        <div className='flex items-center hover:font-bold' onClick={handleChannelClick}>
           <Avatar width={6} marginX={1} imgUrl={channelProfileUrl} />
           <div className=' whitespace-pre-line w-4/5 px-1 line-clamp-1'>{channelName}</div>
         </div>
-        <div className='mx-2 text-xs flex items-center justify-start'>
-          <PiEyeLight className='w-4 h-4' />
-          <span className='px-2 border-solid border-neutral-content' style={{ 'borderRightWidth': '1px' }}>
-            {readCount}
-          </span>
-          <span className='px-2'>{dayjs(createAt).fromNow()}</span>
+        <div className='mx-2 text-xs flex items-center justify-between'>
+          <div className='flex items-center justify-center'>
+            <PiEyeLight className='w-4 h-4' />
+            <span className='px-2 border-solid border-neutral-content' style={{ 'borderRightWidth': '1px' }}>
+              {readCount}
+            </span>
+            <span className='px-2'>{dayjs(createAt).fromNow()}</span>
+          </div>
+          <div className='flex items-center justify-center'>
+            {privateType && <div className='badge badge-accent'>{t('private')}</div>}
+          </div>
         </div>
       </div>
     </div>

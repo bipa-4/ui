@@ -15,13 +15,20 @@ interface VideoSummaryItemRowProps {
 
 function VideoSummaryItemRow({ videoSummaryItem }: VideoSummaryItemRowProps) {
   const router = useRouter();
-  const { videoId, videoTitle, channelName, thumbnail, readCount, createAt } = videoSummaryItem;
+  const { videoId, videoTitle, channelName, thumbnail, readCount, createAt, channelId } = videoSummaryItem;
   const { t, i18n } = useTranslation('videoDetail');
   dayjs.extend(relativeTime);
   dayjs.locale(i18n.language);
 
   const handleItemClick = () => {
     router.push(`/video/watch/${videoId}`);
+  };
+
+  const handleChannelClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!channelId) return;
+    console.log(channelId);
+    e.stopPropagation();
+    router.push(`/channel/${channelId}`);
   };
 
   return (
@@ -39,7 +46,7 @@ function VideoSummaryItemRow({ videoSummaryItem }: VideoSummaryItemRowProps) {
       </div>
       <div className='w-1/2 flex flex-col items-start'>
         <div className='font-bold pb-1 line-clamp-2'>{videoTitle}</div>
-        <div className='text-sm pb-1 overflow-hidden'>
+        <div className='text-sm pb-1 overflow-hidden' onClick={handleChannelClick}>
           <span className='line-clamp-1'>{channelName}</span>
         </div>
         <div className='flex'>

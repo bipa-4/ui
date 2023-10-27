@@ -18,6 +18,8 @@ export interface VideoCardType {
   createAt: string;
   readCount: number;
   videoId: string;
+  privateType?: boolean;
+  channelId?: string;
 }
 
 export interface VideoDetailType extends VideoCardType {

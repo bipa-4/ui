@@ -29,7 +29,7 @@ const PAGE_SIZE = 10;
 export default function ChannelDetailLayout({ channelInfo }: ChannelProps) {
   const router = useRouter();
   const { cid } = router.query;
-  const { t } = useTranslation('common');
+  const { t } = useTranslation(['common', 'channelDetail']);
 
   // 채널 수정 관련 state
   const [isMyChannel, setIsMyChannel] = useState(false);
@@ -42,8 +42,6 @@ export default function ChannelDetailLayout({ channelInfo }: ChannelProps) {
     privateType: channelInfo.privateType,
     profileUrl: channelInfo.profileUrl,
   });
-
-  // console.log('updatedChannelInfo', updatedChannelInfo);
 
   // 무한 스크롤 관련 state
   const [videoList, setVideoList] = useState<VideoCardType[]>();
@@ -67,11 +65,11 @@ export default function ChannelDetailLayout({ channelInfo }: ChannelProps) {
     try {
       const res = await axios.put(`${BASE_URL}/channel/${cid}`, updatedInfo, { withCredentials: true });
       if (res.status === 200) {
-        alert('백엔드 채널 정보 수정 완료');
+        alert(`${t('edit.completeMessage', { ns: 'channelDetail' })}`);
         router.reload();
       }
     } catch (e) {
-      console.log('백엔드 수정 에러', e);
+      alert(`수정 중 에러가 발생했습니다 : ${e}`);
     }
   };
 
@@ -125,6 +123,7 @@ export default function ChannelDetailLayout({ channelInfo }: ChannelProps) {
         withCredentials: true,
       },
     );
+    console.log('채널내 영상 조회', res);
     setNextId(res.data.nextUUID);
     return res.data;
   };
@@ -162,7 +161,6 @@ export default function ChannelDetailLayout({ channelInfo }: ChannelProps) {
   };
 
   const fetchInitData = async () => {
-    console.log('fetchInitData', searchKeyword);
     const initData = searchKeyword ? await fetchSearchVideos('') : await fetchVideo('');
     setVideoList(initData.videos as VideoCardType[]);
   };
@@ -173,7 +171,11 @@ export default function ChannelDetailLayout({ channelInfo }: ChannelProps) {
 
   useEffect(() => {
     setSearchKeyword(keyword as string);
-  }, [keyword]);
+  }, [keyword, channelInfo]);
+
+  useEffect(() => {
+    checkMyChannel();
+  }, [channelInfo]);
 
   useEffect(() => {
     setSearchKeyword(keyword as string);
@@ -181,10 +183,10 @@ export default function ChannelDetailLayout({ channelInfo }: ChannelProps) {
     checkMyChannel();
   }, []);
 
-  console.log('videoList', videoList);
-  console.log('keyword', keyword);
-  console.log('searchKeyword', searchKeyword);
-  console.log('================================================');
+  //console.log('videoList', videoList);
+  //console.log('keyword', keyword);
+  //console.log('searchKeyword', searchKeyword);
+  //console.log('================================================');
 
   return (
     <>
@@ -202,7 +204,7 @@ export default function ChannelDetailLayout({ channelInfo }: ChannelProps) {
                   className='absolute w-full h-full opacity-0 cursor-pointer'
                 />
                 <label className='btn btn-sm justify-center mt-3' htmlFor='thumbnailFile'>
-                  이미지 수정
+                  {t('edit.changeImage', { ns: 'channelDetail' })}
                 </label>
               </div>
             </div>
@@ -212,13 +214,13 @@ export default function ChannelDetailLayout({ channelInfo }: ChannelProps) {
                 type='text'
                 defaultValue={channelInfo.channelName}
                 className='input input-bordered w-full max-w-lg mb-2'
-                placeholder='채널 이름을 입력하세요.'
+                placeholder={t('edit.channelName', { ns: 'channelDetail' })}
                 onChange={handleChannelName}
               />
               <div>
                 <textarea
                   id='videoDescription'
-                  placeholder='채널 설명을 입력하세요.'
+                  placeholder={t('edit.channelDescription', { ns: 'channelDetail' })}
                   defaultValue={channelInfo.content}
                   className='textarea textarea-bordered w-full h-20 resize-none max-w-lg'
                   onChange={handleChannelDescription}
@@ -233,7 +235,7 @@ export default function ChannelDetailLayout({ channelInfo }: ChannelProps) {
                     onChange={handleChannelPrivacyType}
                     className='radio radio-secondary radio-sm mx-2'
                   />
-                  공개
+                  {t('public')}
                 </label>
                 <label className='mr-4 label cursor-pointer inline-flex justify-start'>
                   <input
@@ -243,17 +245,17 @@ export default function ChannelDetailLayout({ channelInfo }: ChannelProps) {
                     onChange={handleChannelPrivacyType}
                     className='radio radio-secondary radio-sm mx-2'
                   />
-                  비공개
+                  {t('private')}
                 </label>
               </div>
             </div>
 
             <div className='flex flex-col justify-center items-center'>
               <div className='btn btn-secondary btn-md w-24 mb-1' onClick={updateChannel}>
-                수정하기
+                {t('button.edit')}
               </div>
               <div className='btn btn-md w-24' onClick={handleUpdate}>
-                취소
+                {t('button.cancel')}
               </div>
             </div>
           </>
@@ -262,14 +264,17 @@ export default function ChannelDetailLayout({ channelInfo }: ChannelProps) {
             <Avatar width={36} marginX={5} imgUrl={channelInfo.profileUrl} />
             <div className='grow pl-4'>
               <div className='text-sm pt-4 opacity-80 pb-1'>
-                {isMyChannel && (channelInfo.privateType === true ? '🔸 비공개 채널' : '🔹 공개 채널')}
+                {isMyChannel &&
+                  (channelInfo.privateType === true
+                    ? `🔸 ${t('privateChannel', { ns: 'channelDetail' })}`
+                    : `🔹 ${t('openChannel', { ns: 'channelDetail' })}`)}
               </div>
               <Title text={channelInfo.channelName} />
               <div>{channelInfo.content}</div>
             </div>
             {isMyChannel && (
               <div className='btn' onClick={handleUpdate}>
-                채널 정보 수정
+                {t('channelEditButton', { ns: 'channelDetail' })}
               </div>
             )}
           </>
@@ -278,7 +283,7 @@ export default function ChannelDetailLayout({ channelInfo }: ChannelProps) {
       <div className='mt-7'>
         <div className='mx-5 flex justify-between items-center'>
           <div onClick={() => router.push(`/channel/${channelInfo.channelId}`)} className='cursor-pointer'>
-            <Title text='최근 업로드' />
+            <Title text={`${t('recentVideos')}`} />
           </div>
           <SearchInput
             path={`channel/${channelInfo.channelId}`}
@@ -288,7 +293,11 @@ export default function ChannelDetailLayout({ channelInfo }: ChannelProps) {
         </div>
         {videoList?.length === 0 && (
           <div className='mx-5 flex items-center m-auto justify-center h-52'>
-            <div>{searchKeyword ? '검색 결과가 없습니다.' : '업로드한 영상이 없습니다.'}</div>
+            <div>
+              {searchKeyword
+                ? t('noSearchedVideo', { ns: 'videoDetail' })
+                : t('noUploadedVideo', { ns: 'videoDetail' })}
+            </div>
           </div>
         )}
         {!videoList && (

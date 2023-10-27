@@ -147,7 +147,7 @@ export default function Header() {
                 <button
                   type='button'
                   tabIndex={0}
-                  className='btn btn-ghost btn-circle avatar border-none max-md:w-7 mx-1'
+                  className='btn btn-ghost btn-circle avatar border-none max-md:w-7 mx-2'
                 >
                   <div className='w-10 rounded-full max-md:w-6'>
                     <Image

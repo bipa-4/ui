@@ -19,7 +19,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   return {
     props: {
       channel,
-      ...(await serverSideTranslations(context.locale ?? 'ko', ['footer', 'common', 'header'])),
+      ...(await serverSideTranslations(context.locale ?? 'ko', ['footer', 'common', 'header', 'channelDetail'])),
     },
   };
 }

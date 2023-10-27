@@ -1,3 +1,13 @@
 {
-  "isChannelPrivate": "Open channel"
+  "openChannel": "Open channel",
+  "privateChannel": "Private channel",
+  "channelEditButton": "Edit channel",
+  "edit": {
+    "changeImage": "Change image",
+    "completeMessage": "Channel modification successful.",
+    "channelName": "Channel name...",
+    "channelDescription": "Channel description..."
+  },
+  "noSearchedVideo": "No video found.",
+  "noUploadedVideo": "No video uploaded."
 }

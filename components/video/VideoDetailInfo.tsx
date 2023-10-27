@@ -51,8 +51,6 @@ export default function VideoDetailInfo({ video, handleUpdatePage }: Props) {
   };
 
   const handleLike = async () => {
-    // console.log('video: ', video);
-
     if (!user) {
       alert('로그인이 필요합니다.');
       return;
@@ -80,10 +78,13 @@ export default function VideoDetailInfo({ video, handleUpdatePage }: Props) {
     const confirm = window.confirm(`${t('deleteConfirmMessage')}`);
     if (confirm) {
       try {
-        await axios.delete(`${BASE_URL}/video/${video.videoId}`, { withCredentials: true });
-        router.push('/');
+        const res = await axios.delete(`${BASE_URL}/video/${video.videoId}`, { withCredentials: true });
+        if (res.status === 200) {
+          alert('삭제되었습니다.');
+          router.push('/');
+        }
       } catch (err) {
-        console.log(err);
+        alert(`삭제에 실패했습니다. ${err}`);
       }
     }
   };

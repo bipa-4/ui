@@ -9,5 +9,11 @@
   },
   "allChannels": "All Channels",
   "searchVideoPlaceHolder": "Search Video",
-  "searchChannelPlaceHolder": "Search Channel"
+  "searchChannelPlaceHolder": "Search Channel",
+  "button": {
+    "cancel": "cancel",
+    "edit": "edit"
+  },
+  "public": "Public",
+  "private": "Private"
 }

@@ -15,7 +15,7 @@ interface CategoryProps {
 }
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
-const PAGE_SIZE = 5;
+const PAGE_SIZE = 10;
 
 export default function Category({ catId, categoryVideos }: CategoryProps) {
   const [hasMore, setHasMore] = useState(true);
@@ -23,11 +23,6 @@ export default function Category({ catId, categoryVideos }: CategoryProps) {
   const [videoList, setVideoList] = useState<VideoCardType[]>([]);
   const { categoryList } = useCategoryList();
   const router = useRouter();
-
-  // console.log('categoryVideos', categoryVideos);
-  // console.log('nextId', nextId);
-  // console.log('hasmore', hasMore);
-  // console.log('-------------------------------');
 
   useEffect(() => {
     setVideoList(categoryVideos.videos);
