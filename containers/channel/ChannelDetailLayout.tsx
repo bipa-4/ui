@@ -183,10 +183,10 @@ export default function ChannelDetailLayout({ channelInfo }: ChannelProps) {
     checkMyChannel();
   }, []);
 
-  //console.log('videoList', videoList);
-  //console.log('keyword', keyword);
-  //console.log('searchKeyword', searchKeyword);
-  //console.log('================================================');
+  // console.log('videoList', videoList);
+  // console.log('keyword', keyword);
+  // console.log('searchKeyword', searchKeyword);
+  // console.log('================================================');
 
   return (
     <>
