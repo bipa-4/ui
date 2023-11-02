@@ -87,8 +87,17 @@ export default function ChannelDetailLayout({ channelInfo }: ChannelProps) {
   };
 
   // 프로필 이미지 파일 선택시 파일상태, 미리보기 상태 변경
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const selectedFile = event.target.files?.[0];
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const maxSize = 1024 * 1024; // 1MB
+    const fileSize = e.target.files?.[0]?.size;
+
+    if (fileSize && fileSize > maxSize) {
+      alert('1MB 이하의 파일만 업로드 가능합니다.');
+      e.target.value = '';
+      return;
+    }
+
+    const selectedFile = e.target.files?.[0];
     if (selectedFile) {
       setProfileImageFile(selectedFile);
       const imageUrl = URL.createObjectURL(selectedFile);
@@ -212,18 +221,20 @@ export default function ChannelDetailLayout({ channelInfo }: ChannelProps) {
             <div className='grow pl-4'>
               <input
                 type='text'
-                defaultValue={channelInfo.channelName}
+                defaultValue={`${channelInfo.channelName}(100자)`}
                 className='input input-bordered w-full max-w-lg mb-2'
                 placeholder={t('edit.channelName', { ns: 'channelDetail' })}
                 onChange={handleChannelName}
+                maxLength={100}
               />
               <div>
                 <textarea
                   id='videoDescription'
                   placeholder={t('edit.channelDescription', { ns: 'channelDetail' })}
-                  defaultValue={channelInfo.content}
+                  defaultValue={`${channelInfo.content}(200자)`}
                   className='textarea textarea-bordered w-full h-20 resize-none max-w-lg'
                   onChange={handleChannelDescription}
+                  maxLength={200}
                 />
               </div>
               <div>

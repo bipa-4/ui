@@ -51,6 +51,15 @@ export default function UploadLayout({ updateVideo }: updateVideoType) {
 
   const handleVideoFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
+    const maxSize = 1024 * 1024 * 50; // 50MB
+    const fileSize = e.target.files?.[0]?.size;
+
+    if (fileSize && fileSize > maxSize) {
+      alert('50MB 이하의 파일만 업로드 가능합니다.');
+      e.target.value = '';
+      return;
+    }
+
     if (file) {
       setVideoFile(file);
       const videoUrl = URL.createObjectURL(file);
@@ -60,6 +69,15 @@ export default function UploadLayout({ updateVideo }: updateVideoType) {
 
   const handleThumbnailFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
+    const maxSize = 1024 * 1024; // 1MB
+    const fileSize = e.target.files?.[0]?.size;
+
+    if (fileSize && fileSize > maxSize) {
+      alert('1MB 이하의 파일만 업로드 가능합니다.');
+      e.target.value = '';
+      return;
+    }
+
     if (file) {
       setThumbnailFile(file);
       const thumbnailUrl = URL.createObjectURL(file);
@@ -215,12 +233,9 @@ export default function UploadLayout({ updateVideo }: updateVideoType) {
   if (!user) {
     return (
       <div className='min-h-screen flex flex-col justify-center mx-auto text-center'>
-        <h1 className='text-3xl font-bold tracking-tight text-black md:text-5xl'>로그인이 필요합니다.</h1>
+        <h1 className='text-3xl font-bold tracking-tight  md:text-5xl'>로그인이 필요합니다.</h1>
         <br />
-        <Link
-          className='w-64 p-1 mx-auto font-bold text-center text-black border border-gray-500 rounded-lg sm:p-4'
-          href='/'
-        >
+        <Link className='w-64 p-1 mx-auto font-bold text-center  border border-gray-500 rounded-lg sm:p-4' href='/'>
           돌아가기
         </Link>
       </div>
@@ -274,7 +289,7 @@ export default function UploadLayout({ updateVideo }: updateVideoType) {
 
         <div className='pb-8'>
           <label htmlFor='videoTitle' className='block font-medium mb-2'>
-            영상 제목(50자)
+            영상 제목(100자)
           </label>
           <input
             type='text'
@@ -283,11 +298,13 @@ export default function UploadLayout({ updateVideo }: updateVideoType) {
             value={video.title}
             onChange={handleTitle}
             className='input input-bordered w-full'
+            maxLength={100}
+            required
           />
         </div>
         <div className='pb-8'>
           <label htmlFor='videoDescription' className='block font-medium mb-2'>
-            영상 설명
+            영상 설명(3000자)
           </label>
           <textarea
             id='videoDescription'
@@ -295,6 +312,8 @@ export default function UploadLayout({ updateVideo }: updateVideoType) {
             value={video.content}
             onChange={handleDescription}
             className='textarea textarea-bordered w-full h-32 resize-none '
+            maxLength={3000}
+            required
           />
         </div>
         <div className='mb-4'>

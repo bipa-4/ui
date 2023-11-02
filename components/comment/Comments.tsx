@@ -28,6 +28,10 @@ export default function Comments({ video }: commentsPropsType) {
   }, []);
 
   useEffect(() => {
+    getComments();
+  }, [video]);
+
+  useEffect(() => {
     if (isCommentUpdated) {
       getComments();
       setIsCommentUpdated(false);
