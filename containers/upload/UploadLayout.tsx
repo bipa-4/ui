@@ -113,8 +113,6 @@ export default function UploadLayout({ updateVideo }: updateVideoType) {
     });
   };
 
-  const getToday = () => dayjs().format('YYYY-MM-DD');
-
   const postVideoData = async (videoData: VideoType) => {
     console.log('최종 videoData', videoData);
     try {
@@ -370,7 +368,7 @@ export default function UploadLayout({ updateVideo }: updateVideoType) {
             channelProfileUrl={user.channelProfileUrl}
             channelName={user.channelName}
             readCount={0}
-            createAt={getToday()}
+            createAt={dayjs().format('YYYY-MM-DD HH:mm:ss')}
           />
         </div>
 

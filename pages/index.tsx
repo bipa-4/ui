@@ -20,7 +20,7 @@ export default function Home() {
         <meta property='og:description' content='동영상 공유 플랫폼 StreamWave입니다.' />
         <meta property='og:image' content='/images/streamWave.png' />
       </Head>
-      <div className='min-h-screen px-32 max-xl:px-5 bg-base-100'>
+      <div className='min-h-screen px-32 max-xl:px-5 max-md:px-3 bg-base-100'>
         <MainLayout />
       </div>
     </>

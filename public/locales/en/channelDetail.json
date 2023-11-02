@@ -5,8 +5,8 @@
   "edit": {
     "changeImage": "Change image",
     "completeMessage": "Channel modification successful.",
-    "channelName": "Channel name...",
-    "channelDescription": "Channel description..."
+    "channelName": "Channel name...(100 characters)",
+    "channelDescription": "Channel description...(200 characters)"
   },
   "noSearchedVideo": "No video found.",
   "noUploadedVideo": "No video uploaded."

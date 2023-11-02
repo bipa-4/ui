@@ -63,7 +63,7 @@ export default function MainLayout() {
         <div className='basis-3/4 w-3/4 grow max-xl:m-0 max-xl:w-full'>
           <VideoSummaryContainer title={t('popularVideo')} videoList={top10Data} />
         </div>
-        <div className='basis-1/4 w-1/4 grow max-xl:hidden'>
+        <div className='basis-1/4 w-1/4 grow max-2xl:hidden'>
           <ChannelContainer />
         </div>
       </div>

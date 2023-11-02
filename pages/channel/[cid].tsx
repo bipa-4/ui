@@ -34,7 +34,7 @@ export default function Channel({ channel }: ChannelProps) {
         <meta property='og:description' content={channel.content} />
         <meta property='og:image' content={channel.profileUrl} />
       </Head>
-      <div className='px-44 max-xl:px-7 min-h-screen bg-base-100'>
+      <div className='px-44 max-xl:px-7 max-md:px-3 min-h-screen bg-base-100'>
         <ChannelDetailLayout channelInfo={channel} />
       </div>
     </>

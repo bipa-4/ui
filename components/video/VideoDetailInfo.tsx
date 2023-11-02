@@ -144,9 +144,11 @@ export default function VideoDetailInfo({ video, handleUpdatePage }: Props) {
           ) : (
             <div className='whitespace-pre-line line-clamp-1'>{video.content}</div>
           )}
-          <div className='text-sm text-blue-500 cursor-pointer mt-4' onClick={() => setReadMore(!readMore)}>
-            {readMore ? t('details.readLess') : t('details.readMore')}
-          </div>
+          {video.content.length > 100 && (
+            <div className='text-sm text-blue-500 cursor-pointer mt-4' onClick={() => setReadMore(!readMore)}>
+              {readMore ? t('details.readLess') : t('details.readMore')}
+            </div>
+          )}
         </div>
       </div>
     </div>

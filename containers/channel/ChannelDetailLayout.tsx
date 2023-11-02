@@ -192,18 +192,18 @@ export default function ChannelDetailLayout({ channelInfo }: ChannelProps) {
     checkMyChannel();
   }, []);
 
-  // console.log('videoList', videoList);
-  // console.log('keyword', keyword);
-  // console.log('searchKeyword', searchKeyword);
-  // console.log('================================================');
-
   return (
     <>
-      <div className='flex w-full h-60 items-center border-0 border-b-2 border-slate-300  bg-base-100'>
+      <div className='flex w-full h-60 items-center border-0 border-b-2 border-slate-300 bg-base-100'>
         {isUpdate ? (
           <>
             <div className='w-48 flex flex-col justify-center items-center'>
-              <Avatar width={32} marginX={5} imgUrl={previewUrl || channelInfo.profileUrl} />
+              <div className='max-lg:hidden'>
+                <Avatar width={32} marginX={5} imgUrl={previewUrl || channelInfo.profileUrl} />
+              </div>
+              <div className='lg:hidden'>
+                <Avatar width={20} marginX={1} imgUrl={channelInfo.profileUrl} />
+              </div>
               <div className='relative'>
                 <input
                   type='file'
@@ -218,10 +218,10 @@ export default function ChannelDetailLayout({ channelInfo }: ChannelProps) {
               </div>
             </div>
 
-            <div className='grow pl-4'>
+            <div className='grow pl-4 max-lg:px-1'>
               <input
                 type='text'
-                defaultValue={`${channelInfo.channelName}(100자)`}
+                defaultValue={channelInfo.channelName}
                 className='input input-bordered w-full max-w-lg mb-2'
                 placeholder={t('edit.channelName', { ns: 'channelDetail' })}
                 onChange={handleChannelName}
@@ -231,7 +231,7 @@ export default function ChannelDetailLayout({ channelInfo }: ChannelProps) {
                 <textarea
                   id='videoDescription'
                   placeholder={t('edit.channelDescription', { ns: 'channelDetail' })}
-                  defaultValue={`${channelInfo.content}(200자)`}
+                  defaultValue={`${channelInfo.content}`}
                   className='textarea textarea-bordered w-full h-20 resize-none max-w-lg'
                   onChange={handleChannelDescription}
                   maxLength={200}
@@ -272,14 +272,20 @@ export default function ChannelDetailLayout({ channelInfo }: ChannelProps) {
           </>
         ) : (
           <>
-            <Avatar width={36} marginX={5} imgUrl={channelInfo.profileUrl} />
+            <div className='max-lg:hidden'>
+              <Avatar width={36} marginX={5} imgUrl={channelInfo.profileUrl} />
+            </div>
+            <div className='lg:hidden'>
+              <Avatar width={20} marginX={1} imgUrl={channelInfo.profileUrl} />
+            </div>
             <div className='grow pl-4'>
-              <div className='text-sm pt-4 opacity-80 pb-1'>
-                {isMyChannel &&
-                  (channelInfo.privateType === true
+              {isMyChannel && (
+                <div className='text-sm pt-4 opacity-80 pb-1'>
+                  {channelInfo.privateType === true
                     ? `🔸 ${t('privateChannel', { ns: 'channelDetail' })}`
-                    : `🔹 ${t('openChannel', { ns: 'channelDetail' })}`)}
-              </div>
+                    : `🔹 ${t('openChannel', { ns: 'channelDetail' })}`}
+                </div>
+              )}
               <Title text={channelInfo.channelName} />
               <div>{channelInfo.content}</div>
             </div>
@@ -292,8 +298,11 @@ export default function ChannelDetailLayout({ channelInfo }: ChannelProps) {
         )}
       </div>
       <div className='mt-7'>
-        <div className='mx-5 flex justify-between items-center'>
-          <div onClick={() => router.push(`/channel/${channelInfo.channelId}`)} className='cursor-pointer'>
+        <div className='mx-5 flex justify-between items-center max-lg:mx-1'>
+          <div
+            onClick={() => router.push(`/channel/${channelInfo.channelId}`)}
+            className='cursor-pointer w-1/2 basis-1/2'
+          >
             <Title text={`${t('recentVideos')}`} />
           </div>
           <SearchInput
