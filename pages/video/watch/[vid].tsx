@@ -5,6 +5,7 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import fetcher from '@/utils/axiosFetcher';
 import { VideoDetailType } from '@/types/videoType';
 import { SWRConfig } from 'swr';
+import axios from 'axios';
 
 interface VideoDetailProps {
   video: VideoDetailType;
@@ -13,9 +14,9 @@ interface VideoDetailProps {
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const { params } = context;
   const vid = params?.vid;
-  const API = `${process.env.NEXT_PUBLIC_BASE_URL}/video/detail/${vid}`;
 
-  const video: VideoDetailType = await fetcher(API);
+  await axios.put(`${process.env.NEXT_PUBLIC_BASE_URL}/video/updateViews/${vid}`);
+  const video: VideoDetailType = await fetcher(`${process.env.NEXT_PUBLIC_BASE_URL}/video/detail/${vid}`);
 
   return {
     props: {

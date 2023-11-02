@@ -25,13 +25,6 @@ export default function VideoDetailLayout({ video }: VideoDetailLayoutProps) {
     },
   };
   console.log('video', video);
-  const handleUpdateViews = async () => {
-    const res = await axios.put(`${process.env.NEXT_PUBLIC_BASE_URL}/video/updateViews/${video.videoId}`);
-  };
-
-  useEffect(() => {
-    handleUpdateViews();
-  }, []);
 
   const handleUpdatePage = () => {
     setUpdateOpen(true);
