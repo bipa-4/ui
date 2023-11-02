@@ -10,11 +10,11 @@ import { ThemeProvider } from 'next-themes';
 import { useHydrateAtoms } from 'jotai/utils';
 import userAtom from '@/atoms/user';
 import { appWithTranslation } from 'next-i18next';
-import { useEffect } from 'react';
 
-const inter = notoSansKr({
+const noto = notoSansKr({
   subsets: ['latin'],
   weight: ['100', '300', '400', '500', '700', '900'],
+  variable: '--font-noto-sans-kr',
 });
 
 Router.events.on('routeChangeStart', () => nProgress.start());
@@ -28,7 +28,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <Provider>
       <ThemeProvider defaultTheme='system'>
-        <main className={inter.className}>
+        <main className={noto.variable}>
           <Layout>
             <Component {...pageProps} />
           </Layout>

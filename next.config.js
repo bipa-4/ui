@@ -13,6 +13,7 @@ const nextConfig = {
       'developers.kakao.com',
       'du30t7lolw1uk.cloudfront.net',
     ],
+    formats: ['image/avif', 'image/webp'], // default: ['image/webp']
   },
 };
 

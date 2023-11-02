@@ -34,13 +34,14 @@ function VideoSummaryItemRow({ videoSummaryItem }: VideoSummaryItemRowProps) {
   return (
     <div className='rounded-md w-full flex cursor-pointer hover:bg-base-200 mb-2 pr-2' onClick={handleItemClick}>
       <div className='w-1/2 mr-3 flex-shrink-0'>
-        <div className='rounded-md overflow-hidden' style={{ paddingBottom: '56.25%', position: 'relative' }}>
+        <div className='relative rounded-md overflow-hidden' style={{ paddingBottom: '56.25%' }}>
           <Image
             src={thumbnail || defaultImg}
-            alt='썸네일'
-            layout='fill'
-            objectFit='cover'
-            className='absolute top-0 left-0'
+            alt={videoTitle || 'thumbnail'}
+            quality={75}
+            fill
+            sizes='10vw'
+            className='absolute top-0 left-0 object-cover'
           />
         </div>
       </div>

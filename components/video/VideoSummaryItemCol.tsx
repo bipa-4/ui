@@ -50,9 +50,10 @@ function VideoSummaryItemCol({
         <Image
           className='absolute top-0 left-0 right-0 bottom-0 w-full h-full object-cover'
           src={thumbnail || defaultImg}
-          alt='thumbnail'
-          width={500}
-          height={300}
+          alt={videoTitle || 'thumbnail'}
+          quality={75}
+          fill
+          sizes='(max-width: 640px) 100vw, (max-width: 768px) 50vw, (max-width: 1536px) 33vw, 20vw'
           priority
         />
       </div>
