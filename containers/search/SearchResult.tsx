@@ -29,7 +29,7 @@ export default function SearchResult() {
       </div>
       <div>
         {data.length === 0 ? (
-          <div className='w-full flex items-center justify-center m-auto'>😥 검색 결과가 없습니다.</div>
+          <div className='w-full flex items-center justify-center m-auto pt-20'>😥 검색 결과가 없습니다.</div>
         ) : (
           <VideoSummaryContainer videoList={data} />
         )}

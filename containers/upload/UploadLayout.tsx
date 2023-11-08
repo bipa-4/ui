@@ -257,7 +257,7 @@ export default function UploadLayout({ updateVideo }: updateVideoType) {
         <Title text='영상 업로드' />
         <div className='py-5'>
           <label htmlFor='videoFile' className='block font-medium mb-2'>
-            동영상 파일
+            동영상 파일(50MB 이하)
           </label>
           <input
             type='file'
@@ -275,7 +275,7 @@ export default function UploadLayout({ updateVideo }: updateVideoType) {
         )}
         <div className='pb-8'>
           <label htmlFor='thumbnailFile' className='block font-medium mb-2'>
-            썸네일 이미지
+            썸네일 이미지(1MB 이하)
           </label>
           <input
             type='file'
