@@ -18,11 +18,10 @@ interface ChannelProps {
 }
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
-const PAGE_SIZE = 10;
+const PAGE_SIZE = 15;
 
 /**
  * 채널 상세 페이지 레이아웃
- * Todo : 검색 파라미터 있을 때 무한스크롤에 다른 데이터 적용시키기
  * @param param0
  * @returns
  */
@@ -58,6 +57,12 @@ export default function ChannelDetailLayout({ channelInfo }: ChannelProps) {
   };
 
   const handleUpdate = () => {
+    setIsUpdate((prev) => !prev);
+  };
+
+  const handleUpdateCancel = () => {
+    setProfileImageFile(undefined);
+    setPreviewUrl('');
     setIsUpdate((prev) => !prev);
   };
 
@@ -265,7 +270,7 @@ export default function ChannelDetailLayout({ channelInfo }: ChannelProps) {
               <div className='btn btn-secondary btn-md w-24 mb-1' onClick={updateChannel}>
                 {t('button.edit')}
               </div>
-              <div className='btn btn-md w-24' onClick={handleUpdate}>
+              <div className='btn btn-md w-24' onClick={handleUpdateCancel}>
                 {t('button.cancel')}
               </div>
             </div>
@@ -315,8 +320,8 @@ export default function ChannelDetailLayout({ channelInfo }: ChannelProps) {
           <div className='mx-5 flex items-center m-auto justify-center h-52'>
             <div>
               {searchKeyword
-                ? t('noSearchedVideo', { ns: 'videoDetail' })
-                : t('noUploadedVideo', { ns: 'videoDetail' })}
+                ? t('noSearchedVideo', { ns: 'channelDetail' })
+                : t('noUploadedVideo', { ns: 'channelDetail' })}
             </div>
           </div>
         )}

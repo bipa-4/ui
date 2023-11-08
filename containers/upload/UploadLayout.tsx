@@ -228,6 +228,7 @@ export default function UploadLayout({ updateVideo }: updateVideoType) {
     }
   }, [video.videoUrl, video.thumbnailUrl]);
 
+  console.log('user', user);
   if (!user) {
     return (
       <div className='min-h-screen flex flex-col justify-center mx-auto text-center'>

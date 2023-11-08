@@ -24,7 +24,6 @@ export default function VideoDetailLayout({ video }: VideoDetailLayoutProps) {
       autoplay: true,
     },
   };
-  console.log('video', video);
 
   const handleUpdatePage = () => {
     setUpdateOpen(true);

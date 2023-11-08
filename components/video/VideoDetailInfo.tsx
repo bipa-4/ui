@@ -23,28 +23,38 @@ export default function VideoDetailInfo({ video, handleUpdatePage }: Props) {
   const [like, setLike] = useState(false);
   const [likeCount, setLikeCount] = useState(video.likeCount);
   const [isMyVideo, setIsMyVideo] = useState<boolean>(false);
-  const [readMore, setReadMore] = useState(false);
+  const [readMore, setReadMore] = useState(video.content.length <= 100);
   const router = useRouter();
   const { t } = useTranslation('videoDetail');
 
+  const checkLiked = async () => {
+    try {
+      const hasLiked = await fetcher(`${BASE_URL}/video/like/${video.videoId}`);
+      setLike(hasLiked);
+    } catch (err) {
+      console.log('좋아요 확인 에러: ', err);
+    }
+  };
+
+  const checkMyVideo = async () => {
+    try {
+      const checkResult = await fetcher(`${BASE_URL}/video/check?videoId=${video.videoId}`);
+      setIsMyVideo(checkResult);
+    } catch (err) {
+      console.log('권한 체크 에러: ', err);
+    }
+  };
+
   useEffect(() => {
-    const checkLiked = async () => {
-      try {
-        const hasLiked = await fetcher(`${BASE_URL}/video/like/${video.videoId}`);
-        console.log('hasLiked', hasLiked);
-        setLike(hasLiked);
-      } catch (err) {
-        console.log('좋아요 확인 에러: ', err);
-      }
-    };
-    const checkMyVideo = async () => {
-      const res = await axios.get(`${BASE_URL}/video/check?videoId=${video.videoId}`, { withCredentials: true });
-      console.log('isMyVideo', res.data);
-      setIsMyVideo(res.data);
-    };
     checkLiked();
     checkMyVideo();
   }, []);
+
+  useEffect(() => {
+    checkLiked();
+    checkMyVideo();
+    setReadMore(video.content.length <= 100);
+  }, [video]);
 
   const channelClickHandler = () => {
     router.push(`/channel/${video.channelId}`);

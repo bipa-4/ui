@@ -15,7 +15,7 @@ interface CategoryProps {
 }
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
-const PAGE_SIZE = 10;
+const PAGE_SIZE = 15;
 
 export default function Category({ catId, categoryVideos }: CategoryProps) {
   const [hasMore, setHasMore] = useState(true);
@@ -28,6 +28,7 @@ export default function Category({ catId, categoryVideos }: CategoryProps) {
     setVideoList(categoryVideos.videos);
     setNextId(categoryVideos.nextUUID);
     setHasMore(true);
+    console.log(categoryVideos);
   }, [categoryVideos.videos]);
 
   useEffect(() => {

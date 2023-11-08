@@ -25,6 +25,8 @@ export default function UpdateLayout() {
     category: data.categoryId,
   };
 
+  const uploaderChannelId = data.channelId;
+
   return (
     <div className='h-full px-44 max-xl:px-5 bg-base-100'>
       <UploadLayout updateVideo={dataForUpdate} />
