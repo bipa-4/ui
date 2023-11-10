@@ -41,11 +41,14 @@ export default function Category({ catId, categoryVideos }: CategoryProps) {
     const res = await axios.get(`${BASE_URL}/video/category/${catId}?page=${nextUUID}&pageSize=${PAGE_SIZE}`, {
       withCredentials: true,
     });
+    console.log('fetchVideo', res.data);
     setNextId(res.data.nextUUID);
     return res.data;
   };
 
   const fetchMoreData = async () => {
+    console.log('fetchMoreData', nextId);
+
     if (nextId === null) {
       setHasMore(false);
       return;

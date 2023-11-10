@@ -18,7 +18,7 @@ interface ChannelProps {
 }
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
-const PAGE_SIZE = 15;
+const PAGE_SIZE = 5;
 
 /**
  * 채널 상세 페이지 레이아웃
@@ -49,7 +49,7 @@ export default function ChannelDetailLayout({ channelInfo }: ChannelProps) {
 
   // 검색
   const [searchKeyword, setSearchKeyword] = useState<string>('');
-  const keyword = router.query?.keyword;
+  const searchQuery = router.query?.keyword;
 
   const checkMyChannel = async () => {
     const flag = await fetcher(`${BASE_URL}/channel/flag/${cid}`);
@@ -137,7 +137,7 @@ export default function ChannelDetailLayout({ channelInfo }: ChannelProps) {
         withCredentials: true,
       },
     );
-    console.log('채널내 영상 조회', res);
+    console.log('채널내 영상 조회', res.data);
     setNextId(res.data.nextUUID);
     return res.data;
   };
@@ -148,11 +148,15 @@ export default function ChannelDetailLayout({ channelInfo }: ChannelProps) {
         nextUUID ? '&' : ''
       }page_size=${PAGE_SIZE}&search_query=${searchKeyword}`,
     );
+    console.log('검색 영상 조회', res);
+
     setNextId(res.page);
     return res;
   };
 
   const fetchMoreData = async () => {
+    console.log('fetchMoreData', nextId);
+
     if (nextId === '') {
       return;
     }
@@ -180,22 +184,26 @@ export default function ChannelDetailLayout({ channelInfo }: ChannelProps) {
   };
 
   useEffect(() => {
-    fetchInitData();
-  }, [searchKeyword, channelInfo]);
-
-  useEffect(() => {
-    setSearchKeyword(keyword as string);
-  }, [keyword, channelInfo]);
-
-  useEffect(() => {
-    checkMyChannel();
-  }, [channelInfo]);
-
-  useEffect(() => {
-    setSearchKeyword(keyword as string);
+    setSearchKeyword(searchQuery as string);
     fetchInitData();
     checkMyChannel();
   }, []);
+
+  useEffect(() => {
+    setHasMore(true);
+    checkMyChannel();
+    setSearchKeyword(searchQuery as string);
+    fetchInitData();
+  }, [channelInfo]);
+
+  useEffect(() => {
+    setHasMore(true);
+    setSearchKeyword(searchQuery as string);
+  }, [searchQuery]);
+
+  useEffect(() => {
+    fetchInitData();
+  }, [searchKeyword]);
 
   return (
     <>

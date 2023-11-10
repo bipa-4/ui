@@ -24,13 +24,13 @@ export default function MainLayout() {
         withCredentials: true,
       },
     );
-    // console.log('fetchVideo', res.data);
+    console.log('fetchVideo', res.data);
     setNextId(res.data.nextUUID);
     return res.data;
   };
 
   const fetchMoreData = async () => {
-    // console.log('fetchMoreData', nextId);
+    console.log('fetchMoreData', nextId);
 
     if (nextId === '') {
       return;
