@@ -16,16 +16,22 @@ export default function Comments({ video }: commentsPropsType) {
   const [isCommentUpdated, setIsCommentUpdated] = useState(false);
   const [commentList, setCommentList] = useState<commentType[]>([]);
   const { t } = useTranslation('videoDetail');
+  const [sortOrder, setSortOrder] = useState('new');
 
   const getComments = async () => {
-    const res = await fetcher(`${process.env.NEXT_PUBLIC_BASE_URL}/comment/${video.videoId}/comment-parent`);
-    console.log('부모댓글 조회함', res);
+    const res = await fetcher(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/comment/${video.videoId}/comment-parent/${sortOrder}`,
+    );
     setCommentList(res);
+  };
+
+  const handleSortOrderChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSortOrder(event.target.value);
   };
 
   useEffect(() => {
     getComments();
-  }, [video]);
+  }, [video, sortOrder]);
 
   useEffect(() => {
     if (isCommentUpdated) {
@@ -36,8 +42,16 @@ export default function Comments({ video }: commentsPropsType) {
 
   return (
     <div className='w-full mx-1 my-5 max-2xl:w-full'>
-      <div className='mx-1 py-3 border-b-2 mb-5'>
+      <div className='mx-1 py-3 border-b-2 mb-5 flex justify-between'>
         <Title text={t('comment.title')} />
+        <select className='select select-sm w-1/6' onChange={handleSortOrderChange}>
+          <option disabled selected>
+            정렬기준
+          </option>
+          <option value='new'>최신순</option>
+          <option value='old'>오래된순</option>
+          <option value='popularity'>인기순</option>
+        </select>
       </div>
       <CommentInput
         videoId={video.videoId}
