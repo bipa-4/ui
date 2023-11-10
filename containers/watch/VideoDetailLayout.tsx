@@ -5,25 +5,52 @@ import VideoPlayer from '@/components/video/VideoPlayer';
 import LoadingSpinner from '@/components/ui/LoadingSpinner';
 import { useEffect, useState } from 'react';
 import Comments from '@/components/comment/Comments';
-import axios from 'axios';
 import UploadLayout from '../upload/UploadLayout';
+import userAtom from '@/atoms/user';
+import { useAtomValue } from 'jotai';
+import fetcher from '@/utils/axiosFetcher';
 
 interface VideoDetailLayoutProps {
   video: VideoDetailType;
 }
 
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+const videoArgs = {
+  styles: {
+    width: '100%',
+    aspectRatio: '16 / 9',
+  },
+  videoOptions: {
+    controls: true,
+    autoplay: true,
+  },
+};
+
 export default function VideoDetailLayout({ video }: VideoDetailLayoutProps) {
   const [updateOpen, setUpdateOpen] = useState(false);
-  const videoArgs = {
-    styles: {
-      width: '100%',
-      aspectRatio: '16 / 9',
-    },
-    videoOptions: {
-      controls: true,
-      autoplay: true,
-    },
+  const [isMyVideo, setIsMyVideo] = useState<boolean>(false);
+  const isContentVisible = !video.privateType || isMyVideo;
+
+  const checkMyVideo = async () => {
+    try {
+      const checkResult = await fetcher(`${BASE_URL}/video/check?videoId=${video.videoId}`);
+      setIsMyVideo(checkResult);
+    } catch (err) {
+      console.log('권한 체크 에러: ', err);
+    }
   };
+
+  useEffect(() => {
+    checkMyVideo();
+  }, [video]);
+
+  if (!isContentVisible) {
+    return (
+      <div className='min-h-screen flex justify-center items-center m-auto bg-base-100'>
+        <h1 className='text-2xl font-bold tracking-tight '>🔒 비공개 영상입니다.</h1>
+      </div>
+    );
+  }
 
   const handleUpdatePage = () => {
     setUpdateOpen(true);
@@ -45,7 +72,7 @@ export default function VideoDetailLayout({ video }: VideoDetailLayoutProps) {
             <VideoPlayer sources={video.videoUrl} styles={videoArgs.styles} videoOptions={videoArgs.videoOptions} />
           </div>
         </div>
-        <VideoDetailInfo video={video} handleUpdatePage={handleUpdatePage} />
+        <VideoDetailInfo video={video} handleUpdatePage={handleUpdatePage} isMyVideo={isMyVideo} />
         <Comments video={video} />
       </div>
       <div className='basis-96 w-96 max-2xl:hidden my-4 shrink-0 mx-3'>

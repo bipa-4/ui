@@ -15,14 +15,14 @@ import Avatar from '../ui/Avatar';
 type Props = {
   video: VideoDetailType;
   handleUpdatePage: () => void;
+  isMyVideo: boolean;
 };
 
-export default function VideoDetailInfo({ video, handleUpdatePage }: Props) {
+export default function VideoDetailInfo({ video, handleUpdatePage, isMyVideo }: Props) {
   const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
   const user = useAtomValue(userAtom);
   const [like, setLike] = useState(false);
   const [likeCount, setLikeCount] = useState(video.likeCount);
-  const [isMyVideo, setIsMyVideo] = useState<boolean>(false);
   const [readMore, setReadMore] = useState(video.content.length <= 100);
   const router = useRouter();
   const { t } = useTranslation('videoDetail');
@@ -36,18 +36,8 @@ export default function VideoDetailInfo({ video, handleUpdatePage }: Props) {
     }
   };
 
-  const checkMyVideo = async () => {
-    try {
-      const checkResult = await fetcher(`${BASE_URL}/video/check?videoId=${video.videoId}`);
-      setIsMyVideo(checkResult);
-    } catch (err) {
-      console.log('권한 체크 에러: ', err);
-    }
-  };
-
   useEffect(() => {
     checkLiked();
-    checkMyVideo();
     setReadMore(video.content.length <= 100);
   }, [video]);
 

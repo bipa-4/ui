@@ -6,7 +6,6 @@ import { useTranslation } from 'next-i18next';
 export default function Footer() {
   const { t } = useTranslation('footer');
 
-  // https://github.com/bipa-4
   const handleGithubClick = () => {
     window.location.href = 'https://github.com/bipa-4';
   };
@@ -23,7 +22,6 @@ export default function Footer() {
       </aside>
       <nav>
         <header className='footer-title'>About us</header>
-
         <div className='grid grid-flow-col gap-4 cursor-pointer' onClick={handleGithubClick}>
           <AiFillGithub className='w-10 h-10' />
         </div>

@@ -13,7 +13,6 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   const { params } = context;
   const cid = params?.cid;
   const API = `${process.env.NEXT_PUBLIC_BASE_URL}/channel/${cid}`;
-
   const channel = await fetcher(API);
 
   return {
