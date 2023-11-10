@@ -21,7 +21,6 @@ const useVideo = ({ options, videoTarget, plugins = [] }: VideoProps) => {
     videoTarget.appendChild(videoElement);
 
     const player = (playerRef.current = videojs(videoElement, { ...DEFAULT_OPTIONS, ...options }, () => {
-      console.log('플레이어 인스턴스 생성..');
       plugins.forEach((plugin) => {
         // eslint-disable-next-line no-prototype-builtins
         if (player.hasOwnProperty(plugin)) {

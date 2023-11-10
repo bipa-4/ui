@@ -5,8 +5,6 @@ import VideoPlayer from '@/components/video/VideoPlayer';
 import LoadingSpinner from '@/components/ui/LoadingSpinner';
 import { useEffect, useState } from 'react';
 import Comments from '@/components/comment/Comments';
-import userAtom from '@/atoms/user';
-import { useAtomValue } from 'jotai';
 import fetcher from '@/utils/axiosFetcher';
 import UploadLayout from '../upload/UploadLayout';
 
@@ -29,7 +27,6 @@ const videoArgs = {
 export default function VideoDetailLayout({ video }: VideoDetailLayoutProps) {
   const [updateOpen, setUpdateOpen] = useState(false);
   const [isMyVideo, setIsMyVideo] = useState<boolean>(false);
-  const isContentVisible = !video.privateType || isMyVideo;
 
   const checkMyVideo = async () => {
     try {
@@ -44,7 +41,7 @@ export default function VideoDetailLayout({ video }: VideoDetailLayoutProps) {
     checkMyVideo();
   }, [video]);
 
-  if (!isContentVisible) {
+  if (video.privateType && !isMyVideo) {
     return (
       <div className='min-h-screen flex justify-center items-center m-auto bg-base-100'>
         <h1 className='text-2xl font-bold tracking-tight '>🔒 비공개 영상입니다.</h1>

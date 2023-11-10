@@ -49,7 +49,6 @@ export default function ShareModal() {
       });
     }
   };
-  // console.log(video);
 
   return (
     <>

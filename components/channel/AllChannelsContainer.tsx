@@ -25,7 +25,7 @@ export default function AllChannelsContainer() {
     const res = await fetcher(
       `${BASE_URL}/channel/AllChannel?${nextUUID ? 'page=' : ''}${nextUUID}${nextUUID ? '&' : ''}pageSize=${PAGE_SIZE}`,
     );
-    console.log('res', res);
+    console.log('channels', res);
     setNextId(res.nextUUID);
     return res;
   };

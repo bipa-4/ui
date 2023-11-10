@@ -46,9 +46,6 @@ export default function Header() {
     }
   }, []);
 
-  // console.log('===============헤더 렌더링==================');
-  // console.log('user', user);
-
   const toggleMenu = () => {
     setIsMenuOpen((prev) => !prev);
   };

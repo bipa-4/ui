@@ -52,8 +52,6 @@ export default function ChannelDetailLayout({ channelInfo }: ChannelProps) {
   const searchQuery = router.query?.keyword;
 
   // 조회 권한
-  const isContentVisible = !channelInfo.privateType || isMyChannel;
-
   const checkMyChannel = async () => {
     const flag = await fetcher(`${BASE_URL}/channel/flag/${cid}`);
     setIsMyChannel(flag);
@@ -184,24 +182,28 @@ export default function ChannelDetailLayout({ channelInfo }: ChannelProps) {
   const fetchInitData = async () => {
     const initData = searchKeyword ? await fetchSearchVideos('') : await fetchVideo('');
     setVideoList(initData.videos as VideoCardType[]);
+    console.log('fetchInitData!! ');
   };
 
   useEffect(() => {
-    if (isContentVisible) {
+    checkMyChannel();
+  }, [channelInfo]);
+
+  useEffect(() => {
+    if (!channelInfo.privateType || isMyChannel) {
       setHasMore(true);
       setSearchKeyword(searchQuery as string);
     }
   }, [searchQuery]);
 
   useEffect(() => {
-    if (isContentVisible) {
+    if (!channelInfo.privateType || isMyChannel) {
       setHasMore(true);
-      checkMyChannel();
       fetchInitData();
     }
-  }, [searchKeyword, channelInfo]);
+  }, [searchKeyword, channelInfo, isMyChannel]);
 
-  if (!isContentVisible) {
+  if (channelInfo.privateType && !isMyChannel) {
     return (
       <div className='min-h-screen flex justify-center items-center m-auto bg-base-100'>
         <h1 className='text-2xl font-bold tracking-tight '>🔒 비공개 채널입니다.</h1>
