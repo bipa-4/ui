@@ -25,10 +25,6 @@ export default function Comments({ video }: commentsPropsType) {
 
   useEffect(() => {
     getComments();
-  }, []);
-
-  useEffect(() => {
-    getComments();
   }, [video]);
 
   useEffect(() => {

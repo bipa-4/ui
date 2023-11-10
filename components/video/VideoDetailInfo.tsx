@@ -48,11 +48,6 @@ export default function VideoDetailInfo({ video, handleUpdatePage }: Props) {
   useEffect(() => {
     checkLiked();
     checkMyVideo();
-  }, []);
-
-  useEffect(() => {
-    checkLiked();
-    checkMyVideo();
     setReadMore(video.content.length <= 100);
   }, [video]);
 

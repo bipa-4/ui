@@ -17,7 +17,7 @@ export default function AllChannelsContainer() {
   const [hasMore, setHasMore] = useState(true);
   const [nextId, setNextId] = useState<string | null>('');
   const router = useRouter();
-  const [searchKeyword, setSearchKeyword] = useState<string>('');
+  const [searchKeyword, setSearchKeyword] = useState<string>();
   const keyword = router.query?.keyword;
   const { t } = useTranslation('common');
 
