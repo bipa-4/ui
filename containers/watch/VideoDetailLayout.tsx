@@ -5,10 +5,10 @@ import VideoPlayer from '@/components/video/VideoPlayer';
 import LoadingSpinner from '@/components/ui/LoadingSpinner';
 import { useEffect, useState } from 'react';
 import Comments from '@/components/comment/Comments';
-import UploadLayout from '../upload/UploadLayout';
 import userAtom from '@/atoms/user';
 import { useAtomValue } from 'jotai';
 import fetcher from '@/utils/axiosFetcher';
+import UploadLayout from '../upload/UploadLayout';
 
 interface VideoDetailLayoutProps {
   video: VideoDetailType;
