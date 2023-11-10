@@ -4,7 +4,7 @@ import { BiSearch } from 'react-icons/bi';
 
 type SearchInputProps = {
   path: string;
-  setKeyword: React.Dispatch<React.SetStateAction<string>>;
+  setKeyword: React.Dispatch<React.SetStateAction<string | undefined>>;
   searchItem: string;
 };
 

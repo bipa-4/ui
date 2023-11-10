@@ -18,7 +18,7 @@ interface ChannelProps {
 }
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
-const PAGE_SIZE = 5;
+const PAGE_SIZE = 15;
 
 /**
  * 채널 상세 페이지 레이아웃
@@ -48,7 +48,7 @@ export default function ChannelDetailLayout({ channelInfo }: ChannelProps) {
   const [nextId, setNextId] = useState<string | null>('');
 
   // 검색
-  const [searchKeyword, setSearchKeyword] = useState<string>('');
+  const [searchKeyword, setSearchKeyword] = useState<string>();
   const searchQuery = router.query?.keyword;
 
   const checkMyChannel = async () => {
@@ -184,26 +184,15 @@ export default function ChannelDetailLayout({ channelInfo }: ChannelProps) {
   };
 
   useEffect(() => {
-    setSearchKeyword(searchQuery as string);
-    fetchInitData();
-    checkMyChannel();
-  }, []);
-
-  useEffect(() => {
-    setHasMore(true);
-    checkMyChannel();
-    setSearchKeyword(searchQuery as string);
-    fetchInitData();
-  }, [channelInfo]);
-
-  useEffect(() => {
     setHasMore(true);
     setSearchKeyword(searchQuery as string);
   }, [searchQuery]);
 
   useEffect(() => {
+    setHasMore(true);
+    checkMyChannel();
     fetchInitData();
-  }, [searchKeyword]);
+  }, [searchKeyword, channelInfo]);
 
   return (
     <>
