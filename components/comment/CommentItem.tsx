@@ -177,16 +177,18 @@ function CommentItem({ videoId, uploader, comment, setIsCommentUpdated, commentL
               {comment.isUpdated ? `(${t('comment.isEdited')})` : ''}
             </span>
           </div>
-          <CommentDropDown
-            commentLevel={commentLevel}
-            isEditing={isEditing}
-            setIsEditing={setIsEditing}
-            deleteComment={deleteComment}
-            isChannelOwner={uploader === user?.channelId}
-            isCommentWriter={comment.channelId === user?.channelId}
-            pinComment={pinComment}
-            unpinComment={unPickComment}
-          />
+          {user && (
+            <CommentDropDown
+              commentLevel={commentLevel}
+              isEditing={isEditing}
+              setIsEditing={setIsEditing}
+              deleteComment={deleteComment}
+              isChannelOwner={uploader === user?.channelId}
+              isCommentWriter={comment.channelId === user?.channelId}
+              pinComment={pinComment}
+              unpinComment={unPickComment}
+            />
+          )}
         </div>
         <div className='w-full mb-2'>
           {isEditing ? (

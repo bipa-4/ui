@@ -29,6 +29,7 @@ export default function CommentDropDown({
   // 본인이 쓴 댓글일 경우: 수정, 삭제
 
   if (isEditing) return null;
+  if (!isChannelOwner && !isCommentWriter) return null;
 
   return (
     <div className='dropdown dropdown-end'>
