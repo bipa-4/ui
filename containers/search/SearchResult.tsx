@@ -8,9 +8,7 @@ import useSWR from 'swr';
 export default function SearchResult() {
   const router = useRouter();
   const { keyword } = router.query;
-  console.log(keyword);
   const { data } = useSWR(`${process.env.NEXT_PUBLIC_BASE_URL}/video/search?search_query=${keyword}`, fetcher);
-  console.log(data);
 
   if (!data) {
     return (
@@ -23,7 +21,7 @@ export default function SearchResult() {
   }
 
   return (
-    <div className='min-h-screen px-44 py-10 bg-base-100'>
+    <div className='min-h-screen px-44 py-10 bg-base-100 max-xl:px-5'>
       <div className='border-b-2 p-5'>
         <Title text={`"${keyword}" 검색 결과`} />
       </div>

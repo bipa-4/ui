@@ -37,31 +37,31 @@ export default function CommentDropDown({
         <FiMoreHorizontal className='w-4 h-4' />
       </label>
       <ul tabIndex={0} className='dropdown-content z-[1] menu p-2 shadow rounded-box w-32  bg-base-200'>
-        {isCommentWriter && (
-          <>
-            <li>
-              <div className='pr-3 text-blue-600 text-sm font-bold' onClick={() => setIsEditing(true)}>
-                {t('modify')}
-              </div>
-            </li>
-            <li>
-              <div className='text-red-600 text-sm font-bold' onClick={deleteComment}>
-                {t('delete')}
-              </div>
-            </li>
-          </>
-        )}
         {/* 부모댓글일때만, 채널 주인일때만 고정이 가능하다. */}
         {isChannelOwner && commentLevel === 'parent' && (
           <>
             <li>
               <div className='text-sm font-bold' onClick={pinComment}>
-                {t('comment.pin')}
+                📌 {t('comment.pin')}
               </div>
             </li>
             <li>
               <div className='text-sm font-bold' onClick={unpinComment}>
                 {t('comment.unpin')}
+              </div>
+            </li>
+          </>
+        )}
+        {isCommentWriter && (
+          <>
+            <li>
+              <div className='pr-3 text-blue-500 text-sm font-bold' onClick={() => setIsEditing(true)}>
+                {t('modify')}
+              </div>
+            </li>
+            <li>
+              <div className='text-red-500 text-sm font-bold' onClick={deleteComment}>
+                {t('delete')}
               </div>
             </li>
           </>

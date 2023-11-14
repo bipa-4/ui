@@ -113,14 +113,14 @@ export default function VideoDetailInfo({ video, handleUpdatePage, isMyVideo }: 
                   <li>
                     <Link
                       href={`/video/update/${video.videoId}`}
-                      className='text-blue-600 font-bold'
+                      className='text-blue-500 font-bold'
                       onClick={handleUpdatePage}
                     >
                       {t('modify')}
                     </Link>
                   </li>
                   <li>
-                    <div className='text-red-600 font-bold' onClick={deleteVideo}>
+                    <div className='text-red-500 font-bold' onClick={deleteVideo}>
                       {t('delete')}
                     </div>
                   </li>
