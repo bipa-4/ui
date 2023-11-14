@@ -8,6 +8,7 @@
   "deleteConfirmMessage": "정말 삭제하시겠습니까?",
   "modify": "수정",
   "delete": "삭제",
+  "cancel": "취소",
   "comment": {
     "title": "댓글",
     "noContent": "댓글이 없습니다.",
@@ -17,6 +18,9 @@
       "guest": "로그인 후 댓글을 입력할 수 있습니다."
     },
     "reply": "답글",
-    "isEdited": "수정됨"
+    "isEdited": "수정됨",
+    "isPicked": "고정됨",
+    "pin": "고정하기",
+    "unpin": "고정해제"
   }
 }

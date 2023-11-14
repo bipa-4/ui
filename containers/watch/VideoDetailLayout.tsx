@@ -6,6 +6,7 @@ import LoadingSpinner from '@/components/ui/LoadingSpinner';
 import { useEffect, useState } from 'react';
 import Comments from '@/components/comment/Comments';
 import fetcher from '@/utils/axiosFetcher';
+import axios from 'axios';
 import UploadLayout from '../upload/UploadLayout';
 
 interface VideoDetailLayoutProps {
@@ -37,8 +38,13 @@ export default function VideoDetailLayout({ video }: VideoDetailLayoutProps) {
     }
   };
 
+  const updateRecommendList = async () => {
+    await axios.put(`${BASE_URL}/video/updateRecommend/${video.videoId}`, {}, { withCredentials: true });
+  };
+
   useEffect(() => {
     checkMyVideo();
+    updateRecommendList();
   }, [video]);
 
   if (video.privateType && !isMyVideo) {

@@ -13,9 +13,11 @@ import Avatar from '../ui/Avatar';
 import CommentInput from './CommentInput';
 import 'dayjs/locale/ko';
 import 'dayjs/locale/en';
+import CommentDropDown from './CommentDropDown';
 
 type commentPropsType = {
   videoId: string;
+  uploader: string;
   comment: commentType;
   setIsCommentUpdated: React.Dispatch<React.SetStateAction<boolean>>;
   commentLevel: 'parent' | 'child';
@@ -25,11 +27,11 @@ type commentPropsType = {
  * 댓글 컴포넌트입니다.
  * Todo: 렌더링 최적화
  */
-function CommentItem({ videoId, comment, setIsCommentUpdated, commentLevel }: commentPropsType) {
+function CommentItem({ videoId, uploader, comment, setIsCommentUpdated, commentLevel }: commentPropsType) {
   const [isReplyOpen, setIsReplyOpen] = useState(false);
   const [writeChildReply, setWriteChildReply] = useState(false);
   const user = useAtomValue(userAtom);
-  const [isEdit, setIsEdit] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
   const textarea = useRef<HTMLTextAreaElement>(null);
   const [editedComment, setEditedComment] = useState(comment.content);
   const [isReplyUpdated, setIsReplyUpdated] = useState(false);
@@ -37,7 +39,6 @@ function CommentItem({ videoId, comment, setIsCommentUpdated, commentLevel }: co
   const [childCount, setChildCount] = useState(comment.childCount);
   const router = useRouter();
   const { t, i18n } = useTranslation('videoDetail');
-  const isUpdated = t('comment.isUpdated');
   dayjs.extend(relativeTime);
   dayjs.locale(i18n.language);
 
@@ -57,7 +58,6 @@ function CommentItem({ videoId, comment, setIsCommentUpdated, commentLevel }: co
     setChildCount(res.length);
   };
 
-  // Todo: 채널 클릭시 해당 채널로 이동
   const handleReplyOpen = () => {
     setIsReplyOpen((prev) => !prev);
     getReplies();
@@ -118,8 +118,30 @@ function CommentItem({ videoId, comment, setIsCommentUpdated, commentLevel }: co
     if (res.status === 200) {
       alert('수정되었습니다.');
       setIsCommentUpdated(true);
-      setIsEdit(false);
+      setIsEditing(false);
     }
+  };
+
+  const pinComment = async () => {
+    alert('고정(추후 구현 예정)');
+    // const res = await axios.put(
+    //  `${process.env.NEXT_PUBLIC_BASE_URL}/${videoId}/comment-pick`,
+    //  {
+    //    'commentId': comment.commentId,
+    //    'isPicked': true,
+    //  },
+    //  {
+    //    withCredentials: true,
+    //  },
+    // );
+    // if (res.status === 200) {
+    //  alert('고정되었습니다.');
+    //  setIsCommentUpdated(true);
+    // }
+  };
+
+  const unPickComment = () => {
+    alert('고정 해제(추후 구현 예정)');
   };
 
   useEffect(() => {
@@ -137,34 +159,37 @@ function CommentItem({ videoId, comment, setIsCommentUpdated, commentLevel }: co
   };
 
   return (
-    <div className='flex mt-8 items-start'>
+    <div className='flex items-start pt-4'>
       <div onClick={() => moveToChannel} className='cursor-pointer'>
         <Avatar width={10} marginX={3} imgUrl={comment.channelProfileUrl} />
       </div>
       <div className='grow'>
+        <div className='opacity-80 text-sm font-light pt-1'>
+          {comment.isPicked ? `📌 ${t('comment.isPicked')}` : ''}
+        </div>
         <div className='h-10 flex items-center justify-between mr-4'>
           <div>
             <span className='font-bold pr-3 cursor-pointer' onClick={moveToChannel}>
               {comment.channelName}
             </span>
             <span className='font-light text-sm pr-3'>{dayjs(comment.createAt).fromNow()}</span>
-            <span className='opacity-60 text-sm font-light'>{comment.isUpdated === 'true' ? isUpdated : ''}</span>
-            {/* <span>gIdx: {comment.groupIndex}</span> */}
+            <span className='opacity-60 text-sm font-light'>
+              {comment.isUpdated ? `(${t('comment.isEdited')})` : ''}
+            </span>
           </div>
-
-          {!isEdit && user?.channelId === comment.channelId && (
-            <div>
-              <span className='pr-3 text-blue-500 cursor-pointer text-sm' onClick={() => setIsEdit(true)}>
-                {t('modify')}
-              </span>
-              <span className='text-red-500 cursor-pointer text-sm' onClick={deleteComment}>
-                {t('delete')}
-              </span>
-            </div>
-          )}
+          <CommentDropDown
+            commentLevel={commentLevel}
+            isEditing={isEditing}
+            setIsEditing={setIsEditing}
+            deleteComment={deleteComment}
+            isChannelOwner={uploader === user?.channelId}
+            isCommentWriter={comment.channelId === user?.channelId}
+            pinComment={pinComment}
+            unpinComment={unPickComment}
+          />
         </div>
         <div className='w-full mb-2'>
-          {isEdit ? (
+          {isEditing ? (
             <div className='grow flex items-center'>
               <textarea
                 className='input input-bordered input-primary rounded-md w-full resize-none p-2 min-h-12 my-2'
@@ -175,8 +200,8 @@ function CommentItem({ videoId, comment, setIsCommentUpdated, commentLevel }: co
               <div className='btn mx-3 btn-outline btn-primary min-h-12' onClick={editComment}>
                 {t('modify')}
               </div>
-              <div className='btn btn-ghost min-h-12 border-neutral-content' onClick={() => setIsEdit(false)}>
-                {t('delete')}
+              <div className='btn btn-ghost min-h-12 border-neutral-content' onClick={() => setIsEditing(false)}>
+                {t('cancel')}
               </div>
             </div>
           ) : (
@@ -209,6 +234,7 @@ function CommentItem({ videoId, comment, setIsCommentUpdated, commentLevel }: co
             replyList.map((reply: commentType) => (
               <CommentItem
                 videoId={videoId}
+                uploader={uploader}
                 comment={reply}
                 setIsCommentUpdated={setIsReplyUpdated}
                 key={reply.commentId}

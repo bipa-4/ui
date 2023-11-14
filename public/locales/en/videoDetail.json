@@ -8,6 +8,7 @@
   "deleteConfirmMessage": "Are you sure you want to delete it?",
   "modify": "Edit",
   "delete": "Delete",
+  "cancel": "Cancel",
   "comment": {
     "title": "Comments",
     "noContent": "No comments yet",
@@ -17,6 +18,9 @@
       "guest": "Please sign in to write a comment"
     },
     "reply": "Reply",
-    "isEdited": "edited"
+    "isEdited": "edited",
+    "isPicked": "Pinned",
+    "pin": "Pin",
+    "unpin": "Unpin"
   }
 }

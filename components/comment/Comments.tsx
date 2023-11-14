@@ -22,6 +22,7 @@ export default function Comments({ video }: commentsPropsType) {
     const res = await fetcher(
       `${process.env.NEXT_PUBLIC_BASE_URL}/comment/${video.videoId}/comment-parent/${sortOrder}`,
     );
+    console.log('댓글 조회: ', res);
     setCommentList(res);
   };
 
@@ -70,6 +71,7 @@ export default function Comments({ video }: commentsPropsType) {
           <CommentItem
             comment={c}
             videoId={video.videoId}
+            uploader={video.channelId}
             key={c.commentId}
             setIsCommentUpdated={setIsCommentUpdated}
             commentLevel='parent'
