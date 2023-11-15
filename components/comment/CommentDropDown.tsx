@@ -1,10 +1,12 @@
 import { useTranslation } from 'next-i18next';
 import { FiMoreHorizontal } from 'react-icons/fi';
+import { RiPushpin2Fill } from 'react-icons/ri';
 
 type CommentDropDownPropsType = {
   commentLevel: 'parent' | 'child';
   isEditing: boolean;
   setIsEditing: React.Dispatch<React.SetStateAction<boolean>>;
+  isPicked: boolean;
   deleteComment: () => void;
   pinComment: () => void;
   unpinComment: () => void;
@@ -16,6 +18,7 @@ export default function CommentDropDown({
   commentLevel,
   isEditing,
   setIsEditing,
+  isPicked,
   deleteComment,
   pinComment,
   unpinComment,
@@ -24,12 +27,9 @@ export default function CommentDropDown({
 }: CommentDropDownPropsType) {
   const { t } = useTranslation('videoDetail');
 
-  // dropdown : isEdit==False일때만 보인다.
-  // 영상 주인인 경우: 고정
-  // 본인이 쓴 댓글일 경우: 수정, 삭제
-
   if (isEditing) return null;
   if (!isChannelOwner && !isCommentWriter) return null;
+  if (!isCommentWriter && commentLevel === 'child') return null;
 
   return (
     <div className='dropdown dropdown-end'>
@@ -39,18 +39,18 @@ export default function CommentDropDown({
       <ul tabIndex={0} className='dropdown-content z-[1] menu p-2 shadow rounded-box w-32  bg-base-200'>
         {/* 부모댓글일때만, 채널 주인일때만 고정이 가능하다. */}
         {isChannelOwner && commentLevel === 'parent' && (
-          <>
-            <li>
-              <div className='text-sm font-bold' onClick={pinComment}>
-                📌 {t('comment.pin')}
-              </div>
-            </li>
-            <li>
-              <div className='text-sm font-bold' onClick={unpinComment}>
+          <li>
+            {isPicked ? (
+              <div className='text-sm font-bold opacity-80' onClick={unpinComment}>
                 {t('comment.unpin')}
               </div>
-            </li>
-          </>
+            ) : (
+              <div className='text-sm font-bold opacity-80' onClick={pinComment}>
+                <RiPushpin2Fill />
+                {t('comment.pin')}
+              </div>
+            )}
+          </li>
         )}
         {isCommentWriter && (
           <>

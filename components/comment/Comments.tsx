@@ -14,7 +14,7 @@ type commentsPropsType = {
 
 export default function Comments({ video }: commentsPropsType) {
   const [isCommentUpdated, setIsCommentUpdated] = useState(false);
-  const [commentList, setCommentList] = useState<commentType[]>([]);
+  const [commentList, setCommentList] = useState<commentType[]>();
   const { t } = useTranslation('videoDetail');
   const [sortOrder, setSortOrder] = useState('new');
 
@@ -45,8 +45,8 @@ export default function Comments({ video }: commentsPropsType) {
     <div className='w-full mx-1 my-5 max-2xl:w-full'>
       <div className='mx-1 py-3 border-b-2 mb-5 flex justify-between'>
         <Title text={t('comment.title')} />
-        <select className='select select-sm w-1/6' onChange={handleSortOrderChange}>
-          <option disabled selected>
+        <select className='select select-sm w-1/6' onChange={handleSortOrderChange} defaultValue='selectOrder'>
+          <option disabled value='selectOrder'>
             정렬기준
           </option>
           <option value='new'>최신순</option>
@@ -61,7 +61,11 @@ export default function Comments({ video }: commentsPropsType) {
         setIsUpdated={setIsCommentUpdated}
       />
       <div className='w-full'>
-        {!commentList && <LoadingSpinner />}
+        {!commentList && (
+          <div className='h-40 flex items-center justify-center m-auto font-light opacity-70'>
+            <LoadingSpinner />
+          </div>
+        )}
         {commentList?.length === 0 && (
           <div className='h-40 flex items-center justify-center m-auto font-light opacity-70'>
             {t('comment.noContent')}

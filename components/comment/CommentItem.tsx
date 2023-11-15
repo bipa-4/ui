@@ -123,25 +123,32 @@ function CommentItem({ videoId, uploader, comment, setIsCommentUpdated, commentL
   };
 
   const pinComment = async () => {
-    alert('고정(추후 구현 예정)');
-    // const res = await axios.put(
-    //  `${process.env.NEXT_PUBLIC_BASE_URL}/${videoId}/comment-pick`,
-    //  {
-    //    'commentId': comment.commentId,
-    //    'isPicked': true,
-    //  },
-    //  {
-    //    withCredentials: true,
-    //  },
-    // );
-    // if (res.status === 200) {
-    //  alert('고정되었습니다.');
-    //  setIsCommentUpdated(true);
-    // }
+    // alert('고정(추후 구현 예정)');
+    const res = await axios.put(
+      `${process.env.NEXT_PUBLIC_BASE_URL}/${videoId}/comment-pick`,
+      {
+        'commentId': comment.commentId,
+        'isPicked': true,
+      },
+      {
+        withCredentials: true,
+      },
+    );
+    if (res.status === 200) {
+      alert('고정되었습니다.');
+      setIsCommentUpdated(true);
+    }
   };
 
-  const unPickComment = () => {
-    alert('고정 해제(추후 구현 예정)');
+  const unPinComment = async () => {
+    // alert('고정 해제(추후 구현 예정)');
+    const res = await axios.delete(`${process.env.NEXT_PUBLIC_BASE_URL}/${videoId}/comment-pick/${comment.commentId}`, {
+      withCredentials: true,
+    });
+    if (res.status === 200) {
+      alert('고정 해제 되었습니다.');
+      setIsCommentUpdated(true);
+    }
   };
 
   useEffect(() => {
@@ -182,11 +189,12 @@ function CommentItem({ videoId, uploader, comment, setIsCommentUpdated, commentL
               commentLevel={commentLevel}
               isEditing={isEditing}
               setIsEditing={setIsEditing}
+              isPicked={comment.isPicked}
               deleteComment={deleteComment}
               isChannelOwner={uploader === user?.channelId}
               isCommentWriter={comment.channelId === user?.channelId}
               pinComment={pinComment}
-              unpinComment={unPickComment}
+              unpinComment={unPinComment}
             />
           )}
         </div>
