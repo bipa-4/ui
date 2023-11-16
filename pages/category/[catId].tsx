@@ -29,7 +29,11 @@ export default function Category({ catId, categoryVideos }: CategoryProps) {
   useEffect(() => {
     setVideoList(categoryVideos.videos);
     setNextId(categoryVideos.nextUUID);
-    categoryVideos.nextUUID === null ? setHasMore(false) : setHasMore(true);
+    if (categoryVideos.nextUUID === null) {
+      setHasMore(false);
+    } else {
+      setHasMore(true);
+    }
   }, [catId]);
 
   const fetchVideo = async (nextUUID: string) => {
