@@ -72,12 +72,9 @@ function CommentItem({ videoId, uploader, comment, setIsCommentUpdated, commentL
     if (!confirm) return;
     if (commentLevel === 'parent') {
       try {
-        const res = await axios.delete(
-          `${process.env.NEXT_PUBLIC_BASE_URL}/${videoId}/commentParent/${comment.commentId}`,
-          {
-            withCredentials: true,
-          },
-        );
+        const res = await axios.delete(`${process.env.NEXT_PUBLIC_BASE_URL}/commentParent/${comment.commentId}`, {
+          withCredentials: true,
+        });
         if (res.status === 200) {
           alert('삭제되었습니다.');
           setIsCommentUpdated(true);
@@ -88,12 +85,9 @@ function CommentItem({ videoId, uploader, comment, setIsCommentUpdated, commentL
     }
     if (commentLevel === 'child') {
       try {
-        const res = await axios.delete(
-          `${process.env.NEXT_PUBLIC_BASE_URL}/${videoId}/commentChild/${comment.commentId}`,
-          {
-            withCredentials: true,
-          },
-        );
+        const res = await axios.delete(`${process.env.NEXT_PUBLIC_BASE_URL}/commentChild/${comment.commentId}`, {
+          withCredentials: true,
+        });
         if (res.status === 200) {
           alert('삭제되었습니다.');
           setIsCommentUpdated(true);
@@ -123,7 +117,6 @@ function CommentItem({ videoId, uploader, comment, setIsCommentUpdated, commentL
   };
 
   const pinComment = async () => {
-    // alert('고정(추후 구현 예정)');
     const res = await axios.put(
       `${process.env.NEXT_PUBLIC_BASE_URL}/${videoId}/comment-pick`,
       {
@@ -141,7 +134,6 @@ function CommentItem({ videoId, uploader, comment, setIsCommentUpdated, commentL
   };
 
   const unPinComment = async () => {
-    // alert('고정 해제(추후 구현 예정)');
     const res = await axios.delete(`${process.env.NEXT_PUBLIC_BASE_URL}/${videoId}/comment-pick/${comment.commentId}`, {
       withCredentials: true,
     });

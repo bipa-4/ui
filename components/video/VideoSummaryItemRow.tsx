@@ -26,7 +26,6 @@ function VideoSummaryItemRow({ videoSummaryItem }: VideoSummaryItemRowProps) {
 
   const handleChannelClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!channelId) return;
-    console.log(channelId);
     e.stopPropagation();
     router.push(`/channel/${channelId}`);
   };

@@ -21,11 +21,9 @@ export default function Callback() {
   useEffect(() => {
     const auth = async () => {
       try {
-        const authRes = await fetcher(BASE_URL + authCode);
+        await fetcher(BASE_URL + authCode);
         const userRes = await fetcher(`${BASE_URL}/account/check`);
         setUser(userRes);
-        console.log('authRes !', authRes);
-        console.log('userRes !', userRes);
       } catch (error) {
         console.log('error !', error);
       }
@@ -35,7 +33,6 @@ export default function Callback() {
 
   useEffect(() => {
     if (user !== null && user !== undefined) {
-      console.log('콜백페이지 user 바꼈다!', user);
       router.push('/');
     }
   }, [user]);

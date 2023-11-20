@@ -1,6 +1,6 @@
 import fetcher from '@/utils/axiosFetcher';
 import { ChannelSummaryType } from '@/types/channelType';
-import { CSSProperties, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
@@ -25,7 +25,6 @@ export default function AllChannelsContainer() {
     const res = await fetcher(
       `${BASE_URL}/channel/AllChannel?${nextUUID ? 'page=' : ''}${nextUUID}${nextUUID ? '&' : ''}pageSize=${PAGE_SIZE}`,
     );
-    console.log('channels', res);
     setNextId(res.nextUUID);
     return res;
   };
@@ -52,7 +51,6 @@ export default function AllChannelsContainer() {
 
     if (nextId) {
       const data = searchKeyword ? await fetchSearchChannels(nextId) : await fetchChannels(nextId);
-      console.log('more fetched data', data);
       setNextId(searchKeyword ? data.page : data.nextUUID);
       setChannels([...channels, ...data.channelList]);
     }

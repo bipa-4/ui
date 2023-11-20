@@ -114,20 +114,17 @@ export default function UploadLayout({ updateVideo }: updateVideoType) {
   };
 
   const postVideoData = async (videoData: VideoType) => {
-    console.log('최종 videoData', videoData);
     try {
       if (!isUpdate) {
-        const res = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/video/upload`, videoData, {
+        await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/video/upload`, videoData, {
           withCredentials: true,
         });
-        console.log('백엔드에 업로드 : ', res);
         alert('업로드되었습니다.');
         router.push('/');
       } else {
-        const res = await axios.put(`${process.env.NEXT_PUBLIC_BASE_URL}/video/${updateVideo?.id}`, videoData, {
+        await axios.put(`${process.env.NEXT_PUBLIC_BASE_URL}/video/${updateVideo?.id}`, videoData, {
           withCredentials: true,
         });
-        console.log('백엔드에 수정 : ', res);
         alert('수정되었습니다.');
         router.push('/');
       }
@@ -147,19 +144,14 @@ export default function UploadLayout({ updateVideo }: updateVideoType) {
       return;
     }
 
-    // 업로드 중 상태로 변경
     setIsUploading(true);
 
     if (videoFile && thumbnailFile) {
       try {
         const { imagePresignedUrl, imageName } = await getPresignedImageUrl(thumbnailFile?.name, 'thumbnail');
         const { videoPresignedUrl, videoName } = await getPresignedVideoUrl(videoFile?.name);
-        console.log('==================== presigned 받아옴 ==========================');
-        console.log('imagePresignedUrl', imagePresignedUrl);
-        console.log('videoPresignedUrl', videoPresignedUrl);
 
         await S3upload(imagePresignedUrl, thumbnailFile, videoPresignedUrl, videoFile);
-        console.log('==================== s3업로드 ==========================');
         setVideo((prev) => ({
           ...prev,
           videoUrl: `https://du30t7lolw1uk.cloudfront.net/${videoName}`,
@@ -189,8 +181,6 @@ export default function UploadLayout({ updateVideo }: updateVideoType) {
     if (thumbnailFile) {
       try {
         const { imagePresignedUrl, imageName } = await getPresignedImageUrl(thumbnailFile?.name, 'thumbnail');
-        console.log('==================== image presigned 받아옴 ==========================');
-        console.log('imagePresignedUrl', imagePresignedUrl);
         await S3upload(imagePresignedUrl, thumbnailFile);
         setVideo((prev) => ({
           ...prev,
@@ -204,8 +194,6 @@ export default function UploadLayout({ updateVideo }: updateVideoType) {
     if (videoFile) {
       try {
         const { videoPresignedUrl, videoName } = await getPresignedVideoUrl(videoFile?.name);
-        console.log('==================== video presigned 받아옴 ==========================');
-        console.log('videoPresignedUrl', videoPresignedUrl);
         await S3upload(null, null, videoPresignedUrl, videoFile);
         setVideo((prev) => ({
           ...prev,
@@ -228,7 +216,6 @@ export default function UploadLayout({ updateVideo }: updateVideoType) {
     }
   }, [video.videoUrl, video.thumbnailUrl]);
 
-  console.log('user', user);
   if (!user) {
     return (
       <div className='min-h-screen flex flex-col justify-center mx-auto text-center'>
@@ -240,8 +227,6 @@ export default function UploadLayout({ updateVideo }: updateVideoType) {
       </div>
     );
   }
-
-  console.log(video);
 
   if (isUploading) {
     return (

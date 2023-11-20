@@ -21,11 +21,9 @@ export default function Callback() {
   useEffect(() => {
     const auth = async () => {
       try {
-        const authRes = await fetcher(BASE_URL + authCode);
+        await fetcher(BASE_URL + authCode);
         const userRes = await fetcher(`${BASE_URL}/account/check`);
         setUser(userRes);
-        console.log('콜백 authRes !', authRes);
-        console.log('콜백 userRes !', userRes);
       } catch (error) {
         console.log('error !', error);
       }
@@ -35,8 +33,6 @@ export default function Callback() {
 
   useEffect(() => {
     if (user) {
-      console.log('콜백페이지 전역 user 세팅!', user);
-      console.log('메인으로');
       router.push('/');
     }
   }, [user]);

@@ -14,7 +14,7 @@ async function S3upload(
   uploadVideoFile?: File,
 ) {
   if (presignedVideoUrl && uploadVideoFile) {
-    const videoRes = await axios({
+    await axios({
       method: 'put',
       data: uploadVideoFile,
       url: presignedVideoUrl,
@@ -22,16 +22,10 @@ async function S3upload(
         'Content-Type': 'video/mp4',
       },
     });
-    console.log('videoRes', videoRes);
-    if (videoRes.status === 200) {
-      console.log('Video upload success');
-    } else {
-      console.log('CDN Video upload failed');
-    }
   }
 
   if (presignedImageUrl && uploadImageFile) {
-    const thumbnailRes = await axios({
+    await axios({
       method: 'put',
       data: uploadImageFile,
       url: presignedImageUrl,
@@ -39,14 +33,6 @@ async function S3upload(
         'Content-Type': 'image/png',
       },
     });
-
-    console.log('thumbnailRes', thumbnailRes);
-
-    if (thumbnailRes.status === 200) {
-      console.log('Image upload success');
-    } else {
-      console.log('CDN Image upload failed');
-    }
   }
 }
 

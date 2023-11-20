@@ -1,7 +1,7 @@
-type devType = {
-  name: string;
-  github: string;
-};
+// type devType = {
+//  name: string;
+//  github: string;
+// };
 
 export default function Devs() {
   return (

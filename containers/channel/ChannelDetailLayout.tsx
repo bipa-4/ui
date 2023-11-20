@@ -138,7 +138,6 @@ export default function ChannelDetailLayout({ channelInfo }: ChannelProps) {
         withCredentials: true,
       },
     );
-    console.log('채널내 영상 조회', res.data);
     setNextId(res.data.nextUUID);
     return res.data;
   };
@@ -149,15 +148,12 @@ export default function ChannelDetailLayout({ channelInfo }: ChannelProps) {
         nextUUID ? '&' : ''
       }page_size=${PAGE_SIZE}&search_query=${searchKeyword}`,
     );
-    console.log('검색 영상 조회', res);
 
     setNextId(res.page);
     return res;
   };
 
   const fetchMoreData = async () => {
-    console.log('fetchMoreData', nextId);
-
     if (nextId === '') {
       return;
     }
@@ -182,7 +178,6 @@ export default function ChannelDetailLayout({ channelInfo }: ChannelProps) {
   const fetchInitData = async () => {
     const initData = searchKeyword ? await fetchSearchVideos('') : await fetchVideo('');
     setVideoList(initData.videos as VideoCardType[]);
-    console.log('fetchInitData!! ');
   };
 
   useEffect(() => {
