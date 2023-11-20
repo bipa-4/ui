@@ -1,0 +1,19 @@
+{
+  "popularVideo": "Popular Videos",
+  "popularChannels": "Popular Channels",
+  "recentVideos": "Recent Uploads",
+  "sidebar": {
+    "home": "Home",
+    "channels": "Channels",
+    "categories": "Categories"
+  },
+  "allChannels": "All Channels",
+  "searchVideoPlaceHolder": "Search Video",
+  "searchChannelPlaceHolder": "Search Channel",
+  "button": {
+    "cancel": "cancel",
+    "edit": "edit"
+  },
+  "public": "Public",
+  "private": "Private"
+}

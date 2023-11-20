@@ -1,0 +1,13 @@
+{
+  "openChannel": "공개 채널",
+  "privateChannel": "비공개 채널",
+  "channelEditButton": "채널 정보 수정",
+  "edit": {
+    "changeImage": "이미지 수정",
+    "completeMessage": "채널 정보 수정 완료",
+    "channelName": "채널 이름을 입력하세요.(100자)",
+    "channelDescription": "채널 설명을 입력하세요.(200자)"
+  },
+  "noSearchedVideo": "검색 결과가 없습니다.",
+  "noUploadedVideo": "업로드한 영상이 없습니다."
+}

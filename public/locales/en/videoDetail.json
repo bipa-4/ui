@@ -1,0 +1,26 @@
+{
+  "details": {
+    "views": "views",
+    "readMore": "...more",
+    "readLess": "Show less",
+    "createdAt": "uploaded on"
+  },
+  "deleteConfirmMessage": "Are you sure you want to delete it?",
+  "modify": "Edit",
+  "delete": "Delete",
+  "cancel": "Cancel",
+  "comment": {
+    "title": "Comments",
+    "noContent": "No comments yet",
+    "submitButton": "Comment",
+    "placeholder": {
+      "user": "Add a comment...",
+      "guest": "Please sign in to write a comment"
+    },
+    "reply": "Reply",
+    "isEdited": "edited",
+    "isPicked": "Pinned",
+    "pin": "Pin",
+    "unpin": "Unpin"
+  }
+}
