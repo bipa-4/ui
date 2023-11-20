@@ -28,7 +28,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <Provider>
       <ThemeProvider defaultTheme='system'>
-        <main className={noto.variable}>
+        <main className={noto.className}>
           <Layout>
             <Component {...pageProps} />
           </Layout>

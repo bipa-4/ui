@@ -29,7 +29,6 @@ export default function Header() {
       });
       if (res.status === 200) {
         setUser(res.data);
-        
       }
     } catch (e) {
       console.log('error !', e);
