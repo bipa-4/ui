@@ -47,6 +47,10 @@ export default function VideoDetailLayout({ video }: VideoDetailLayoutProps) {
     updateRecommendList();
   }, [video]);
 
+  // console.log('video', video);
+  // console.log('video.privateType', video.privateType);
+  // console.log('isMyVideo', isMyVideo);
+
   if (video.privateType && !isMyVideo) {
     return (
       <div className='min-h-screen flex justify-center items-center m-auto bg-base-100'>
