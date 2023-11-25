@@ -20,6 +20,7 @@ type updateVideoType = {
 export default function UploadLayout({ updateVideo }: updateVideoType) {
   // 수정인지 업로드인지
   const isUpdate: boolean = !!updateVideo;
+  const [uploadProgress, setUploadProgress] = useState<number>(0);
 
   // 유저 상태(전역)
   const user = useAtomValue(userAtom);
@@ -151,7 +152,7 @@ export default function UploadLayout({ updateVideo }: updateVideoType) {
         const { imagePresignedUrl, imageName } = await getPresignedImageUrl(thumbnailFile?.name, 'thumbnail');
         const { videoPresignedUrl, videoName } = await getPresignedVideoUrl(videoFile?.name);
 
-        await S3upload(imagePresignedUrl, thumbnailFile, videoPresignedUrl, videoFile);
+        await S3upload(imagePresignedUrl, thumbnailFile, videoPresignedUrl, videoFile, setUploadProgress);
         setVideo((prev) => ({
           ...prev,
           videoUrl: `https://du30t7lolw1uk.cloudfront.net/${videoName}`,
@@ -194,7 +195,7 @@ export default function UploadLayout({ updateVideo }: updateVideoType) {
     if (videoFile) {
       try {
         const { videoPresignedUrl, videoName } = await getPresignedVideoUrl(videoFile?.name);
-        await S3upload(null, null, videoPresignedUrl, videoFile);
+        await S3upload(null, null, videoPresignedUrl, videoFile, setUploadProgress);
         setVideo((prev) => ({
           ...prev,
           videoUrl: `https://du30t7lolw1uk.cloudfront.net/${videoName}`,
@@ -216,6 +217,10 @@ export default function UploadLayout({ updateVideo }: updateVideoType) {
     }
   }, [video.videoUrl, video.thumbnailUrl]);
 
+  useEffect(() => {
+    console.log('useEffect upload Progress : ', uploadProgress);
+  }, [uploadProgress]);
+
   if (!user) {
     return (
       <div className='min-h-screen flex flex-col justify-center mx-auto text-center'>
@@ -230,8 +235,13 @@ export default function UploadLayout({ updateVideo }: updateVideoType) {
 
   if (isUploading) {
     return (
-      <div className='min-h-screen flex justify-center items-center m-auto'>
-        <LoadingSpinner />
+      <div className='min-h-[85vh] flex justify-center items-center m-auto'>
+        <div
+          className='radial-progress'
+          style={{ '--value': uploadProgress, '--size': '8rem', '--thickness': '0.3rem' } as React.CSSProperties}
+        >
+          {uploadProgress} %
+        </div>
       </div>
     );
   }

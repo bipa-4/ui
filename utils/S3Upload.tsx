@@ -12,12 +12,20 @@ async function S3upload(
   uploadImageFile: File | null,
   presignedVideoUrl?: string,
   uploadVideoFile?: File,
+  setUploadProgress?: React.Dispatch<React.SetStateAction<number>>,
 ) {
   if (presignedVideoUrl && uploadVideoFile) {
     await axios({
       method: 'put',
       data: uploadVideoFile,
       url: presignedVideoUrl,
+      onUploadProgress: (progressEvent) => {
+        if (progressEvent.total) {
+          const uploadProgress = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+          console.log('영상 업로드', uploadProgress);
+          setUploadProgress?.(uploadProgress);
+        }
+      },
       headers: {
         'Content-Type': 'video/mp4',
       },
