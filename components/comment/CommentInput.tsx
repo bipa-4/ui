@@ -96,6 +96,7 @@ export default function CommentInput({
             onChange={handleResizeHeight}
             className='input input-bordered input-primary rounded-md w-full resize-none p-2 min-h-12 '
             disabled={!user}
+            maxLength={200}
           />
         </div>
         <button type='button' className='btn mx-3 btn-primary min-h-12' onClick={postCommentHandler} disabled={!user}>

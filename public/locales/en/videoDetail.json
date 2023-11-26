@@ -14,7 +14,7 @@
     "noContent": "No comments yet",
     "submitButton": "Comment",
     "placeholder": {
-      "user": "Add a comment...",
+      "user": "Add a comment...(200 characters)",
       "guest": "Please sign in to write a comment"
     },
     "reply": "Reply",
