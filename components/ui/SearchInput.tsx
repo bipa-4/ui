@@ -11,7 +11,7 @@ type SearchInputProps = {
 export default function SearchInput({ path, setKeyword, searchItem }: SearchInputProps) {
   const router = useRouter();
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault(); // 폼 제출 기본 동작 방지
+    e.preventDefault();
     const searchTerm = (e.target as HTMLFormElement).search.value;
     setKeyword(searchTerm);
     router.push(`/${path}?keyword=${searchTerm}`);

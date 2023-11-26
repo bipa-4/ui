@@ -8,6 +8,7 @@ import Comments from '@/components/comment/Comments';
 import fetcher from '@/utils/axiosFetcher';
 import axios from 'axios';
 import UploadLayout from '../upload/UploadLayout';
+import { useCustomWarningToast } from '@/components/ui/CustomToast';
 
 interface VideoDetailLayoutProps {
   video: VideoDetailType;
@@ -34,7 +35,7 @@ export default function VideoDetailLayout({ video }: VideoDetailLayoutProps) {
       const checkResult = await fetcher(`${BASE_URL}/video/check?videoId=${video.videoId}`);
       setIsMyVideo(checkResult);
     } catch (err) {
-      console.log('권한 체크 에러: ', err);
+      useCustomWarningToast(`권한 체크 에러: ${err} 관리자에게 문의하세요.`);
     }
   };
 

@@ -15,13 +15,9 @@ export default function ShareModal() {
   const router = useRouter();
   const { vid } = router.query;
   const { video } = useVideoData(vid?.toString());
-
+  const [isCopied, setIsCopied] = useState(false);
   const currentPath = `https://bipa-streamwave.vercel.app${router.asPath}`;
 
-  // 클립보드 복사 상태 관리
-  const [isCopied, setIsCopied] = useState(false);
-
-  // 클립보드에 경로 복사
   const copyPathToClipboard = () => {
     navigator.clipboard.writeText(currentPath).then(() => {
       setIsCopied(true);

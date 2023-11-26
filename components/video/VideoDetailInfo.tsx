@@ -11,6 +11,7 @@ import { useTranslation } from 'next-i18next';
 import userAtom from '@/atoms/user';
 import ShareModal from './ShareModal';
 import Avatar from '../ui/Avatar';
+import useCustomConfirmToast, { useCustomWarningToast } from '@/components/ui/CustomToast';
 
 type Props = {
   video: VideoDetailType;
@@ -32,7 +33,7 @@ export default function VideoDetailInfo({ video, handleUpdatePage, isMyVideo }: 
       const hasLiked = await fetcher(`${BASE_URL}/video/like/${video.videoId}`);
       setLike(hasLiked);
     } catch (err) {
-      console.log('좋아요 확인 에러: ', err);
+      useCustomWarningToast(`좋아요 확인 에러: , ${err}`);
     }
   };
 
@@ -47,7 +48,7 @@ export default function VideoDetailInfo({ video, handleUpdatePage, isMyVideo }: 
 
   const handleLike = async () => {
     if (!user) {
-      alert('로그인이 필요합니다.');
+      useCustomWarningToast('로그인이 필요합니다.');
       return;
     }
 
@@ -75,11 +76,11 @@ export default function VideoDetailInfo({ video, handleUpdatePage, isMyVideo }: 
       try {
         const res = await axios.delete(`${BASE_URL}/video/${video.videoId}`, { withCredentials: true });
         if (res.status === 200) {
-          alert('삭제되었습니다.');
+          useCustomConfirmToast('삭제되었습니다.');
           router.push('/');
         }
       } catch (err) {
-        alert(`삭제에 실패했습니다. ${err}`);
+        useCustomWarningToast(`삭제에 실패했습니다. ${err}`);
       }
     }
   };

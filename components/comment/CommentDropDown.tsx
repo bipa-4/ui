@@ -12,6 +12,8 @@ type CommentDropDownPropsType = {
   unpinComment: () => void;
   isChannelOwner?: boolean;
   isCommentWriter?: boolean;
+  isCommentDropdownOpen: boolean;
+  setIsCommentDropdownOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export default function CommentDropDown({
@@ -24,6 +26,8 @@ export default function CommentDropDown({
   unpinComment,
   isChannelOwner,
   isCommentWriter,
+  isCommentDropdownOpen,
+  setIsCommentDropdownOpen,
 }: CommentDropDownPropsType) {
   const { t } = useTranslation('videoDetail');
 
@@ -31,42 +35,47 @@ export default function CommentDropDown({
   if (!isChannelOwner && !isCommentWriter) return null;
   if (!isCommentWriter && commentLevel === 'child') return null;
 
+  const handleDropdown = () => {
+    setIsCommentDropdownOpen(true);
+  };
+
   return (
     <div className='dropdown dropdown-end'>
-      <label tabIndex={0} className='btn btn-xs btn-ghost rounded-full m-1'>
+      <label tabIndex={0} className='btn btn-xs btn-ghost rounded-full m-1' onClick={handleDropdown}>
         <FiMoreHorizontal className='w-4 h-4' />
       </label>
-      <ul tabIndex={0} className='dropdown-content z-[1] menu p-2 shadow rounded-box w-32  bg-base-200'>
-        {/* 부모댓글일때만, 채널 주인일때만 고정이 가능하다. */}
-        {isChannelOwner && commentLevel === 'parent' && (
-          <li>
-            {isPicked ? (
-              <div className='text-sm font-bold opacity-80' onClick={unpinComment}>
-                {t('comment.unpin')}
-              </div>
-            ) : (
-              <div className='text-sm font-bold opacity-80' onClick={pinComment}>
-                <RiPushpin2Fill />
-                {t('comment.pin')}
-              </div>
-            )}
-          </li>
-        )}
-        {isCommentWriter && (
-          <>
+      {isCommentDropdownOpen && (
+        <ul tabIndex={0} className='dropdown-content z-[1] menu p-2 shadow rounded-box w-32  bg-base-200'>
+          {isChannelOwner && commentLevel === 'parent' && (
             <li>
-              <div className='pr-3 text-blue-500 text-sm font-bold' onClick={() => setIsEditing(true)}>
-                {t('modify')}
-              </div>
+              {isPicked ? (
+                <div className='text-sm font-bold opacity-80' onClick={unpinComment}>
+                  {t('comment.unpin')}
+                </div>
+              ) : (
+                <div className='text-sm font-bold opacity-80' onClick={pinComment}>
+                  <RiPushpin2Fill />
+                  {t('comment.pin')}
+                </div>
+              )}
             </li>
-            <li>
-              <div className='text-red-500 text-sm font-bold' onClick={deleteComment}>
-                {t('delete')}
-              </div>
-            </li>
-          </>
-        )}
-      </ul>
+          )}
+          {isCommentWriter && (
+            <>
+              <li>
+                <div className='pr-3 text-blue-500 text-sm font-bold' onClick={() => setIsEditing(true)}>
+                  {t('modify')}
+                </div>
+              </li>
+              <li>
+                <div className='text-red-500 text-sm font-bold' onClick={deleteComment}>
+                  {t('delete')}
+                </div>
+              </li>
+            </>
+          )}
+        </ul>
+      )}
     </div>
   );
 }

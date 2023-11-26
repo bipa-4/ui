@@ -14,6 +14,7 @@ import CommentInput from './CommentInput';
 import 'dayjs/locale/ko';
 import 'dayjs/locale/en';
 import CommentDropDown from './CommentDropDown';
+import useCustomConfirmToast, { useCustomWarningToast } from '../ui/CustomToast';
 
 type commentPropsType = {
   videoId: string;
@@ -23,15 +24,12 @@ type commentPropsType = {
   commentLevel: 'parent' | 'child';
 };
 
-/**
- * 댓글 컴포넌트입니다.
- * Todo: 렌더링 최적화
- */
 function CommentItem({ videoId, uploader, comment, setIsCommentUpdated, commentLevel }: commentPropsType) {
   const [isReplyOpen, setIsReplyOpen] = useState(false);
   const [writeChildReply, setWriteChildReply] = useState(false);
   const user = useAtomValue(userAtom);
   const [isEditing, setIsEditing] = useState(false);
+  const [isCommentDropdownOpen, setIsCommentDropdownOpen] = useState(false);
   const textarea = useRef<HTMLTextAreaElement>(null);
   const [editedComment, setEditedComment] = useState(comment.content);
   const [isReplyUpdated, setIsReplyUpdated] = useState(false);
@@ -76,11 +74,12 @@ function CommentItem({ videoId, uploader, comment, setIsCommentUpdated, commentL
           withCredentials: true,
         });
         if (res.status === 200) {
-          alert('삭제되었습니다.');
+          useCustomConfirmToast('삭제되었습니다.');
+          setIsCommentDropdownOpen(false);
           setIsCommentUpdated(true);
         }
-      } catch (error) {
-        console.log(error);
+      } catch (e) {
+        useCustomWarningToast(`error : ${e} 관리자에게 문의하세요.`);
       }
     }
     if (commentLevel === 'child') {
@@ -89,11 +88,12 @@ function CommentItem({ videoId, uploader, comment, setIsCommentUpdated, commentL
           withCredentials: true,
         });
         if (res.status === 200) {
-          alert('삭제되었습니다.');
+          useCustomConfirmToast('삭제되었습니다.');
+          setIsCommentDropdownOpen(false);
           setIsCommentUpdated(true);
         }
-      } catch (error) {
-        console.log(error);
+      } catch (e) {
+        useCustomWarningToast(`error : ${e} 관리자에게 문의하세요.`);
       }
     }
   };
@@ -110,7 +110,8 @@ function CommentItem({ videoId, uploader, comment, setIsCommentUpdated, commentL
       },
     );
     if (res.status === 200) {
-      alert('수정되었습니다.');
+      useCustomConfirmToast('수정되었습니다.');
+      setIsCommentDropdownOpen(false);
       setIsCommentUpdated(true);
       setIsEditing(false);
     }
@@ -128,7 +129,8 @@ function CommentItem({ videoId, uploader, comment, setIsCommentUpdated, commentL
       },
     );
     if (res.status === 200) {
-      alert('고정되었습니다.');
+      useCustomConfirmToast('고정되었습니다.');
+      setIsCommentDropdownOpen(false);
       setIsCommentUpdated(true);
     }
   };
@@ -138,7 +140,8 @@ function CommentItem({ videoId, uploader, comment, setIsCommentUpdated, commentL
       withCredentials: true,
     });
     if (res.status === 200) {
-      alert('고정 해제 되었습니다.');
+      useCustomConfirmToast('고정 해제 되었습니다.');
+      setIsCommentDropdownOpen(false);
       setIsCommentUpdated(true);
     }
   };
@@ -159,13 +162,11 @@ function CommentItem({ videoId, uploader, comment, setIsCommentUpdated, commentL
 
   return (
     <div className='flex items-start pt-4'>
-      <div onClick={() => moveToChannel} className='cursor-pointer'>
+      <div onClick={() => moveToChannel} className='cursor-pointer h-10'>
         <Avatar width={10} marginX={3} imgUrl={comment.channelProfileUrl} />
       </div>
       <div className='grow'>
-        <div className='opacity-80 text-sm font-light pt-1'>
-          {comment.isPicked ? `📌 ${t('comment.isPicked')}` : ''}
-        </div>
+        <div className='opacity-80 text-sm font-light'>{comment.isPicked ? `📌 ${t('comment.isPicked')}` : ''}</div>
         <div className='h-10 flex items-center justify-between mr-4'>
           <div>
             <span className='font-bold pr-3 cursor-pointer' onClick={moveToChannel}>
@@ -187,6 +188,8 @@ function CommentItem({ videoId, uploader, comment, setIsCommentUpdated, commentL
               isCommentWriter={comment.channelId === user?.channelId}
               pinComment={pinComment}
               unpinComment={unPinComment}
+              isCommentDropdownOpen={isCommentDropdownOpen}
+              setIsCommentDropdownOpen={setIsCommentDropdownOpen}
             />
           )}
         </div>

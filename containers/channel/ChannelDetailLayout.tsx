@@ -12,6 +12,7 @@ import { VideoCardType } from '@/types/videoType';
 import LoadingSpinner from '@/components/ui/LoadingSpinner';
 import SearchInput from '@/components/ui/SearchInput';
 import { useTranslation } from 'next-i18next';
+import useCustomToast, { useCustomWarningToast } from '@/components/ui/CustomToast';
 
 interface ChannelProps {
   channelInfo: ChannelDetailType;
@@ -71,11 +72,11 @@ export default function ChannelDetailLayout({ channelInfo }: ChannelProps) {
     try {
       const res = await axios.put(`${BASE_URL}/channel/${cid}`, updatedInfo, { withCredentials: true });
       if (res.status === 200) {
-        alert(`${t('edit.completeMessage', { ns: 'channelDetail' })}`);
+        useCustomToast(`${t('edit.completeMessage', { ns: 'channelDetail' })}`);
         router.reload();
       }
     } catch (e) {
-      alert(`수정 중 에러가 발생했습니다 : ${e}`);
+      useCustomWarningToast(`수정 중 에러가 발생했습니다 : ${e}`);
     }
   };
 
@@ -98,7 +99,7 @@ export default function ChannelDetailLayout({ channelInfo }: ChannelProps) {
     const fileSize = e.target.files?.[0]?.size;
 
     if (fileSize && fileSize > maxSize) {
-      alert('1MB 이하의 파일만 업로드 가능합니다.');
+      useCustomWarningToast('1MB 이하의 파일만 업로드 가능합니다.');
       e.target.value = '';
       return;
     }

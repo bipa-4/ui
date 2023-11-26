@@ -5,6 +5,8 @@ import { useTranslation } from 'next-i18next';
 import userAtom from '@/atoms/user';
 import Avatar from '../ui/Avatar';
 import LoadingSpinner from '../ui/LoadingSpinner';
+import { useCustomWarningToast } from '@/components/ui/CustomToast';
+
 
 type commentPropsType = {
   videoId: string;
@@ -14,9 +16,6 @@ type commentPropsType = {
   setWriteChildReply?: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-/**
- * 댓글 입력 컴포넌트입니다.
- */
 
 export default function CommentInput({
   videoId,
@@ -56,7 +55,7 @@ export default function CommentInput({
           textarea.current.value = '';
         }
       } catch (error) {
-        alert(`댓글 등록에 실패했습니다 : ${error}`);
+        useCustomWarningToast(`댓글 등록에 실패했습니다 : ${error}`);
       }
       setIsUpdated(true);
       setIsPosting(false);
@@ -80,7 +79,7 @@ export default function CommentInput({
           setWriteChildReply(false);
         }
       } catch (error) {
-        alert(`댓글 등록에 실패했습니다 : ${error}`);
+        useCustomWarningToast(`댓글 등록에 실패했습니다 : ${error}`);
       }
       setIsUpdated(true);
       setIsPosting(false);
