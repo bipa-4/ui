@@ -2936,6 +2936,11 @@ supports-preserve-symlinks-flag@^1.0.0:
   resolved "https://registry.npmjs.org/supports-preserve-symlinks-flag/-/supports-preserve-symlinks-flag-1.0.0.tgz"
   integrity sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==
 
+sweetalert2@^11.10.1:
+  version "11.10.1"
+  resolved "https://registry.yarnpkg.com/sweetalert2/-/sweetalert2-11.10.1.tgz#783e18c90bcde72039e26e4b943573e83cf55afe"
+  integrity sha512-qu145oBuFfjYr5yZW9OSdG6YmRxDf8CnkgT/sXMfrXGe+asFy2imC2vlaLQ/L/naZ/JZna1MPAY56G4qYM0VUQ==
+
 swr@^2.2.4:
   version "2.2.4"
   resolved "https://registry.npmjs.org/swr/-/swr-2.2.4.tgz"

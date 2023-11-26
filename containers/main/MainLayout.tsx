@@ -5,13 +5,14 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import InfiniteVideoContainer from '@/components/video/InfiniteVideoContainer';
 import { useTranslation } from 'next-i18next';
+import VideoSummarySkeletonCol from '@/components/skeleton/VideoSummarySkeletonCol';
 import useTop10Data from '../../hooks/useTop10Data';
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 const PAGE_SIZE = 15;
 
 export default function MainLayout() {
-  const { top10Data } = useTop10Data();
+  const { top10Data, isTop10Loading } = useTop10Data();
   const [videoList, setVideoList] = useState<VideoCardType[]>([]);
   const [hasMore, setHasMore] = useState(true);
   const [nextId, setNextId] = useState<string | null>('');
@@ -58,7 +59,7 @@ export default function MainLayout() {
     <>
       <div className='flex max-xl:w-full max-lg:justify-center border-b border-solid border-gray-300 py-6'>
         <div className='basis-3/4 w-3/4 grow max-xl:m-0 max-xl:w-full'>
-          <VideoSummaryContainer title={t('popularVideo')} videoList={top10Data} />
+          <VideoSummaryContainer title={t('popularVideo')} videoList={top10Data} isLoading={isTop10Loading} />
         </div>
         <div className='basis-1/4 w-1/4 grow max-2xl:hidden'>
           <ChannelContainer />

@@ -113,7 +113,7 @@ export const getStaticProps = async (context: GetStaticPropsContext) => {
           videos: [],
         },
       },
-      revalidate: 10,
+      revalidate: 1,
     };
   }
   return {
@@ -122,7 +122,7 @@ export const getStaticProps = async (context: GetStaticPropsContext) => {
       categoryVideos,
       ...(await serverSideTranslations(context.locale ?? 'ko', ['footer', 'common', 'header'])),
     },
-    revalidate: 10,
+    revalidate: 1,
   };
 };
 

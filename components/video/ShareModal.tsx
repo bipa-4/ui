@@ -15,13 +15,9 @@ export default function ShareModal() {
   const router = useRouter();
   const { vid } = router.query;
   const { video } = useVideoData(vid?.toString());
-
-  const currentPath = `https://bipa-streamwave.vercel.app${router.asPath}`; // 현재 경로 가져오기
-
-  // 클립보드 복사 상태 관리
   const [isCopied, setIsCopied] = useState(false);
+  const currentPath = `https://bipa-streamwave.vercel.app${router.asPath}`;
 
-  // 클립보드에 경로 복사
   const copyPathToClipboard = () => {
     navigator.clipboard.writeText(currentPath).then(() => {
       setIsCopied(true);
@@ -42,7 +38,7 @@ export default function ShareModal() {
           TITLE: video.videoTitle,
           THU: video.thumbnail,
           CONTENT: video.content,
-          LIKE: 3,
+          LIKE: video.likeCount,
           VID: vid,
           VIEW: video.readCount,
         },
@@ -62,7 +58,7 @@ export default function ShareModal() {
             <div className='tooltip tooltip-open tooltip-right' data-tip='카카오로 편리하게 공유하기'>
               <Image
                 src='https://developers.kakao.com/assets/img/about/logos/kakaotalksharing/kakaotalk_sharing_btn_medium.png'
-                alt='카카오톡 공유 보내기 버튼'
+                alt='카카오톡 공유'
                 width={40}
                 height={40}
                 className='cursor-pointer'

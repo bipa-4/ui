@@ -10,8 +10,8 @@ import { useAtomValue } from 'jotai';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import getPresignedImageUrl, { getPresignedVideoUrl } from '@/utils/getPresignedUrl';
-import LoadingSpinner from '@/components/ui/LoadingSpinner';
 import userAtom from '@/atoms/user';
+import customConfirmToast, { customWarningToast } from '@/utils/CustomToast';
 
 type updateVideoType = {
   updateVideo?: VideoType;
@@ -20,6 +20,7 @@ type updateVideoType = {
 export default function UploadLayout({ updateVideo }: updateVideoType) {
   // 수정인지 업로드인지
   const isUpdate: boolean = !!updateVideo;
+  const [uploadProgress, setUploadProgress] = useState<number>(0);
 
   // 유저 상태(전역)
   const user = useAtomValue(userAtom);
@@ -55,7 +56,7 @@ export default function UploadLayout({ updateVideo }: updateVideoType) {
     const fileSize = e.target.files?.[0]?.size;
 
     if (fileSize && fileSize > maxSize) {
-      alert('50MB 이하의 파일만 업로드 가능합니다.');
+      customWarningToast('50MB 이하의 파일만 업로드 가능합니다.');
       e.target.value = '';
       return;
     }
@@ -73,7 +74,7 @@ export default function UploadLayout({ updateVideo }: updateVideoType) {
     const fileSize = e.target.files?.[0]?.size;
 
     if (fileSize && fileSize > maxSize) {
-      alert('1MB 이하의 파일만 업로드 가능합니다.');
+      customWarningToast('1MB 이하의 파일만 업로드 가능합니다.');
       e.target.value = '';
       return;
     }
@@ -119,66 +120,66 @@ export default function UploadLayout({ updateVideo }: updateVideoType) {
         await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/video/upload`, videoData, {
           withCredentials: true,
         });
-        alert('업로드되었습니다.');
+        customConfirmToast('업로드되었습니다.');
         router.push('/');
       } else {
         await axios.put(`${process.env.NEXT_PUBLIC_BASE_URL}/video/${updateVideo?.id}`, videoData, {
           withCredentials: true,
         });
-        alert('수정되었습니다.');
+        customConfirmToast('수정되었습니다.');
         router.push('/');
       }
       setIsUploading(false);
     } catch (err) {
-      console.log('백엔드 업로드 에러 : ', err);
+      customWarningToast(`백엔드 업로드 에러 : , ${err}`);
     }
   };
 
   const upload = async () => {
     if (!video.title) {
-      alert('제목을 입력해주세요.');
+      customWarningToast('제목을 입력해주세요.');
       return;
     }
     if (!video.content) {
-      alert('설명을 입력해주세요.');
+      customWarningToast('설명을 입력해주세요.');
       return;
     }
 
-    setIsUploading(true);
-
     if (videoFile && thumbnailFile) {
+      setIsUploading(true);
+
       try {
         const { imagePresignedUrl, imageName } = await getPresignedImageUrl(thumbnailFile?.name, 'thumbnail');
         const { videoPresignedUrl, videoName } = await getPresignedVideoUrl(videoFile?.name);
 
-        await S3upload(imagePresignedUrl, thumbnailFile, videoPresignedUrl, videoFile);
+        await S3upload(imagePresignedUrl, thumbnailFile, videoPresignedUrl, videoFile, setUploadProgress);
         setVideo((prev) => ({
           ...prev,
           videoUrl: `https://du30t7lolw1uk.cloudfront.net/${videoName}`,
           thumbnailUrl: `https://du30t7lolw1uk.cloudfront.net/${imageName}`,
         }));
-      } catch (error) {
-        console.log(error);
+      } catch (e) {
+        customWarningToast(`error : ${e} 관리자에게 문의하세요.`);
       }
     } else {
-      alert('파일을 선택해주세요.');
+      customWarningToast('파일을 선택해주세요.');
     }
   };
 
   const update = async () => {
     if (!video.title) {
-      alert('제목을 입력해주세요.');
+      customWarningToast('제목을 입력해주세요.');
       return;
     }
 
     if (!video.content) {
-      alert('설명을 입력해주세요.');
+      customWarningToast('설명을 입력해주세요.');
       return;
     }
 
-    setIsUploading(true);
-
     if (thumbnailFile) {
+      setIsUploading(true);
+
       try {
         const { imagePresignedUrl, imageName } = await getPresignedImageUrl(thumbnailFile?.name, 'thumbnail');
         await S3upload(imagePresignedUrl, thumbnailFile);
@@ -187,20 +188,22 @@ export default function UploadLayout({ updateVideo }: updateVideoType) {
           thumbnailUrl: `https://du30t7lolw1uk.cloudfront.net/${imageName}`,
         }));
       } catch (e) {
-        console.log(e);
+        customWarningToast(`error : ${e} 관리자에게 문의하세요.`);
       }
     }
 
     if (videoFile) {
+      setIsUploading(true);
+
       try {
         const { videoPresignedUrl, videoName } = await getPresignedVideoUrl(videoFile?.name);
-        await S3upload(null, null, videoPresignedUrl, videoFile);
+        await S3upload(null, null, videoPresignedUrl, videoFile, setUploadProgress);
         setVideo((prev) => ({
           ...prev,
           videoUrl: `https://du30t7lolw1uk.cloudfront.net/${videoName}`,
         }));
       } catch (e) {
-        console.log(e);
+        customWarningToast(`error : ${e} 관리자에게 문의하세요.`);
       }
     }
 
@@ -230,8 +233,13 @@ export default function UploadLayout({ updateVideo }: updateVideoType) {
 
   if (isUploading) {
     return (
-      <div className='min-h-screen flex justify-center items-center m-auto'>
-        <LoadingSpinner />
+      <div className='min-h-[85vh] flex justify-center items-center m-auto'>
+        <div
+          className='radial-progress'
+          style={{ '--value': uploadProgress, '--size': '8rem', '--thickness': '0.3rem' } as React.CSSProperties}
+        >
+          {uploadProgress} %
+        </div>
       </div>
     );
   }

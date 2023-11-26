@@ -10,6 +10,7 @@ import { ThemeProvider } from 'next-themes';
 import { useHydrateAtoms } from 'jotai/utils';
 import userAtom from '@/atoms/user';
 import { appWithTranslation } from 'next-i18next';
+import TopButton from '@/components/ui/TopButton';
 
 const noto = notoSansKr({
   subsets: ['latin'],
@@ -31,6 +32,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         <main className={noto.className}>
           <Layout>
             <Component {...pageProps} />
+            <TopButton />
           </Layout>
         </main>
       </ThemeProvider>

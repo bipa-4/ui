@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 import Comments from '@/components/comment/Comments';
 import fetcher from '@/utils/axiosFetcher';
 import axios from 'axios';
+import { customWarningToast } from '@/utils/CustomToast';
 import UploadLayout from '../upload/UploadLayout';
 
 interface VideoDetailLayoutProps {
@@ -34,7 +35,7 @@ export default function VideoDetailLayout({ video }: VideoDetailLayoutProps) {
       const checkResult = await fetcher(`${BASE_URL}/video/check?videoId=${video.videoId}`);
       setIsMyVideo(checkResult);
     } catch (err) {
-      console.log('권한 체크 에러: ', err);
+      customWarningToast(`권한 체크 에러: ${err} 관리자에게 문의하세요.`);
     }
   };
 
@@ -46,6 +47,10 @@ export default function VideoDetailLayout({ video }: VideoDetailLayoutProps) {
     checkMyVideo();
     updateRecommendList();
   }, [video]);
+
+  // console.log('video', video);
+  // console.log('video.privateType', video.privateType);
+  // console.log('isMyVideo', isMyVideo);
 
   if (video.privateType && !isMyVideo) {
     return (

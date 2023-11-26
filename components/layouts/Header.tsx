@@ -13,6 +13,7 @@ import { useTheme } from 'next-themes';
 import defaultUserImage from '@/public/images/user.png';
 import { useTranslation } from 'next-i18next';
 import userAtom from '@/atoms/user';
+import customConfirmToast, { customWarningToast } from '@/utils/CustomToast';
 
 export default function Header() {
   const router = useRouter();
@@ -31,7 +32,7 @@ export default function Header() {
         setUser(res.data);
       }
     } catch (e) {
-      console.log('error !', e);
+      customWarningToast(`error : ${e} 관리자에게 문의하세요.`);
     }
   };
 
@@ -63,12 +64,12 @@ export default function Header() {
     const res = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/account/logout`, {}, { withCredentials: true });
     if (res.status === 200) {
       setUser(null);
-      alert('로그아웃되었습니다.');
+      customConfirmToast('로그아웃되었습니다.');
     }
   };
 
   const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault(); // 폼 제출 기본 동작 방지
+    e.preventDefault();
     const searchTerm = (e.target as HTMLFormElement).search.value;
     router.push(`/search?keyword=${searchTerm}`);
   };
@@ -106,7 +107,7 @@ export default function Header() {
                 type='text'
                 name='search'
                 placeholder={t('searchVideo')}
-                className='input input-bordered w-11/12 focus:outline-none pr-10 rounded-r-none' // 오른쪽 패딩 추가
+                className='input input-bordered w-11/12 focus:outline-none pr-10 rounded-r-none'
               />
               <button type='submit' className='btn btn-secondary rounded-l-none px-3'>
                 <BiSearch className='w-6 h-6 m-2 max-xl:w-4 max-xl:h-4 max-md:m-1' />

@@ -47,7 +47,7 @@ function VideoSummaryItemRow({ videoSummaryItem }: VideoSummaryItemRowProps) {
       <div className='w-1/2 flex flex-col items-start'>
         <div className='font-bold pb-1 line-clamp-2'>{videoTitle}</div>
         <div className='text-sm pb-1 overflow-hidden' onClick={handleChannelClick}>
-          <span className='line-clamp-1'>{channelName}</span>
+          <span className='line-clamp-1 hover:font-bold'>{channelName}</span>
         </div>
         <div className='flex'>
           <div className='mr-2 font-light text-xs'>

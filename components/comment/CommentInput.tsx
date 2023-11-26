@@ -3,6 +3,7 @@ import { useAtomValue } from 'jotai';
 import axios from 'axios';
 import { useTranslation } from 'next-i18next';
 import userAtom from '@/atoms/user';
+import { customWarningToast } from '@/utils/CustomToast';
 import Avatar from '../ui/Avatar';
 import LoadingSpinner from '../ui/LoadingSpinner';
 
@@ -13,10 +14,6 @@ type commentPropsType = {
   setIsUpdated: React.Dispatch<React.SetStateAction<boolean>>;
   setWriteChildReply?: React.Dispatch<React.SetStateAction<boolean>>;
 };
-
-/**
- * 댓글 입력 컴포넌트입니다.
- */
 
 export default function CommentInput({
   videoId,
@@ -56,7 +53,7 @@ export default function CommentInput({
           textarea.current.value = '';
         }
       } catch (error) {
-        alert(`댓글 등록에 실패했습니다 : ${error}`);
+        customWarningToast(`댓글 등록에 실패했습니다 : ${error}`);
       }
       setIsUpdated(true);
       setIsPosting(false);
@@ -80,7 +77,7 @@ export default function CommentInput({
           setWriteChildReply(false);
         }
       } catch (error) {
-        alert(`댓글 등록에 실패했습니다 : ${error}`);
+        customWarningToast(`댓글 등록에 실패했습니다 : ${error}`);
       }
       setIsUpdated(true);
       setIsPosting(false);
@@ -99,6 +96,7 @@ export default function CommentInput({
             onChange={handleResizeHeight}
             className='input input-bordered input-primary rounded-md w-full resize-none p-2 min-h-12 '
             disabled={!user}
+            maxLength={200}
           />
         </div>
         <button type='button' className='btn mx-3 btn-primary min-h-12' onClick={postCommentHandler} disabled={!user}>
