@@ -22,7 +22,6 @@ async function S3upload(
       onUploadProgress: (progressEvent) => {
         if (progressEvent.total) {
           const uploadProgress = Math.round((progressEvent.loaded * 100) / progressEvent.total);
-          console.log('영상 업로드', uploadProgress);
           setUploadProgress?.(uploadProgress);
         }
       },

@@ -3,10 +3,9 @@ import { useAtomValue } from 'jotai';
 import axios from 'axios';
 import { useTranslation } from 'next-i18next';
 import userAtom from '@/atoms/user';
+import { customWarningToast } from '@/utils/CustomToast';
 import Avatar from '../ui/Avatar';
 import LoadingSpinner from '../ui/LoadingSpinner';
-import { useCustomWarningToast } from '@/components/ui/CustomToast';
-
 
 type commentPropsType = {
   videoId: string;
@@ -15,7 +14,6 @@ type commentPropsType = {
   setIsUpdated: React.Dispatch<React.SetStateAction<boolean>>;
   setWriteChildReply?: React.Dispatch<React.SetStateAction<boolean>>;
 };
-
 
 export default function CommentInput({
   videoId,
@@ -55,7 +53,7 @@ export default function CommentInput({
           textarea.current.value = '';
         }
       } catch (error) {
-        useCustomWarningToast(`댓글 등록에 실패했습니다 : ${error}`);
+        customWarningToast(`댓글 등록에 실패했습니다 : ${error}`);
       }
       setIsUpdated(true);
       setIsPosting(false);
@@ -79,7 +77,7 @@ export default function CommentInput({
           setWriteChildReply(false);
         }
       } catch (error) {
-        useCustomWarningToast(`댓글 등록에 실패했습니다 : ${error}`);
+        customWarningToast(`댓글 등록에 실패했습니다 : ${error}`);
       }
       setIsUpdated(true);
       setIsPosting(false);

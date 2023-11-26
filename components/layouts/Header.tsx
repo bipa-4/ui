@@ -13,7 +13,7 @@ import { useTheme } from 'next-themes';
 import defaultUserImage from '@/public/images/user.png';
 import { useTranslation } from 'next-i18next';
 import userAtom from '@/atoms/user';
-import useCustomConfirmToast, { useCustomWarningToast } from '@/components/ui/CustomToast';
+import customConfirmToast, { customWarningToast } from '@/utils/CustomToast';
 
 export default function Header() {
   const router = useRouter();
@@ -32,7 +32,7 @@ export default function Header() {
         setUser(res.data);
       }
     } catch (e) {
-      useCustomWarningToast(`error : ${e} 관리자에게 문의하세요.`);
+      customWarningToast(`error : ${e} 관리자에게 문의하세요.`);
     }
   };
 
@@ -64,7 +64,7 @@ export default function Header() {
     const res = await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/account/logout`, {}, { withCredentials: true });
     if (res.status === 200) {
       setUser(null);
-      useCustomConfirmToast('로그아웃되었습니다.');
+      customConfirmToast('로그아웃되었습니다.');
     }
   };
 

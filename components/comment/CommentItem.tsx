@@ -14,7 +14,7 @@ import CommentInput from './CommentInput';
 import 'dayjs/locale/ko';
 import 'dayjs/locale/en';
 import CommentDropDown from './CommentDropDown';
-import useCustomConfirmToast, { useCustomWarningToast } from '../ui/CustomToast';
+import customConfirmToast, { customWarningToast } from '../../utils/CustomToast';
 
 type commentPropsType = {
   videoId: string;
@@ -74,12 +74,12 @@ function CommentItem({ videoId, uploader, comment, setIsCommentUpdated, commentL
           withCredentials: true,
         });
         if (res.status === 200) {
-          useCustomConfirmToast('삭제되었습니다.');
+          customConfirmToast('삭제되었습니다.');
           setIsCommentDropdownOpen(false);
           setIsCommentUpdated(true);
         }
       } catch (e) {
-        useCustomWarningToast(`error : ${e} 관리자에게 문의하세요.`);
+        customWarningToast(`error : ${e} 관리자에게 문의하세요.`);
       }
     }
     if (commentLevel === 'child') {
@@ -88,12 +88,12 @@ function CommentItem({ videoId, uploader, comment, setIsCommentUpdated, commentL
           withCredentials: true,
         });
         if (res.status === 200) {
-          useCustomConfirmToast('삭제되었습니다.');
+          customConfirmToast('삭제되었습니다.');
           setIsCommentDropdownOpen(false);
           setIsCommentUpdated(true);
         }
       } catch (e) {
-        useCustomWarningToast(`error : ${e} 관리자에게 문의하세요.`);
+        customWarningToast(`error : ${e} 관리자에게 문의하세요.`);
       }
     }
   };
@@ -110,7 +110,7 @@ function CommentItem({ videoId, uploader, comment, setIsCommentUpdated, commentL
       },
     );
     if (res.status === 200) {
-      useCustomConfirmToast('수정되었습니다.');
+      customConfirmToast('수정되었습니다.');
       setIsCommentDropdownOpen(false);
       setIsCommentUpdated(true);
       setIsEditing(false);
@@ -129,7 +129,7 @@ function CommentItem({ videoId, uploader, comment, setIsCommentUpdated, commentL
       },
     );
     if (res.status === 200) {
-      useCustomConfirmToast('고정되었습니다.');
+      customConfirmToast('고정되었습니다.');
       setIsCommentDropdownOpen(false);
       setIsCommentUpdated(true);
     }
@@ -140,7 +140,7 @@ function CommentItem({ videoId, uploader, comment, setIsCommentUpdated, commentL
       withCredentials: true,
     });
     if (res.status === 200) {
-      useCustomConfirmToast('고정 해제 되었습니다.');
+      customConfirmToast('고정 해제 되었습니다.');
       setIsCommentDropdownOpen(false);
       setIsCommentUpdated(true);
     }

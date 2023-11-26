@@ -10,9 +10,8 @@ import { useAtomValue } from 'jotai';
 import { useRouter } from 'next/router';
 import Link from 'next/link';
 import getPresignedImageUrl, { getPresignedVideoUrl } from '@/utils/getPresignedUrl';
-import LoadingSpinner from '@/components/ui/LoadingSpinner';
 import userAtom from '@/atoms/user';
-import useCustomToast, { useCustomWarningToast } from '@/components/ui/CustomToast';
+import customConfirmToast, { customWarningToast } from '@/utils/CustomToast';
 
 type updateVideoType = {
   updateVideo?: VideoType;
@@ -57,7 +56,7 @@ export default function UploadLayout({ updateVideo }: updateVideoType) {
     const fileSize = e.target.files?.[0]?.size;
 
     if (fileSize && fileSize > maxSize) {
-      useCustomWarningToast('50MB 이하의 파일만 업로드 가능합니다.');
+      customWarningToast('50MB 이하의 파일만 업로드 가능합니다.');
       e.target.value = '';
       return;
     }
@@ -75,7 +74,7 @@ export default function UploadLayout({ updateVideo }: updateVideoType) {
     const fileSize = e.target.files?.[0]?.size;
 
     if (fileSize && fileSize > maxSize) {
-      useCustomWarningToast('1MB 이하의 파일만 업로드 가능합니다.');
+      customWarningToast('1MB 이하의 파일만 업로드 가능합니다.');
       e.target.value = '';
       return;
     }
@@ -121,28 +120,28 @@ export default function UploadLayout({ updateVideo }: updateVideoType) {
         await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/video/upload`, videoData, {
           withCredentials: true,
         });
-        useCustomToast('업로드되었습니다.');
+        customConfirmToast('업로드되었습니다.');
         router.push('/');
       } else {
         await axios.put(`${process.env.NEXT_PUBLIC_BASE_URL}/video/${updateVideo?.id}`, videoData, {
           withCredentials: true,
         });
-        useCustomToast('수정되었습니다.');
+        customConfirmToast('수정되었습니다.');
         router.push('/');
       }
       setIsUploading(false);
     } catch (err) {
-      useCustomWarningToast(`백엔드 업로드 에러 : , ${err}`);
+      customWarningToast(`백엔드 업로드 에러 : , ${err}`);
     }
   };
 
   const upload = async () => {
     if (!video.title) {
-      useCustomWarningToast('제목을 입력해주세요.');
+      customWarningToast('제목을 입력해주세요.');
       return;
     }
     if (!video.content) {
-      useCustomWarningToast('설명을 입력해주세요.');
+      customWarningToast('설명을 입력해주세요.');
       return;
     }
 
@@ -160,21 +159,21 @@ export default function UploadLayout({ updateVideo }: updateVideoType) {
           thumbnailUrl: `https://du30t7lolw1uk.cloudfront.net/${imageName}`,
         }));
       } catch (e) {
-        useCustomWarningToast(`error : ${e} 관리자에게 문의하세요.`);
+        customWarningToast(`error : ${e} 관리자에게 문의하세요.`);
       }
     } else {
-      useCustomWarningToast('파일을 선택해주세요.');
+      customWarningToast('파일을 선택해주세요.');
     }
   };
 
   const update = async () => {
     if (!video.title) {
-      useCustomWarningToast('제목을 입력해주세요.');
+      customWarningToast('제목을 입력해주세요.');
       return;
     }
 
     if (!video.content) {
-      useCustomWarningToast('설명을 입력해주세요.');
+      customWarningToast('설명을 입력해주세요.');
       return;
     }
 
@@ -189,7 +188,7 @@ export default function UploadLayout({ updateVideo }: updateVideoType) {
           thumbnailUrl: `https://du30t7lolw1uk.cloudfront.net/${imageName}`,
         }));
       } catch (e) {
-        useCustomWarningToast(`error : ${e} 관리자에게 문의하세요.`);
+        customWarningToast(`error : ${e} 관리자에게 문의하세요.`);
       }
     }
 
@@ -204,7 +203,7 @@ export default function UploadLayout({ updateVideo }: updateVideoType) {
           videoUrl: `https://du30t7lolw1uk.cloudfront.net/${videoName}`,
         }));
       } catch (e) {
-        useCustomWarningToast(`error : ${e} 관리자에게 문의하세요.`);
+        customWarningToast(`error : ${e} 관리자에게 문의하세요.`);
       }
     }
 

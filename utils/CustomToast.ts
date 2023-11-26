@@ -1,6 +1,6 @@
 import Swal from 'sweetalert2';
 
-export default function useCustomConfirmToast(text: string): void {
+export default function customConfirmToast(text: string): void {
   Swal.fire({
     icon: 'success',
     title: text,
@@ -12,7 +12,7 @@ export default function useCustomConfirmToast(text: string): void {
   });
 }
 
-export function useCustomWarningToast(text: string): void {
+export function customWarningToast(text: string): void {
   Swal.fire({
     icon: 'warning',
     title: text,

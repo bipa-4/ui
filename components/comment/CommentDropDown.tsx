@@ -40,8 +40,8 @@ export default function CommentDropDown({
   };
 
   return (
-    <div className='dropdown dropdown-end'>
-      <label tabIndex={0} className='btn btn-xs btn-ghost rounded-full m-1' onClick={handleDropdown}>
+    <div className='dropdown dropdown-end' onClick={handleDropdown}>
+      <label tabIndex={0} className='btn btn-xs btn-ghost rounded-full m-1'>
         <FiMoreHorizontal className='w-4 h-4' />
       </label>
       {isCommentDropdownOpen && (

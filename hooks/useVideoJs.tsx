@@ -47,18 +47,15 @@ const useVideo = ({ options, videoTarget, plugins = [] }: VideoProps) => {
   };
 
   useEffect(() => {
-    // 초기 video.js initialize
     if (!playerRef.current) {
       initializeVideo();
     }
   }, [options, videoTarget]);
 
   useEffect(
-    () =>
-      // player clean up
-      () => {
-        playerCleanUp();
-      },
+    () => () => {
+      playerCleanUp();
+    },
     [playerRef],
   );
 
