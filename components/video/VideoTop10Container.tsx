@@ -6,7 +6,7 @@ import VideoSummarySkeletonCol from '../skeleton/VideoSummarySkeletonCol';
 interface VideoListType {
   title?: string;
   videoList: Array<VideoCardType>;
-  isLoading: boolean;
+  isLoading?: boolean;
 }
 
 export default function VideoSummaryContainer({ title, videoList, isLoading }: VideoListType) {
@@ -43,4 +43,5 @@ export default function VideoSummaryContainer({ title, videoList, isLoading }: V
 
 VideoSummaryContainer.defaultProps = {
   title: '',
+  isLoading: false,
 };
