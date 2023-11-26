@@ -8,6 +8,6 @@ export default function useTop10Data() {
   return {
     top10Data: data,
     error,
-    isLoading,
+    isTop10Loading: isLoading,
   };
 }
