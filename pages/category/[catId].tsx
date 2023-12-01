@@ -101,7 +101,7 @@ export async function getServerSideProps(context: GetStaticPropsContext) {
   const API = `${BASE_URL}/video/category/${catId}?pageSize=${PAGE_SIZE}`;
   const categoryVideos = await fetcher(API);
 
-  //if (res.status !== 200) {
+  // if (res.status !== 200) {
   //  return {
   //    props: {
   //      catId,
@@ -114,10 +114,10 @@ export async function getServerSideProps(context: GetStaticPropsContext) {
   //    },
   //    revalidate: 1,
   //  };
-  //}
+  // }
   return {
     props: {
-      //catId,
+      // catId,
       fallback: {
         [API]: categoryVideos,
       },
@@ -126,7 +126,7 @@ export async function getServerSideProps(context: GetStaticPropsContext) {
   };
 }
 
-//export const getStaticPaths = async () => {
+// export const getStaticPaths = async () => {
 //  const res = await axios.get(`${BASE_URL}/video/category`);
 //  const paths = res.data.map((category: CategoryNameType) => ({
 //    params: { catId: category.categoryNameId },
@@ -136,4 +136,4 @@ export async function getServerSideProps(context: GetStaticPropsContext) {
 //    paths,
 //    fallback: 'blocking',
 //  };
-//};
+// };

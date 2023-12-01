@@ -8,9 +8,9 @@ import Comments from '@/components/comment/Comments';
 import fetcher from '@/utils/axiosFetcher';
 import axios from 'axios';
 import { customWarningToast } from '@/utils/CustomToast';
-import UploadLayout from '../upload/UploadLayout';
 import useSWR from 'swr';
 import { useRouter } from 'next/router';
+import UploadLayout from '../upload/UploadLayout';
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 const videoArgs = {
