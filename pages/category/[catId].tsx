@@ -9,27 +9,28 @@ import { GetStaticPropsContext } from 'next';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react';
+import fetcher from '@/utils/axiosFetcher';
 
 interface CategoryProps {
-  categoryVideos: CategoryType;
-  catId: string;
+  fallback: CategoryType;
 }
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 const PAGE_SIZE = 15;
 
-export default function Category({ catId, categoryVideos }: CategoryProps) {
+export default function Category({ fallback }: CategoryProps) {
   const [hasMore, setHasMore] = useState(true);
   const [nextId, setNextId] = useState('');
   const [videoList, setVideoList] = useState<VideoCardType[]>([]);
   const { categoryList } = useCategoryList();
-  const categoryName = categoryList?.find((category) => category.categoryNameId === catId)?.categoryName;
   const router = useRouter();
+  const catId = router.query.catId as string;
+  const categoryName = categoryList?.find((category) => category.categoryNameId === catId)?.categoryName;
 
   useEffect(() => {
-    setVideoList(categoryVideos.videos);
-    setNextId(categoryVideos.nextUUID);
-    if (categoryVideos.nextUUID === null) {
+    setVideoList(fallback.videos);
+    setNextId(fallback.nextUUID);
+    if (fallback.nextUUID === null) {
       setHasMore(false);
     } else {
       setHasMore(true);
@@ -37,11 +38,9 @@ export default function Category({ catId, categoryVideos }: CategoryProps) {
   }, [catId]);
 
   const fetchVideo = async (nextUUID: string) => {
-    const res = await axios.get(`${BASE_URL}/video/category/${catId}?page=${nextUUID}&pageSize=${PAGE_SIZE}`, {
-      withCredentials: true,
-    });
-    setNextId(res.data.nextUUID);
-    return res.data;
+    const videoData = await fetcher(`${BASE_URL}/video/category/${catId}?page=${nextUUID}&pageSize=${PAGE_SIZE}`);
+    setNextId(videoData.nextUUID);
+    return videoData;
   };
 
   const fetchMoreData = async () => {
@@ -54,7 +53,7 @@ export default function Category({ catId, categoryVideos }: CategoryProps) {
     setVideoList([...videoList, ...data.videos]);
   };
 
-  if (!categoryVideos) {
+  if (!fallback) {
     return (
       <div className='h-screen flex items-center justify-center m-auto'>
         <LoadingSpinner />
@@ -86,7 +85,7 @@ export default function Category({ catId, categoryVideos }: CategoryProps) {
           ))}
         </div>
 
-        {categoryVideos.videos.length !== 0 ? (
+        {fallback.videos.length !== 0 ? (
           <InfiniteVideoContainer videoList={videoList} dataFetcher={fetchMoreData} hasMore={hasMore} />
         ) : (
           <div className='flex items-center m-auto h-36 justify-center'>업로드한 영상이 없습니다.</div>
@@ -96,44 +95,45 @@ export default function Category({ catId, categoryVideos }: CategoryProps) {
   );
 }
 
-export const getStaticProps = async (context: GetStaticPropsContext) => {
+export async function getServerSideProps(context: GetStaticPropsContext) {
   const { params } = context;
   const catId = params?.catId as String;
-  const res = await axios.get(`${BASE_URL}/video/category/${catId}?pageSize=${PAGE_SIZE}`);
-  const categoryVideos = await res.data;
+  const API = `${BASE_URL}/video/category/${catId}?pageSize=${PAGE_SIZE}`;
+  const categoryVideos = await fetcher(API);
 
-  if (res.status !== 200) {
-    return {
-      props: {
-        catId,
-        categoryVideos: {
-          categoryName: '',
-          categoryNameId: '',
-          nextUUID: '',
-          videos: [],
-        },
-      },
-      revalidate: 1,
-    };
-  }
+  //if (res.status !== 200) {
+  //  return {
+  //    props: {
+  //      catId,
+  //      categoryVideos: {
+  //        categoryName: '',
+  //        categoryNameId: '',
+  //        nextUUID: '',
+  //        videos: [],
+  //      },
+  //    },
+  //    revalidate: 1,
+  //  };
+  //}
   return {
     props: {
-      catId,
-      categoryVideos,
+      //catId,
+      fallback: {
+        [API]: categoryVideos,
+      },
       ...(await serverSideTranslations(context.locale ?? 'ko', ['footer', 'common', 'header'])),
     },
-    revalidate: 1,
   };
-};
+}
 
-export const getStaticPaths = async () => {
-  const res = await axios.get(`${BASE_URL}/video/category`);
-  const paths = res.data.map((category: CategoryNameType) => ({
-    params: { catId: category.categoryNameId },
-  }));
+//export const getStaticPaths = async () => {
+//  const res = await axios.get(`${BASE_URL}/video/category`);
+//  const paths = res.data.map((category: CategoryNameType) => ({
+//    params: { catId: category.categoryNameId },
+//  }));
 
-  return {
-    paths,
-    fallback: 'blocking',
-  };
-};
+//  return {
+//    paths,
+//    fallback: 'blocking',
+//  };
+//};

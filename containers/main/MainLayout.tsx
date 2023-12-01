@@ -5,7 +5,6 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import InfiniteVideoContainer from '@/components/video/InfiniteVideoContainer';
 import { useTranslation } from 'next-i18next';
-import VideoSummarySkeletonCol from '@/components/skeleton/VideoSummarySkeletonCol';
 import useTop10Data from '../../hooks/useTop10Data';
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
