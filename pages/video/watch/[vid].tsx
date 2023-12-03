@@ -7,7 +7,8 @@ import { VideoDetailType } from '@/types/videoType';
 import { SWRConfig } from 'swr';
 
 interface VideoDetailProps {
-  fallback: VideoDetailType;
+  vid: string;
+  fallback: Record<string, VideoDetailType>;
 }
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
@@ -19,6 +20,7 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
   return {
     props: {
+      vid,
       fallback: {
         [API]: video,
       },
@@ -27,15 +29,17 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
   };
 }
 
-export default function VideoDetail({ fallback }: VideoDetailProps) {
+export default function VideoDetail({ vid, fallback }: VideoDetailProps) {
+  const preFetchedVideo = fallback[`${process.env.NEXT_PUBLIC_BASE_URL}/video/detail/${vid}`];
+
   return (
     <SWRConfig value={{ fallback }}>
       <Head>
-        <title>{fallback.videoTitle} | StreamWave</title>
-        <meta name='description' content={fallback.content} />
-        <meta property='og:title' content={`${fallback.videoTitle} - StreamWave`} />
-        <meta property='og:description' content={fallback.content} />
-        <meta property='og:image' content={fallback.thumbnail} />
+        <title>{preFetchedVideo.videoTitle} | StreamWave</title>
+        <meta name='description' content={preFetchedVideo.content} />
+        <meta property='og:title' content={`${preFetchedVideo.videoTitle} - StreamWave`} />
+        <meta property='og:description' content={preFetchedVideo.content} />
+        <meta property='og:image' content={preFetchedVideo.thumbnail} />
       </Head>
       <div className='h-full px-40 max-xl:px-5 max-md:px-0 bg-base-100'>
         <VideoDetailLayout />

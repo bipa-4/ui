@@ -131,9 +131,8 @@ export default function VideoDetailInfo({ video, handleUpdatePage, isMyVideo }: 
 
         <div className='mx-3 p-5 bg-base-200 rounded-md'>
           <div className='text-sm pb-3'>
-            {t('details.views')} {video.readCount} · {t('details.createdAt')} {video.createAt} ·{' '}
-            {t('details.updatedAt')}
-            {video.updateAt && video.updateAt}
+            {t('details.views')} {video.readCount} · {t('details.createdAt')} {video.createAt}
+            {video.updateAt ? ` · ${t('details.updateAt')} ${video.updateAt}` : ''}
           </div>
           {readMore ? (
             <div className='whitespace-pre-line'>{video.content}</div>

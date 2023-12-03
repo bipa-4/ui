@@ -10,7 +10,7 @@ import { SWRConfig } from 'swr';
 
 interface CategoryProps {
   catId: string;
-  fallback: CategoryType;
+  fallback: Record<string, CategoryType>;
 }
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
@@ -35,14 +35,6 @@ export async function getServerSideProps(context: GetStaticPropsContext) {
 export default function Category({ catId, fallback }: CategoryProps) {
   const { categoryList } = useCategoryList();
   const categoryName = categoryList?.find((category) => category.categoryNameId === catId)?.categoryName;
-
-  if (!fallback) {
-    return (
-      <div className='h-screen flex items-center justify-center m-auto'>
-        <LoadingSpinner />
-      </div>
-    );
-  }
 
   return (
     <SWRConfig value={{ fallback }}>
