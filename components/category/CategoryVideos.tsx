@@ -31,7 +31,6 @@ export default function CategoryVideos() {
 
   const fetchVideo = async (nextUUID: string) => {
     const videoData = await fetcher(`${BASE_URL}/video/category/${catId}?page=${nextUUID}&pageSize=${PAGE_SIZE}`);
-    console.log('videoData', videoData);
     setNextId(videoData.nextUUID);
     return videoData;
   };
@@ -53,8 +52,6 @@ export default function CategoryVideos() {
       </div>
     );
   }
-
-  console.log('videoList', videoList);
 
   return (
     <>

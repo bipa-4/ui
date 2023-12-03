@@ -3,7 +3,8 @@
     "views": "views",
     "readMore": "...more",
     "readLess": "Show less",
-    "createdAt": "uploaded on"
+    "createdAt": "uploaded on",
+    "updateAt": "updated at"
   },
   "deleteConfirmMessage": "Are you sure you want to delete it?",
   "modify": "Edit",

@@ -63,9 +63,11 @@ function VideoSummaryItemCol({
         ) : (
           <p className='font-bold mx-1 text-gray-400 italic'>제목을 입력하세요.</p>
         )}
-        <div className='flex items-center hover:font-bold' onClick={handleChannelClick}>
+        <div className='flex items-center'>
           <Avatar width={6} marginX={1} imgUrl={channelProfileUrl} />
-          <div className=' whitespace-pre-line w-4/5 px-1 line-clamp-1'>{channelName}</div>
+          <div className=' whitespace-pre-line px-1 line-clamp-1  hover:font-bold' onClick={handleChannelClick}>
+            {channelName}
+          </div>
         </div>
         <div className='mx-2 text-xs flex items-center justify-between'>
           <div className='flex items-center justify-center'>

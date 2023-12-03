@@ -16,7 +16,7 @@ import Avatar from '../ui/Avatar';
 type Props = {
   video: VideoDetailType;
   handleUpdatePage: () => void;
-  isMyVideo: boolean;
+  isMyVideo?: boolean;
 };
 
 export default function VideoDetailInfo({ video, handleUpdatePage, isMyVideo }: Props) {
@@ -131,7 +131,9 @@ export default function VideoDetailInfo({ video, handleUpdatePage, isMyVideo }: 
 
         <div className='mx-3 p-5 bg-base-200 rounded-md'>
           <div className='text-sm pb-3'>
-            {t('details.views')} {video.readCount} · {t('details.createdAt')} {video.createAt}
+            {t('details.views')} {video.readCount} · {t('details.createdAt')} {video.createAt} ·{' '}
+            {t('details.updatedAt')}
+            {video.updateAt && video.updateAt}
           </div>
           {readMore ? (
             <div className='whitespace-pre-line'>{video.content}</div>
@@ -148,3 +150,7 @@ export default function VideoDetailInfo({ video, handleUpdatePage, isMyVideo }: 
     </div>
   );
 }
+
+VideoDetailInfo.defaultProps = {
+  isMyVideo: false,
+};

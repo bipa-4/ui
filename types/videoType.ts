@@ -18,7 +18,7 @@ export interface VideoCardType {
   createAt: string;
   readCount: number;
   videoId: string;
-  privateType?: boolean;
+  privateType: boolean;
   channelId?: string;
 }
 
@@ -27,6 +27,7 @@ export interface VideoDetailType extends VideoCardType {
   videoUrl: string;
   content: string;
   likeCount: number;
+  updateAt: string;
   categoryId: string[];
   recommendedList: VideoCardType[];
 }
