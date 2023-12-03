@@ -64,9 +64,7 @@ export default function VideoDetailInfo({ video, handleUpdatePage, isMyVideo }: 
     if (like === false) {
       setLike((prev) => !prev);
       setLikeCount((prev) => prev + 1);
-      await axios.get(`${BASE_URL}/video/detail/${video.videoId}/like`, {
-        withCredentials: true,
-      });
+      await fetcher(`${BASE_URL}/video/detail/${video.videoId}/like`);
     }
   };
 

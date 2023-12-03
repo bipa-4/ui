@@ -5,39 +5,40 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import fetcher from '@/utils/axiosFetcher';
 import { VideoDetailType } from '@/types/videoType';
 import { SWRConfig } from 'swr';
-import axios from 'axios';
 
 interface VideoDetailProps {
-  video: VideoDetailType;
+  fallback: VideoDetailType;
 }
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const { params } = context;
   const vid = params?.vid;
+  const API = `${process.env.NEXT_PUBLIC_BASE_URL}/video/detail/${vid}`;
 
-  await axios.put(`${process.env.NEXT_PUBLIC_BASE_URL}/video/updateViews/${vid}`);
-  const video: VideoDetailType = await fetcher(`${process.env.NEXT_PUBLIC_BASE_URL}/video/detail/${vid}`);
+  const video: VideoDetailType = await fetcher(API);
 
   return {
     props: {
-      video,
+      fallback: {
+        [API]: video,
+      },
       ...(await serverSideTranslations(context.locale ?? 'ko', ['footer', 'common', 'header', 'videoDetail'])),
     },
   };
 }
 
-export default function VideoDetail({ video }: VideoDetailProps) {
+export default function VideoDetail({ fallback }: VideoDetailProps) {
   return (
-    <SWRConfig>
+    <SWRConfig value={{ fallback }}>
       <Head>
-        <title>{video.videoTitle} | StreamWave</title>
-        <meta name='description' content={video.content} />
-        <meta property='og:title' content={`${video.videoTitle} - StreamWave`} />
-        <meta property='og:description' content={video.content} />
-        <meta property='og:image' content={video.thumbnail} />
+        <title>{fallback.videoTitle} | StreamWave</title>
+        <meta name='description' content={fallback.content} />
+        <meta property='og:title' content={`${fallback.videoTitle} - StreamWave`} />
+        <meta property='og:description' content={fallback.content} />
+        <meta property='og:image' content={fallback.thumbnail} />
       </Head>
       <div className='h-full px-40 max-xl:px-5 max-md:px-0 bg-base-100'>
-        <VideoDetailLayout video={video} />
+        <VideoDetailLayout />
       </div>
     </SWRConfig>
   );
