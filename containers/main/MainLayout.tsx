@@ -4,8 +4,8 @@ import { VideoCardType } from '@/types/videoType';
 import { useState, useEffect } from 'react';
 import InfiniteVideoContainer from '@/components/video/InfiniteVideoContainer';
 import { useTranslation } from 'next-i18next';
-import useTop10Data from '../../hooks/useTop10Data';
 import fetcher from '@/utils/axiosFetcher';
+import useTop10Data from '../../hooks/useTop10Data';
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 const PAGE_SIZE = 15;
@@ -18,11 +18,11 @@ export default function MainLayout() {
   const { t } = useTranslation('common');
 
   const fetchVideo = async (nextUUID: string) => {
-    const res = await fetcher(
+    const videos = await fetcher(
       `${BASE_URL}/video/latest?${nextUUID ? 'page=' : ''}${nextUUID}${nextUUID ? '&' : ''}pageSize=${PAGE_SIZE}`,
     );
-    setNextId(res.data.nextUUID);
-    return res.data;
+    setNextId(videos.nextUUID);
+    return videos;
   };
 
   const fetchMoreData = async () => {
