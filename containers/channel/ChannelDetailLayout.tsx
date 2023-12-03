@@ -137,7 +137,7 @@ export default function ChannelDetailLayout({ channelInfo }: ChannelProps) {
       }pageSize=${PAGE_SIZE}`,
     );
     setNextId(videos.nextUUID);
-    return videos.data;
+    return videos;
   };
 
   const fetchSearchVideos = async (nextUUID: string) => {
@@ -146,7 +146,6 @@ export default function ChannelDetailLayout({ channelInfo }: ChannelProps) {
         nextUUID ? '&' : ''
       }page_size=${PAGE_SIZE}&search_query=${searchKeyword}`,
     );
-
     setNextId(res.page);
     return res;
   };

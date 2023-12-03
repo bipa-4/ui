@@ -21,11 +21,9 @@ export default function UpdateLayout() {
     content: data.content,
     videoUrl: data.videoUrl,
     thumbnailUrl: data.thumbnail,
-    privateType: false,
+    privateType: data.privateType,
     category: data.categoryId,
   };
-
-  const uploaderChannelId = data.channelId;
 
   return (
     <div className='h-full px-44 max-xl:px-5 bg-base-100'>

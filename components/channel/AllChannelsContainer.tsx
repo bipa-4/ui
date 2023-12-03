@@ -13,18 +13,20 @@ const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 const PAGE_SIZE = 10;
 
 export default function AllChannelsContainer() {
-  const [channels, setChannels] = useState<ChannelSummaryType[]>([]);
+  const [channels, setChannels] = useState<ChannelSummaryType[]>();
   const [hasMore, setHasMore] = useState(true);
   const [nextId, setNextId] = useState<string | null>('');
   const router = useRouter();
-  const [searchKeyword, setSearchKeyword] = useState<string>();
-  const keyword = router.query?.keyword;
   const { t } = useTranslation('common');
+
+  const [searchKeyword, setSearchKeyword] = useState<string>();
+  const searchQuery = router.query?.keyword;
 
   const fetchChannels = async (nextUUID: string) => {
     const res = await fetcher(
       `${BASE_URL}/channel/AllChannel?${nextUUID ? 'page=' : ''}${nextUUID}${nextUUID ? '&' : ''}pageSize=${PAGE_SIZE}`,
     );
+    console.log(res);
     setNextId(res.nextUUID);
     return res;
   };
@@ -52,7 +54,12 @@ export default function AllChannelsContainer() {
     if (nextId) {
       const data = searchKeyword ? await fetchSearchChannels(nextId) : await fetchChannels(nextId);
       setNextId(searchKeyword ? data.page : data.nextUUID);
-      setChannels([...channels, ...data.channelList]);
+      setChannels((channels) => {
+        if (channels) {
+          return [...channels, ...data.channelList];
+        }
+        return data.channelList;
+      });
     }
   };
 
@@ -62,23 +69,16 @@ export default function AllChannelsContainer() {
   };
 
   useEffect(() => {
-    setSearchKeyword(keyword as string);
-    fetchInitData();
-  }, []);
+    setHasMore(true);
+    setSearchKeyword(searchQuery as string);
+  }, [searchQuery]);
 
   useEffect(() => {
-    if (searchKeyword) {
-      fetchInitData();
-    }
+    setHasMore(true);
+    fetchInitData();
   }, [searchKeyword]);
 
-  useEffect(() => {
-    if (keyword) {
-      setSearchKeyword(keyword as string);
-    }
-  }, [keyword]);
-
-  if (!channels) {
+  if (channels === undefined) {
     return <LoadingSpinner />;
   }
 
@@ -90,18 +90,22 @@ export default function AllChannelsContainer() {
         </div>
         <SearchInput path='channels' setKeyword={setSearchKeyword} searchItem={t('searchChannelPlaceHolder')} />
       </div>
-      <InfiniteScroll
-        dataLength={channels.length}
-        next={fetchMoreData}
-        hasMore={hasMore}
-        loader={<LoadingSpinner />}
-        endMessage=''
-        className='flex flex-wrap w-full mb-36'
-      >
-        {channels.map((channel) => (
-          <ChannelSummaryItem key={channel.channelId} channelItem={channel} size='large' />
-        ))}
-      </InfiniteScroll>
+      {channels.length === 0 ? (
+        <div className='text-center text-xl my-20'> 😢 검색결과가 없습니다.</div>
+      ) : (
+        <InfiniteScroll
+          dataLength={channels.length}
+          next={fetchMoreData}
+          hasMore={hasMore}
+          loader={<LoadingSpinner />}
+          endMessage=''
+          className='flex flex-wrap w-full mb-36'
+        >
+          {channels?.map((channel) => (
+            <ChannelSummaryItem key={channel.channelId} channelItem={channel} size='large' />
+          ))}
+        </InfiniteScroll>
+      )}
     </>
   );
 }

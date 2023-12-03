@@ -26,7 +26,6 @@ export default function Header() {
   const { userData } = useMemberData();
 
   useEffect(() => {
-    console.log('useEffect 실행');
     setUser(userData);
   }, [userData]);
 
