@@ -49,7 +49,7 @@ export default function Header() {
   const handleKakaoLogin = () => {
     const CLIENT_ID = process.env.NEXT_PUBLIC_KAKAO_LOGIN_CLIENT_ID;
     const REDIRECT_URI = process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI;
-    const authUrl = ` https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}`;
+    const authUrl = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}`;
     router.push(authUrl);
   };
 
