@@ -12,7 +12,7 @@ export default function SearchResult() {
 
   if (!data) {
     return (
-      <div className='min-h-screen px-44 my-10 flex items-center bg-base-100'>
+      <div className='min-h-screen px-44 py-10 flex items-center bg-base-100'>
         <div className='m-auto'>
           <LoadingSpinner />
         </div>

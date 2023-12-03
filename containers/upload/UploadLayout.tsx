@@ -363,6 +363,7 @@ export default function UploadLayout({ updateVideo }: updateVideoType) {
             channelName={user.channelName}
             readCount={0}
             createAt={dayjs().format('YYYY-MM-DD HH:mm:ss')}
+            privateType={video.privateType}
           />
         </div>
 

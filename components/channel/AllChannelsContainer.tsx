@@ -26,7 +26,6 @@ export default function AllChannelsContainer() {
     const res = await fetcher(
       `${BASE_URL}/channel/AllChannel?${nextUUID ? 'page=' : ''}${nextUUID}${nextUUID ? '&' : ''}pageSize=${PAGE_SIZE}`,
     );
-    console.log(res);
     setNextId(res.nextUUID);
     return res;
   };
@@ -54,9 +53,9 @@ export default function AllChannelsContainer() {
     if (nextId) {
       const data = searchKeyword ? await fetchSearchChannels(nextId) : await fetchChannels(nextId);
       setNextId(searchKeyword ? data.page : data.nextUUID);
-      setChannels((channels) => {
-        if (channels) {
-          return [...channels, ...data.channelList];
+      setChannels((prevChannels) => {
+        if (prevChannels) {
+          return [...prevChannels, ...data.channelList];
         }
         return data.channelList;
       });

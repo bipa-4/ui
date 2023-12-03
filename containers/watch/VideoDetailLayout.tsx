@@ -9,8 +9,8 @@ import axios from 'axios';
 import { customWarningToast } from '@/utils/CustomToast';
 import useSWR from 'swr';
 import { useRouter } from 'next/router';
-import UploadLayout from '../upload/UploadLayout';
 import VideoDetailInfoSkeleton from '@/components/skeleton/VideoDetailInfoSkeleton';
+import UploadLayout from '../upload/UploadLayout';
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 const videoArgs = {
@@ -53,9 +53,9 @@ export default function VideoDetailLayout() {
     updateRecommendList();
   }, [data]);
 
-  //console.log('video', data);
-  //console.log('video.privateType', data.privateType);
-  //console.log('isMyVideo', isMyVideo);
+  // console.log('video', data);
+  // console.log('video.privateType', data.privateType);
+  // console.log('isMyVideo', isMyVideo);
 
   if (data.privateType && isMyVideo === false) {
     return (
@@ -74,11 +74,11 @@ export default function VideoDetailLayout() {
       <div className='w-full flex min-h-[85vh]'>
         <div className='grow my-4'>
           <div className='m-3/5 relative overflow-hidden' style={{ paddingTop: '56.25%' }}>
-            <div className='absolute top-0 left-0 right-0 bottom-0 max-w-full rounded-md h-auto w-full bg-base-200 animate-pulse'></div>
+            <div className='absolute top-0 left-0 right-0 bottom-0 max-w-full rounded-md h-auto w-full bg-base-200 animate-pulse' />
           </div>
           <VideoDetailInfoSkeleton />
         </div>
-        <div className='basis-96 w-96 max-2xl:hidden my-4 shrink-0 mx-3'></div>
+        <div className='basis-96 w-96 max-2xl:hidden my-4 shrink-0 mx-3' />
       </div>
     );
   }

@@ -150,3 +150,7 @@ export default function VideoDetailInfo({ video, handleUpdatePage, isMyVideo }: 
     </div>
   );
 }
+
+VideoDetailInfo.defaultProps = {
+  isMyVideo: false,
+};
