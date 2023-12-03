@@ -131,16 +131,13 @@ export default function ChannelDetailLayout({ channelInfo }: ChannelProps) {
   }, [updatedChannelInfo.profileUrl]);
 
   const fetchVideo = async (nextUUID: string) => {
-    const res = await axios.get(
+    const videos = await fetcher(
       `${BASE_URL}/channel/video/${channelInfo.channelId}?${nextUUID ? 'page=' : ''}${nextUUID}${
         nextUUID ? '&' : ''
       }pageSize=${PAGE_SIZE}`,
-      {
-        withCredentials: true,
-      },
     );
-    setNextId(res.data.nextUUID);
-    return res.data;
+    setNextId(videos.nextUUID);
+    return videos.data;
   };
 
   const fetchSearchVideos = async (nextUUID: string) => {

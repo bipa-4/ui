@@ -21,7 +21,6 @@ export async function getServerSideProps(context: GetStaticPropsContext) {
   const catId = params?.catId as String;
   const API = `${BASE_URL}/video/category/${catId}?pageSize=${PAGE_SIZE}`;
   const categoryVideos = await fetcher(API);
-  console.log('categoryVideos', categoryVideos);
   return {
     props: {
       catId,

@@ -2,10 +2,10 @@ import VideoSummaryContainer from '@/components/video/VideoTop10Container';
 import ChannelContainer from '@/components/channel/PopularChannelsContainer';
 import { VideoCardType } from '@/types/videoType';
 import { useState, useEffect } from 'react';
-import axios from 'axios';
 import InfiniteVideoContainer from '@/components/video/InfiniteVideoContainer';
 import { useTranslation } from 'next-i18next';
 import useTop10Data from '../../hooks/useTop10Data';
+import fetcher from '@/utils/axiosFetcher';
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 const PAGE_SIZE = 15;
@@ -18,11 +18,8 @@ export default function MainLayout() {
   const { t } = useTranslation('common');
 
   const fetchVideo = async (nextUUID: string) => {
-    const res = await axios.get(
+    const res = await fetcher(
       `${BASE_URL}/video/latest?${nextUUID ? 'page=' : ''}${nextUUID}${nextUUID ? '&' : ''}pageSize=${PAGE_SIZE}`,
-      {
-        withCredentials: true,
-      },
     );
     setNextId(res.data.nextUUID);
     return res.data;
