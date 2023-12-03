@@ -66,7 +66,7 @@ export default function VideoDetailLayout({ video }: VideoDetailLayoutProps) {
     setUpdateOpen(true);
   };
 
-  //if (isLoading) {
+  // if (isLoading) {
   //  return (
   //    <div className='w-full flex min-h-[85vh]'>
   //      <div className='grow my-4'>
@@ -78,7 +78,7 @@ export default function VideoDetailLayout({ video }: VideoDetailLayoutProps) {
   //      <div className='basis-96 w-96 max-2xl:hidden my-4 shrink-0 mx-3' />
   //    </div>
   //  );
-  //}
+  // }
 
   if (updateOpen) {
     return <UploadLayout />;
