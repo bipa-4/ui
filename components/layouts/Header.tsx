@@ -14,6 +14,7 @@ import defaultUserImage from '@/public/images/user.png';
 import { useTranslation } from 'next-i18next';
 import userAtom from '@/atoms/user';
 import customConfirmToast, { customWarningToast } from '@/utils/CustomToast';
+import useMemberData from '@/hooks/useMemberData';
 
 export default function Header() {
   const router = useRouter();
@@ -21,26 +22,13 @@ export default function Header() {
   const [user, setUser] = useAtom(userAtom);
   const { theme, setTheme } = useTheme();
   const { t } = useTranslation('header');
-  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
-  const auth = async () => {
-    try {
-      const res = await axios.get(`${BASE_URL}/account/check`, {
-        withCredentials: true,
-      });
-      if (res.status === 200) {
-        setUser(res.data);
-      }
-    } catch (e) {
-      customWarningToast(`error : ${e} 관리자에게 문의하세요.`);
-    }
-  };
+  const { userData } = useMemberData();
 
   useEffect(() => {
-    if (!user) {
-      auth();
-    }
-  }, []);
+    console.log('useEffect 실행');
+    setUser(userData);
+  }, [userData]);
 
   const toggleMenu = () => {
     setIsMenuOpen((prev) => !prev);
@@ -96,9 +84,13 @@ export default function Header() {
               <FiMenu className='w-6 h-6 m-2 max-xl:m-1 max-xl:w-5 max-xl:h-5' />
             </label>
           </div>
-          <Link href='/' className='btn btn-ghost normal-case text-xl max-md:hidden'>
+          <button
+            type='button'
+            className='btn btn-ghost normal-case text-xl max-md:hidden'
+            onClick={() => router.push('/')}
+          >
             StreamWave
-          </Link>
+          </button>
         </div>
         <div className='grow justify-center mx-3 max-lg:mx-1 '>
           <form className='w-4/5 max-lg:w-full flex' onSubmit={handleSearch}>
