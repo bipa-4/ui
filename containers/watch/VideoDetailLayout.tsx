@@ -7,8 +7,6 @@ import Comments from '@/components/comment/Comments';
 import fetcher from '@/utils/axiosFetcher';
 import axios from 'axios';
 import { customWarningToast } from '@/utils/CustomToast';
-import { useRouter } from 'next/router';
-import VideoDetailInfoSkeleton from '@/components/skeleton/VideoDetailInfoSkeleton';
 import UploadLayout from '../upload/UploadLayout';
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
@@ -49,10 +47,10 @@ export default function VideoDetailLayout({ video }: VideoDetailLayoutProps) {
     updateRecommendList();
   }, []);
 
-  console.log('video', video);
-  console.log('updateOpen', updateOpen);
-  console.log('isMyVideo', isMyVideo);
-  console.log('------------------------------------------');
+  //console.log('video', video);
+  //console.log('updateOpen', updateOpen);
+  //console.log('isMyVideo', isMyVideo);
+  //console.log('------------------------------------------');
 
   if (video.privateType && isMyVideo === false) {
     return (
@@ -65,20 +63,6 @@ export default function VideoDetailLayout({ video }: VideoDetailLayoutProps) {
   const handleUpdatePage = () => {
     setUpdateOpen(true);
   };
-
-  // if (isLoading) {
-  //  return (
-  //    <div className='w-full flex min-h-[85vh]'>
-  //      <div className='grow my-4'>
-  //        <div className='m-3/5 relative overflow-hidden' style={{ paddingTop: '56.25%' }}>
-  //          <div className='absolute top-0 left-0 right-0 bottom-0 max-w-full rounded-md h-auto w-full bg-base-200 animate-pulse' />
-  //        </div>
-  //        <VideoDetailInfoSkeleton />
-  //      </div>
-  //      <div className='basis-96 w-96 max-2xl:hidden my-4 shrink-0 mx-3' />
-  //    </div>
-  //  );
-  // }
 
   if (updateOpen) {
     return <UploadLayout />;
