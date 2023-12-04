@@ -47,10 +47,10 @@ export default function VideoDetailLayout({ video }: VideoDetailLayoutProps) {
     updateRecommendList();
   }, []);
 
-  //console.log('video', video);
-  //console.log('updateOpen', updateOpen);
-  //console.log('isMyVideo', isMyVideo);
-  //console.log('------------------------------------------');
+  // console.log('video', video);
+  // console.log('updateOpen', updateOpen);
+  // console.log('isMyVideo', isMyVideo);
+  // console.log('------------------------------------------');
 
   if (video.privateType && isMyVideo === false) {
     return (
